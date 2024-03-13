@@ -1,0 +1,39 @@
+.container {
+    /* padding-top: 20vh; */
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    gap: 2vh;
+  }
+  
+  .logoContainer {
+    text-align: center;
+  }
+
+  .logo {
+    width: 50%;
+  }
+  
+  .bearContainer {
+    text-align: center;
+  }
+  
+  .bear {
+    width: 55%;
+  }
+
+  .button {
+    width: 60vw;
+  }
+
+  @media screen and (min-width: 600px) {
+    .logo {
+      width: 20%; /* viewport의 가로 길이가 600px 이상일 때 .logo의 너비를 20%로 설정 */
+    }
+    .button{
+        width: 20vw;
+    }
+  }
