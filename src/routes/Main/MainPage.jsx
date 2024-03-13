@@ -1,9 +1,12 @@
 import * as React from "react";
-
+import HotTopic from "./HotTopic";
+import styles from "./MainPage.module.css";
+import PopularStock from "./PopularStock";
 export default function MainPage() {
   return (
-    <div>
-      <h1>MainPage</h1>
+    <div className={styles.layout}>
+      <HotTopic />
+      <PopularStock />
     </div>
   );
 }

@@ -1,0 +1,22 @@
+.layout{
+padding: 3vh 0;
+}
+  .container {
+      display: flex;
+      align-items: center; /* 수평 가운데 정렬 */
+    }
+      .chart{
+          width: 9.2vw;
+          display: inline;
+      }
+      .text{
+        font-weight: 800;
+        font-size: 15px;
+      }
+      .contentBox {
+        display: flex;
+        flex-direction: column;
+      }
+        .stock {
+          
+        }

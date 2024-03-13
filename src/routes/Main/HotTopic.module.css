@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    align-items: center; /* 수평 가운데 정렬 */
+  }
+    .fire{
+        width: 9.2vw;
+        display: inline;
+    }
+    .text{
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .contentBox {
+      background-color: #EDEDED;
+      border-radius: 20px; /* 둥근 모서리 설정 */
+      border: 20px solid transparent; /* 테두리 설정 */
+      font-weight: 700;
+      text-align: center;
+    }
