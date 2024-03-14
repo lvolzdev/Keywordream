@@ -2,3 +2,13 @@
   color: #6c6c6c !important;
   text-decoration: none;
 }
+
+.footer-navbar {
+  display: flex;
+  justify-content: center;
+}
+
+.footer-icon {
+  width: 1.5rem;
+  margin: 0 3.1rem; /* 이미지 간의 간격을 조정합니다. */
+}
