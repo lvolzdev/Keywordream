@@ -1,6 +1,21 @@
+@font-face {
+  font-family: "Pretendard";
+  src: url("./assets/fonts/Pretendard.ttf");
+}
+
+@font-face {
+  font-family: "TossFace";
+  src: url("./assets/fonts/TossFace.ttf") format("truetype");
+}
+
+/* TossFace는 각 컴포넌트에서 아래와 같이 사용
+.tossface {
+  font-family: Tossface;
+} */
+
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: "Pretendard", -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
