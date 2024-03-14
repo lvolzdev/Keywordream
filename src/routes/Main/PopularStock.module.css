@@ -1,0 +1,52 @@
+.layout{
+padding: 3vh 0;
+}
+
+  .customTabSelected {
+    color: black !important; /* 선택된 탭의 텍스트 색상 */
+  }
+  .customTextColor{
+    font-weight: 900;
+    font-size: 15px;
+  }
+  .customTabIndicator {
+    background-color: #343D4C !important; /* 탭의 아래 indicator 색상 */
+  }
+  .container {
+      display: flex;
+      align-items: center; /* 수평 가운데 정렬 */
+    }
+      .chart{
+          width: 9.2vw;
+          display: inline;
+      }
+      .text{
+        font-weight: 800;
+        font-size: 15px;
+      }
+      .contentBox {
+        display: flex;
+        flex-direction: column;
+        gap: 0.3vh;
+        padding-top: 1vh;
+        padding-left: 2vh;
+      }
+        .stockContainer {
+          display: flex;
+          align-items: center;
+          gap: 2vh;
+        }
+        .rank {
+          font-weight: 800;
+          color: #0046FF;
+        }
+        .stockImg{
+          width: 5vh;
+          border-radius: 50%;
+        }
+        .stockName {
+          font-weight: 900;
+        }
+        .stockPrice {
+          color: #6b7783;
+        }
