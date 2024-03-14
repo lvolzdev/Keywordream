@@ -9,7 +9,6 @@ const PopularStock = () => {
   const [mostIncreased, setMostIncreased] = useState([]);
   const [mostViewed, setMostViewed] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -18,26 +17,31 @@ const PopularStock = () => {
             rank: 1,
             stbd_nm: "삼성중공업",
             stock_code: "010140",
+            stock_price: "12345",
           },
           {
             rank: 2,
             stbd_nm: "에스코넥",
             stock_code: "096630",
+            stock_price: "54321",
           },
           {
             rank: 3,
             stbd_nm: "서남",
             stock_code: "294630",
+            stock_price: "1323",
           },
           {
             rank: 4,
             stbd_nm: "에스와이",
             stock_code: "109610",
+            stock_price: "54321",
           },
           {
             rank: 5,
             stbd_nm: "이미지스",
             stock_code: "115610",
+            stock_price: "62463",
           },
         ];
         const stocks2 = [
@@ -45,26 +49,31 @@ const PopularStock = () => {
             rank: 2,
             stbd_nm: "에스코넥",
             stock_code: "096630",
+            stock_price: "62463",
           },
           {
             rank: 3,
             stbd_nm: "서남",
             stock_code: "294630",
+            stock_price: "12415",
           },
           {
             rank: 1,
             stbd_nm: "삼성중공업",
             stock_code: "010140",
+            stock_price: "65416",
           },
           {
             rank: 5,
             stbd_nm: "이미지스",
             stock_code: "115610",
+            stock_price: "62463",
           },
           {
             rank: 4,
             stbd_nm: "에스와이",
             stock_code: "109610",
+            stock_price: "1343",
           },
         ];
         setMostExchanged(stocks);
@@ -92,10 +101,31 @@ const PopularStock = () => {
         value={tabIndex}
         onChange={handleChange}
         aria-label="popular stock tabs"
+        classes={{
+          indicator: styles.customTabIndicator,
+        }}
       >
-        <Tab label="거래량" />
-        <Tab label="조회수" />
-        <Tab label="주가상승률" />
+        <Tab
+          label="거래량"
+          classes={{
+            root: styles.customTextColor,
+            selected: styles.customTabSelected,
+          }}
+        />
+        <Tab
+          label="조회수"
+          classes={{
+            root: styles.customTextColor,
+            selected: styles.customTabSelected,
+          }}
+        />
+        <Tab
+          label="주가상승률"
+          classes={{
+            root: styles.customTextColor,
+            selected: styles.customTabSelected,
+          }}
+        />
       </Tabs>
       <div className={styles.contentBox}>
         {(
@@ -103,9 +133,18 @@ const PopularStock = () => {
           (tabIndex === 1 && mostViewed) ||
           (tabIndex === 2 && mostIncreased)
         ).map((stock, index) => (
-          <div key={index}>{`${index + 1}. ${stock.stbd_nm} (${
-            stock.stock_code
-          })`}</div>
+          <div key={index} className={styles.stockContainer}>
+            <div className={styles.rank}>{index + 1}</div>
+            <img
+              src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.stock_code}.png`}
+              alt={stock.stbd_nm}
+              className={styles.stockImg}
+            />
+            <div className={styles.verticalFlexContainer}>
+              <div className={styles.stockName}>{stock.stbd_nm}</div>
+              <div className={styles.stockPrice}>{stock.stock_price}</div>
+            </div>
+          </div>
         ))}
       </div>
     </div>
