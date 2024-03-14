@@ -40,6 +40,7 @@ export const router = createBrowserRouter([
             path: "/main",
             element: <MainPage />,
           },
+          
           {
             path: "/detail/:stockCode",
             children: [
