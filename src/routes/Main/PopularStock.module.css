@@ -1,16 +1,16 @@
 .layout{
-padding: 3vh 0;
+  padding: 0 0;
 }
-
   .customTabSelected {
     color: black !important; /* 선택된 탭의 텍스트 색상 */
   }
   .customTextColor{
-    font-weight: 900;
-    font-size: 15px;
+    font-size: 15px !important;
+    font-family: "Pretendard" !important;
+    font-weight: 900 !important;
   }
   .customTabIndicator {
-    background-color: #343D4C !important; /* 탭의 아래 indicator 색상 */
+    background-color: black !important; /* 탭의 아래 indicator 색상 */
   }
   .container {
       display: flex;
@@ -18,6 +18,7 @@ padding: 3vh 0;
     }
       .chart{
           width: 9.2vw;
+          max-width: 40px;
           display: inline;
       }
       .text{
@@ -27,26 +28,41 @@ padding: 3vh 0;
       .contentBox {
         display: flex;
         flex-direction: column;
-        gap: 0.3vh;
-        padding-top: 1vh;
-        padding-left: 2vh;
+        gap: 2vh;
+        padding-top: 2vh;
+        padding-left: 1vh;
       }
         .stockContainer {
           display: flex;
-          align-items: center;
-          gap: 2vh;
         }
-        .rank {
-          font-weight: 800;
-          color: #0046FF;
-        }
-        .stockImg{
-          width: 5vh;
-          border-radius: 50%;
-        }
-        .stockName {
-          font-weight: 900;
-        }
-        .stockPrice {
-          color: #6b7783;
-        }
+          .exceptHeart{
+            display: flex;
+            align-items: center;
+            gap: 2vh;
+              flex: 1;
+            }
+            .rank {
+              font-weight: 800;
+              color: #0046FF;
+            }
+            .stockImg{
+              width: 5vh;
+              border-radius: 50%;
+            }
+            .stockName {
+              font-weight: 900;
+            }
+            .stockPrice {
+              color: #6b7783;
+            }
+          .heartContainer{
+            display: flex;
+            align-items: center;
+            text-align: end;
+            flex: 0;
+            width: 10vh
+          }
+            .heart{
+              width: 3vh;
+              margin: 0px 1vh;
+            }
