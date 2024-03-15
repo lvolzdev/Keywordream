@@ -4,6 +4,7 @@
   }
     .fire{
         width: 9.2vw;
+        max-width: 40px;
         display: inline;
     }
     .text{
@@ -11,9 +12,22 @@
       font-size: 15px;
     }
     .contentBox {
+      align-items: center;
       background-color: #EDEDED;
       border-radius: 20px; /* 둥근 모서리 설정 */
       border: 20px solid transparent; /* 테두리 설정 */
       font-weight: 700;
       text-align: center;
+      margin: 2vh 0;
     }
+      .swiper{
+        max-height:5vh;
+      }
+      .slide {
+        display: flex !important;
+        align-items: center;
+        justify-content: space-between;
+      }
+        .medal{
+          width: 4vh;
+        }

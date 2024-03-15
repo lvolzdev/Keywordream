@@ -1,14 +1,20 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Chart from "../../assets/image/Chart.png";
 import styles from "./PopularStock.module.css";
 import Tabs from "@mui/material/Tabs/";
 import Tab from "@mui/material/Tab/";
+import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
+import FilledHeart from "../../assets/image/FilledHeart.png";
 
 const PopularStock = () => {
   const [mostExchanged, setMostExchanged] = useState([]);
   const [mostIncreased, setMostIncreased] = useState([]);
   const [mostViewed, setMostViewed] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
+  const [myStock, setMyStock] = useState(["010140", "109610"]); // Initialize myStock array with favorite stock codes
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -91,6 +97,18 @@ const PopularStock = () => {
     setTabIndex(newValue);
   };
 
+  const toggleFavoriteStock = (stockCode) => {
+    if (myStock.includes(stockCode)) {
+      setMyStock(myStock.filter((code) => code !== stockCode));
+    } else {
+      setMyStock([...myStock, stockCode]);
+    }
+  };
+
+  const navigateToDetail = (stockCode) => {
+    navigate(`/detail/${stockCode}/keyword`);
+  };
+
   return (
     <div className={styles.layout}>
       <div className={styles.container}>
@@ -134,15 +152,34 @@ const PopularStock = () => {
           (tabIndex === 2 && mostIncreased)
         ).map((stock, index) => (
           <div key={index} className={styles.stockContainer}>
-            <div className={styles.rank}>{index + 1}</div>
-            <img
-              src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.stock_code}.png`}
-              alt={stock.stbd_nm}
-              className={styles.stockImg}
-            />
-            <div className={styles.verticalFlexContainer}>
-              <div className={styles.stockName}>{stock.stbd_nm}</div>
-              <div className={styles.stockPrice}>{stock.stock_price}</div>
+            <div
+              className={styles.exceptHeart}
+              onClick={() => navigateToDetail(stock.stock_code)}
+            >
+              <div className={styles.rank}>{index + 1}</div>
+              <img
+                src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.stock_code}.png`}
+                alt={stock.stbd_nm}
+                className={styles.stockImg}
+              />
+              <div className={styles.verticalFlexContainer}>
+                <div className={styles.stockName}>{stock.stbd_nm}</div>
+                <div className={styles.stockPrice}>{stock.stock_price}원</div>
+              </div>
+            </div>
+            <div
+              className={styles.heartContainer}
+              onClick={() => toggleFavoriteStock(stock.stock_code)} // Add onClick event to toggle favorite stock
+            >
+              <img
+                src={
+                  myStock.includes(stock.stock_code)
+                    ? FilledHeart
+                    : UnfilledHeart
+                }
+                className={styles.heart}
+                alt="Heart"
+              />
             </div>
           </div>
         ))}
