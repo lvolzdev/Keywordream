@@ -1,0 +1,25 @@
+.detail-container {
+  padding: 20px 20px;
+  height: 100%;
+}
+
+.detail-icon {
+  display: flex;
+  align-items: flex-end;
+  margin-left: auto;
+}
+.detail-icon p {
+  font-size: 1em;
+}
+
+.detail-num {
+  display: flex;
+  align-items: center;
+  margin-left: 3em;
+}
+
+.detail-num p {
+  margin-left: 0.3rem;
+  align-items: center;
+  margin-right: 0;
+}
