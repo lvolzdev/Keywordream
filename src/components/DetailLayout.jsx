@@ -73,8 +73,6 @@ export default function DetailLayout() {
         />
       </Tabs>
 
-
-
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <Container>
           <Outlet />
