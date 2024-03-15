@@ -17,6 +17,7 @@ const Footer = () => {
           <img src={search} alt="search glass" className="footer-icon" />
           <img src={bluehouse} alt="Blue House" className="footer-icon" />
           <img src={treasure} alt="treasure box" className="footer-icon" />
+          {/* &copy; 2024. Keywordream Co. All Rights Reserved. */}
         </Navbar.Text>
       </Container>
     </Navbar>
@@ -24,3 +25,4 @@ const Footer = () => {
 };
 
 export default Footer;
+
