@@ -1,6 +1,10 @@
+// baseApi.js
 import axios from "axios";
 
-const SERVER_URL = import.meta.env.SERVER_URL;
+
+const SERVER_URL = "http://localhost:3003/api";// process.env를 사용하여 환경 변수를 가져옵니다.
+console.log(SERVER_URL)
+
 const instance = axios.create({
   baseURL: SERVER_URL,
 });
