@@ -1,0 +1,46 @@
+.layout{
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+.link{
+    text-decoration: none;
+}
+
+.container{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 2vw;
+}
+
+.leftContainer{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5vh
+}
+
+.title{
+    font-size: 1.2rem;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 70vw;
+    color: black;
+}
+
+.pressDate{
+    display: flex;
+    gap : 3vw;
+    font-size: 0.9rem;
+    color: #adadad;
+    font-weight: 500;
+}
+
+.newsImg{
+    width: 14vw;
+    aspect-ratio: 1/1;
+    border-radius: 12px;
+}
