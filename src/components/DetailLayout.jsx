@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Container } from "react-bootstrap";
-import { Outlet } from "react-router-dom";
+import { Outlet, useParams } from "react-router-dom";
 import stockimage from "./005930.png";
 import "./DetailLayout.css"; // CSS 파일 import
 import styles from "../routes/Main/PopularStock.module.css";
@@ -10,6 +10,7 @@ import { Link } from "react-router-dom";
 
 export default function DetailLayout() {
   const [tabIndex, setTabIndex] = useState(0);
+  const stockCode = useParams().stockCode
 
   const handleChange = (event, newValue) => {
     setTabIndex(newValue);
@@ -38,7 +39,7 @@ export default function DetailLayout() {
         <Tab
           label={<span style={{ fontWeight: "bold" }}>키워드</span>}
           component={Link}
-          to={`/detail/:stockCode/keyword`}
+          to={`/detail/${stockCode}/keyword`}
           classes={{
             root: styles.customTextColor,
             selected: styles.customTabSelected,
@@ -47,7 +48,7 @@ export default function DetailLayout() {
         <Tab
           label={<span style={{ fontWeight: "bold" }}>뉴스</span>}
           component={Link}
-          to={`/detail/:stockCode/news`}
+          to={`/detail/${stockCode}/news`}
           classes={{
             root: styles.customTextColor,
             selected: styles.customTabSelected,
@@ -56,7 +57,7 @@ export default function DetailLayout() {
         <Tab
           label={<span style={{ fontWeight: "bold" }}>차트</span>}
           component={Link}
-          to={`/detail/:stockCode/chart`}
+          to={`/detail/${stockCode}/chart`}
           classes={{
             root: styles.customTextColor,
             selected: styles.customTabSelected,
@@ -65,7 +66,7 @@ export default function DetailLayout() {
         <Tab
           label={<span style={{ fontWeight: "bold" }}>정보</span>}
           component={Link}
-          to={`/detail/:stockCode/info`}
+          to={`/detail/${stockCode}/info`}
           classes={{
             root: styles.customTextColor,
             selected: styles.customTabSelected,

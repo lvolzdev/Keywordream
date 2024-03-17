@@ -48,16 +48,15 @@ export const router = createBrowserRouter([
             element: <DetailLayout />,
             children: [
               { path: "keyword", element: <Keyword /> },
-              {
-                path: "news",
-                children: [
-                  { index: true, element: <News /> },
-                  { path: ":newsId", element: <NewsDetail /> },
-                ],
-              },
+              { path: "news", element: <News /> },
               { path: "chart", element: <Chart /> },
               { path: "info", element: <Info /> },
             ],
+          },
+
+          {
+            path: "/detail/:stockCode/news/:newsId",
+            element : <NewsDetail/>
           },
 
           {
