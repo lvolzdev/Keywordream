@@ -18,7 +18,8 @@
 .leftContainer{
     display: flex;
     flex-direction: column;
-    gap: 0.5vh
+    /* gap: 0.5vh; */
+    
 }
 
 .title{
