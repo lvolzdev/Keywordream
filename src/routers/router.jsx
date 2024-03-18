@@ -13,6 +13,7 @@ import News from "../routes/News/News";
 import NewsDetail from "../routes/News/NewsDetail";
 import Chart from "../routes/Chart/Chart";
 import Info from "../routes/Info/Info";
+import DetailLayout from "../components/DetailLayout";
 
 export const router = createBrowserRouter([
   {
@@ -40,22 +41,24 @@ export const router = createBrowserRouter([
             path: "/main",
             element: <MainPage />,
           },
-          
+
+          // DetailLayout을 직접 적용
           {
             path: "/detail/:stockCode",
+            element: <DetailLayout />,
             children: [
               { path: "keyword", element: <Keyword /> },
-              {
-                path: "news",
-                children: [
-                  { index: true, element: <News /> },
-                  { path: ":newsId", element: <NewsDetail /> },
-                ],
-              },
+              { path: "news", element: <News /> },
               { path: "chart", element: <Chart /> },
               { path: "info", element: <Info /> },
             ],
           },
+
+          {
+            path: "/detail/:stockCode/news/:newsId",
+            element : <NewsDetail/>
+          },
+
           {
             path: "/search",
             element: <Search />,

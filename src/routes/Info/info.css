@@ -1,0 +1,33 @@
+.layout {
+  padding: 20px 20px;
+  height: 100%;
+}
+.fin p {
+  color: #a0a0a0;
+}
+.box {
+  background-color: #ededed;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column; /* 세로로 정렬 */
+  align-items: flex-start;
+}
+.others {
+  display: flex;
+  justify-content: space-around; /* 요소들 사이의 간격을 최대화하여 가로 정렬 */
+}
+
+.firstbox,
+.secondbox p {
+  font-size: 0.5rem;
+}
+
+.take1 {
+  display: flex;
+  justify-content: space-between;
+  width: 50%; /* 50%의 너비를 가지도록 설정하여 가로 정렬 */
+}
+
+.take p {
+  font-size: 0.7rem;
+}
