@@ -6,7 +6,7 @@ import styles from "./HotTopic.module.css";
 import Gold from "../../assets/image/Gold.png";
 import Silver from "../../assets/image/Silver.png";
 import Bronze from "../../assets/image/Bronze.png";
-import { getTrends } from "../../assets/api/GoogleTrend.js";
+import { getTrends } from "../../lib/apis/GoogleTrend.js";
 import { useNavigate } from "react-router";
 
 import { Swiper, SwiperSlide } from "swiper/react";
