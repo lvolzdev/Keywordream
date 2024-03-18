@@ -1,9 +1,13 @@
-import React from "react";
+// HotTopic.jsx
+
+import React, { useState, useEffect } from "react";
 import Fire from "../../assets/image/Fire.png";
 import styles from "./HotTopic.module.css";
 import Gold from "../../assets/image/Gold.png";
 import Silver from "../../assets/image/Silver.png";
 import Bronze from "../../assets/image/Bronze.png";
+import { getTrends } from "../../lib/apis/GoogleTrend.js";
+import { useNavigate } from "react-router";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -11,9 +15,31 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
-// Swiper Core 사용 설정
-
 export default function HotTopic() {
+  const [trends, setTrends] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchTrends = async () => {
+      try {
+        const data = await getTrends();
+        setTrends(data);
+      } catch (error) {
+        console.error("Error fetching hot topics:", error);
+      }
+    };
+
+    fetchTrends();
+  }, []);
+
+  const formatTraffic = (traffic) => {
+    if (traffic.includes("K")) {
+      const num = parseFloat(traffic.replace("K", ""));
+      return num >= 10 ? `${num / 10}만+` : `${num}천+`;
+    }
+    return traffic;
+  };
+
   return (
     <div>
       <div className={styles.container}>
@@ -30,21 +56,46 @@ export default function HotTopic() {
             modules={[Autoplay, Pagination, Navigation]}
             className={styles.swiper}
           >
-            <SwiperSlide className={styles.slide}>
-              <img src={Gold} className={styles.medal} alt="" />
-              <div>세계 여성의 날</div>
-              <div>2천+</div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.slide}>
-              <img src={Silver} className={styles.medal} alt="" />
-              <div>일본 로켓발사 실패</div>
-              <div>5천+</div>
-            </SwiperSlide>
-            <SwiperSlide className={styles.slide}>
-              <img src={Bronze} className={styles.medal} alt="" />
-              <div>김포시 공무원</div>
-              <div>1천+</div>
-            </SwiperSlide>
+            {trends.map((trend, index) => (
+              <SwiperSlide key={index} className={styles.slide}>
+                {index === 0 && (
+                  <img src={Gold} className={styles.medal} alt="" />
+                )}
+                {index === 1 && (
+                  <img src={Silver} className={styles.medal} alt="" />
+                )}
+                {index === 2 && (
+                  <img src={Bronze} className={styles.medal} alt="" />
+                )}
+                <div
+                  className={styles.textContainer}
+                  onClick={() => {
+                    window.open(trend.shareUrl, "_blank");
+                  }}
+                >
+                  <div className={styles.title}>
+                    {trend.title.query.length > 10
+                      ? `${trend.title.query.slice(0, 10)}...`
+                      : trend.title.query}
+                  </div>
+                  <div className={styles.viewCount}>
+                    {formatTraffic(trend.formattedTraffic)}
+                  </div>
+                </div>
+                <div
+                  className={styles.news}
+                  onClick={() => {
+                    window.open(trend.image.newsUrl, "_blank");
+                  }}
+                >
+                  <img
+                    src={trend.image.imageUrl}
+                    className={styles.image}
+                    alt=""
+                  />
+                </div>
+              </SwiperSlide>
+            ))}
           </Swiper>
         </div>
       </div>

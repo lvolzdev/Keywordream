@@ -1,14 +1,14 @@
 import React from 'react'
-import styles from "./Keyword.module.css";
+import styles from "./Tag.module.css";
 
-export default function Keyword({keywords}) {
+export default function Tag({tags}) {
   return (
     <div className={styles.container}>
       {
-        keywords.map((keyowrd, index) => {
+        tags.map((tag, index) => {
           return(
             <div className={styles.item} key={index}>
-              {keyowrd}
+              {tag}
             </div>
           )
         })  

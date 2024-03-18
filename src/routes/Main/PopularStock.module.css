@@ -30,7 +30,7 @@
         flex-direction: column;
         gap: 2vh;
         padding-top: 2vh;
-        padding-left: 1vh;
+        padding-left: 0vh;
       }
         .stockContainer {
           display: flex;
