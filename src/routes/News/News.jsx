@@ -2,13 +2,13 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import Keyword from "./Keyword";
+import Tag from "./Tag";
 import { getNewsList } from "../../lib/apis/newsApi";
 import NewsList from "./NewsList";
 
 export default function News() {
   const stockCode = useParams().stockCode
-  const [keywords, setKeywords] = useState(["키워드1", "키워드2", "키워드3"])
+  const [tags, setTags] = useState(["tag1", "tag2", "tag3"])
   const [newsList, setNewsList] = useState([])
 
   useEffect(()=>{
@@ -18,7 +18,7 @@ export default function News() {
 
   return(
     <div>
-      <Keyword keywords={keywords}/>
+      <Tag tags={tags}/>
       <NewsList newsList={newsList} stockCode={stockCode}/>
     </div>
   );
