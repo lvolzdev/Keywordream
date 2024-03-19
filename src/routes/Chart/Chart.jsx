@@ -18,13 +18,7 @@ export default function Chart() {
     { time_close: "2023-03-10T00:00:00.000Z", close: "111" },
   ];
 
-  // 최고금액, 최저금액
   const prices = data.map((price) => Number(price.close));
-  const maxPrice = Math.max(...prices);
-  const minPrice = Math.min(...prices);
-
-  console.log("최고금액", maxPrice);
-  console.log("최저금액", minPrice);
 
   return (
     <div className="chart-container">
@@ -37,9 +31,7 @@ export default function Chart() {
           },
         ]}
         options={{
-          theme: {
-            mode: "dark",
-          },
+          colors: ["#FE2F4D"],
           chart: {
             height: 500,
             width: "100%",
@@ -48,26 +40,19 @@ export default function Chart() {
             },
             background: "transparent",
           },
+          fill: {
+            type: "solid",
+          },
           stroke: {
             curve: "smooth",
-            width: 4,
-          },
-          fill: {
-            type: "gradient",
-            gradient: {
-              gradientToColors: ["#F2CD5C", "#F2921D", "#A61F69", "#400E32"],
-              stops: [0, 100],
-            },
+            width: 3,
           },
           grid: {
             show: false,
           },
           xaxis: {
-            labels: {
-              show: false,
-            },
             type: "datetime",
-            categories: data.map((date) => date.time_close),
+            categories: data.map((data) => data.time_close),
             axisBorder: {
               show: false,
             },
@@ -78,41 +63,9 @@ export default function Chart() {
           yaxis: {
             show: false,
           },
-          tooltip: {
-            y: {
-              formatter: (v) => `$ ${v.toFixed(2)}`,
-            },
-          },
-          annotations: {
-            y: [
-              {
-                y: maxPrice,
-                borderColor: "#00E396",
-                label: {
-                  borderColor: "#00E396",
-                  style: {
-                    color: "#000000",
-                    background: "#00E396",
-                  },
-                  text: "최고금액",
-                },
-              },
-              {
-                y: minPrice,
-                borderColor: "#FF4560",
-                label: {
-                  borderColor: "#FF4560",
-                  style: {
-                    color: "#000000",
-                    background: "#FF4560",
-                  },
-                  text: "최저금액",
-                },
-              },
-            ],
-          },
         }}
       />
+
       <div className="btn-container" style={{ textAlign: "center" }}>
         <Button
           variant="outlined"
