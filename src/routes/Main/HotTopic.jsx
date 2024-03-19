@@ -7,7 +7,6 @@ import Gold from "../../assets/image/Gold.png";
 import Silver from "../../assets/image/Silver.png";
 import Bronze from "../../assets/image/Bronze.png";
 import { getTrends } from "../../lib/apis/GoogleTrend.js";
-import { useNavigate } from "react-router";
 
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -17,7 +16,6 @@ import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 export default function HotTopic() {
   const [trends, setTrends] = useState([]);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTrends = async () => {
