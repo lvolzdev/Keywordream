@@ -1,5 +1,6 @@
 import React from "react";
 import ApexChart from "react-apexcharts";
+import Button from "@mui/material/Button";
 
 // 차트 예시
 export default function Chart() {
@@ -112,7 +113,20 @@ export default function Chart() {
           },
         }}
       />
-      <div className="btn-container"></div>
+      <div className="btn-container" style={{ textAlign: "center" }}>
+        <Button
+          variant="outlined"
+          sx={{
+            backgroundColor: "white",
+            color: "black",
+            borderColor: "black",
+            minWidth: "80%",
+            "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
+          }}
+        >
+          일별 & 실시간 시세
+        </Button>
+      </div>
     </div>
   );
 }
