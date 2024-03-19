@@ -26,90 +26,93 @@ export default function Chart() {
   console.log("최저금액", minPrice);
 
   return (
-    <ApexChart
-      type="line"
-      series={[
-        {
-          name: "Price",
-          data: prices,
-        },
-      ]}
-      options={{
-        theme: {
-          mode: "dark",
-        },
-        chart: {
-          height: 500,
-          width: "100%",
-          toolbar: {
-            tools: {},
+    <div className="chart-container">
+      <ApexChart
+        type="line"
+        series={[
+          {
+            name: "Price",
+            data: prices,
           },
-          background: "transparent",
-        },
-        stroke: {
-          curve: "smooth",
-          width: 4,
-        },
-        fill: {
-          type: "gradient",
-          gradient: {
-            gradientToColors: ["#F2CD5C", "#F2921D", "#A61F69", "#400E32"],
-            stops: [0, 100],
+        ]}
+        options={{
+          theme: {
+            mode: "dark",
           },
-        },
-        grid: {
-          show: false,
-        },
-        xaxis: {
-          labels: {
+          chart: {
+            height: 500,
+            width: "100%",
+            toolbar: {
+              tools: {},
+            },
+            background: "transparent",
+          },
+          stroke: {
+            curve: "smooth",
+            width: 4,
+          },
+          fill: {
+            type: "gradient",
+            gradient: {
+              gradientToColors: ["#F2CD5C", "#F2921D", "#A61F69", "#400E32"],
+              stops: [0, 100],
+            },
+          },
+          grid: {
             show: false,
           },
-          type: "datetime",
-          categories: data.map((date) => date.time_close),
-          axisBorder: {
+          xaxis: {
+            labels: {
+              show: false,
+            },
+            type: "datetime",
+            categories: data.map((date) => date.time_close),
+            axisBorder: {
+              show: false,
+            },
+            axisTicks: {
+              show: false,
+            },
+          },
+          yaxis: {
             show: false,
           },
-          axisTicks: {
-            show: false,
+          tooltip: {
+            y: {
+              formatter: (v) => `$ ${v.toFixed(2)}`,
+            },
           },
-        },
-        yaxis: {
-          show: false,
-        },
-        tooltip: {
-          y: {
-            formatter: (v) => `$ ${v.toFixed(2)}`,
-          },
-        },
-        annotations: {
-          y: [
-            {
-              y: maxPrice,
-              borderColor: "#00E396",
-              label: {
+          annotations: {
+            y: [
+              {
+                y: maxPrice,
                 borderColor: "#00E396",
-                style: {
-                  color: "#000000",
-                  background: "#00E396",
+                label: {
+                  borderColor: "#00E396",
+                  style: {
+                    color: "#000000",
+                    background: "#00E396",
+                  },
+                  text: "최고금액",
                 },
-                text: "최고금액",
               },
-            },
-            {
-              y: minPrice,
-              borderColor: "#FF4560",
-              label: {
+              {
+                y: minPrice,
                 borderColor: "#FF4560",
-                style: {
-                  color: "#000000",
-                  background: "#FF4560",
+                label: {
+                  borderColor: "#FF4560",
+                  style: {
+                    color: "#000000",
+                    background: "#FF4560",
+                  },
+                  text: "최저금액",
                 },
-                text: "최저금액",
               },
-            },
-          ],
-        },
-      }}
-    />
+            ],
+          },
+        }}
+      />
+      <div className="btn-container"></div>
+    </div>
   );
 }
