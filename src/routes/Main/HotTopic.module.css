@@ -21,7 +21,7 @@
       margin: 2vh 0;
     }
       .swiper{
-        max-height:8vh;
+        height: 8vh;
       }
       .slide {
         display: flex !important;
