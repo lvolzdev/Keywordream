@@ -6,7 +6,6 @@
 .detail-icon {
   display: flex;
   align-items: flex-end;
-  margin-left: auto;
 }
 .detail-icon p {
   font-size: 1em;
