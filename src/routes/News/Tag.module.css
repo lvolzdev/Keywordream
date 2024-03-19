@@ -1,0 +1,14 @@
+.container{
+    display: flex;
+    gap : 0.5rem;
+    margin-top: 2vh;
+    margin-bottom: 1vh;
+}
+
+.item{
+    font-size: 0.8125rem;
+    padding: 5px 10px 6px;
+    background-color: #EDEDED;
+    border-radius: 999px;
+    font-weight: 600;
+}

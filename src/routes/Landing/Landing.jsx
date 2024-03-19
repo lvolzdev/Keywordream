@@ -14,7 +14,12 @@ export default function Landing() {
         <img src={RunningBear} alt="" className={styles.bear} />
       </div>
       <div className={styles.buttonContainer}>
-        <Button variant="contained" href="/main" className={styles.button}>
+        <Button
+          variant="contained"
+          href="/main"
+          className={styles.button}
+          sx={{ bgcolor: "#0046FF" }}
+        >
           시작하기
         </Button>
       </div>

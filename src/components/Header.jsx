@@ -9,7 +9,7 @@ const Header = () => {
     <Navbar
       className="header-navbar"
       fixed="top"
-      style={{ height: "8%", backgroundColor: "white" }}
+      style={{ height: "8%", padding: "2vh 4vh", backgroundColor: "white" }}
     >
       <Link to="/">
         <img
@@ -17,7 +17,7 @@ const Header = () => {
           width="160px"
           className="logo-img"
           alt="Keywordream logo"
-          style={{ marginTop: "15px", marginLeft: "10px" }}
+          style={{ marginTop: "15px", paddingLeft: "4vh" }}
         />
       </Link>
       <Container></Container>
