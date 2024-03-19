@@ -48,6 +48,7 @@
             .stockImg{
               width: 5vh;
               border-radius: 50%;
+              height: 5vh;
             }
             .stockName {
               font-weight: 900;
