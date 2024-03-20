@@ -22,6 +22,18 @@ export default function Chart() {
 
   return (
     <div className="chart-container">
+      <Button
+        size="small"
+        sx={{
+          backgroundColor: "white",
+          color: "black",
+          borderColor: "black",
+          minWidth: "10%",
+          "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
+        }}
+      >
+        [자세한 차트 보기]
+      </Button>
       <ApexChart
         type="line"
         series={[
