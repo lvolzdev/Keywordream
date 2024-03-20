@@ -9,6 +9,7 @@ const instance = axios.create({
   baseURL: SERVER_URL,
 });
 
+
 instance.interceptors.request.use(
   function (config) {
     // request처리 로직 (header 등)

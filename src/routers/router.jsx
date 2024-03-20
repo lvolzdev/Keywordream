@@ -57,7 +57,9 @@ export const router = createBrowserRouter([
 
           {
             path: "/detail/:stockCode/news/:newsId",
-            element: <NewsDetail />
+
+            element: <NewsDetail />,
+
           },
 
           {
