@@ -1,7 +1,8 @@
 import React, { useEffect, useState, } from "react";
 import { useParams } from "react-router-dom";
 import { getKeyword } from "../../lib/apis/keywordApi";
-import ReactWordcloud from 'react-wordcloud';
+import { Cloud } from "react-d3-cloud";
+import styles from "./Keyword.modules.css";
 
 export default function Keyword() {
   const [keywords, setKeywords] = useState([]);
@@ -25,19 +26,15 @@ export default function Keyword() {
     fetchData(); // 데이터 가져오는 함수 호출
   }, [stockCode]); // stockCode가 변경될 때마다 useEffect가 실행되도록 설정
 
-  // 모든 단어의 크기를 일정하게 하기 위한 fontSizeMapper 함수 정의
-  const fontSizeMapper = word => Math.sqrt(word.value) * 80;
-
-   // options 객체를 사용하여 워드 클라우드의 모양을 변경합니다.
-   const options = {
-    // scale 값을 높여서 더 많은 단어가 모아지도록 합니다.
-    scale: 10,
-  };
-
   return(
-    <div>
+    <div className={styles.container}>
       <h2>Keywords for Stock {stockCode}</h2>
-      <ReactWordcloud words={keywords} fontSizeMapper={fontSizeMapper} options={options}/>
+      <Cloud
+        data={keywords}
+        fontSizeMapper={word => Math.log2(word.value) * 5}
+        width={500}
+        height={500}
+      />
     </div>
   )
 }
