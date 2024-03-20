@@ -20,8 +20,6 @@ export default function Info() {
   const [financialInfo, setFinancialInfo] = useState(null);
   const [wordMeaning, setWordMeaning] = useState(null);
   const [furtherExpanded, setFurtherExpanded] = useState(false);
-  const [currentTerm, setCurrentTerm] = useState("");
-
 
   useEffect(() => {
     const fetchInfo = async () => {
@@ -46,15 +44,10 @@ export default function Info() {
   const toggleWordMeaning = () => {
     setFurtherExpanded(true)
 
-    // const fmeaning = dictionary.find((item) => item.currentTerm === currentTerm)?.further;
-    // if (fmeaning) {
-    //   setWordFurther(fmeaning);
-    // }
   };
 
   const hideWordMeaning = () => {
     setWordMeaning(""); // wordMeaning 상태를 초기화하여 word-meaning-container를 숨깁니다.
-    setCurrentTerm(""); // currentTerm 상태도 초기화합니다.
     setFurtherExpanded(false); // furtherExpanded 상태를 false로 설정하여 펼친 상태를 닫습니다.
   };
 
@@ -152,7 +145,7 @@ export default function Info() {
                   }}>
                     ▲닫기
                   </div>
-                  
+
                   <p><img src={caution}></img>{wordMeaning?.further}</p>
                 </div>
               ) : (
