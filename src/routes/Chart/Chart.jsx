@@ -1,38 +1,98 @@
-
-import React from "react";
+import React, { useEffect, useState, useMemo } from "react";
+import { useParams } from "react-router-dom";
 import ApexChart from "react-apexcharts";
 import Button from "@mui/material/Button";
+import { getChart } from "../../lib/apis/chartApi";
 
-// 차트 예시
 export default function Chart() {
-  // TODO
-  const data = [
-    { time_close: "2023-03-01T00:00:00.000Z", close: "100" },
-    { time_close: "2023-03-02T00:00:00.000Z", close: "105" },
-    { time_close: "2023-03-03T00:00:00.000Z", close: "102" },
-    { time_close: "2023-03-04T00:00:00.000Z", close: "106" },
-    { time_close: "2023-03-05T00:00:00.000Z", close: "108" },
-    { time_close: "2023-03-06T00:00:00.000Z", close: "110" },
-    { time_close: "2023-03-07T00:00:00.000Z", close: "112" },
-    { time_close: "2023-03-08T00:00:00.000Z", close: "115" },
-    { time_close: "2023-03-09T00:00:00.000Z", close: "113" },
-    { time_close: "2023-03-10T00:00:00.000Z", close: "111" },
-  ];
+  const colors = useMemo(() => ["#FE2F4D", "#1545FF"], []);
+  const stockCode = useParams().stockCode;
+  const [chartData, setChartData] = useState([]);
+  const [chartColor, setChartColor] = useState(colors[0]);
 
-  const prices = data.map((price) => Number(price.close));
+  useEffect(() => {
+    const fetchChart = async () => {
+      try {
+        const response = await getChart(stockCode);
+        // console.log(response.data.t8412OutBlock1);
+
+        if (response) {
+          // 시세 데이터 처리
+          const chartSeriesData = response.data.t8412OutBlock1.map((res) => ({
+            x: `${res.date.slice(0, 4)}-${res.date.slice(
+              4,
+              6
+            )}-${res.date.slice(6, 8)}T${res.time.slice(0, 2)}:${res.time.slice(
+              2,
+              4
+            )}:00.000Z`,
+            y: Number(res.close),
+          }));
+          setChartData(chartSeriesData);
+
+          // 시세 데이터 추세에 따라 그래프 색상 변경
+          var maxVal = chartSeriesData[0].y;
+          var minVal = chartSeriesData[0].y;
+          var maxDate = new Date(chartSeriesData[0].x);
+          var minDate = new Date(chartSeriesData[0].x);
+
+          chartSeriesData.forEach((data) => {
+            if (data.y > maxVal) {
+              maxVal = data.y;
+              maxDate = new Date(data.x);
+            }
+            if (data.y < minVal) {
+              minVal = data.y;
+              minDate = new Date(data.x);
+            }
+          });
+
+          setChartColor(maxDate > minDate ? colors[0] : colors[1]);
+
+          // const trend =
+          //   chartSeriesData[chartSeriesData.length - 1].y -
+          //   chartSeriesData[0].y;
+          // setChartColor(trend >= 0 ? colors[0] : colors[1]);
+        }
+      } catch (error) {
+        console.error("Error fetching chart data:", error);
+      }
+    };
+    fetchChart();
+  }, [stockCode, colors]);
+
+  const seriesData = chartData.map((data) => {
+    return {
+      x: data.x, // 날짜 문자열
+      y: data.y, // 가격
+    };
+  });
+  // console.log(seriesData);
 
   return (
     <div className="chart-container">
+      <Button
+        size="small"
+        sx={{
+          backgroundColor: "white",
+          color: "black",
+          borderColor: "black",
+          minWidth: "10%",
+          "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
+        }}
+      >
+        [자세한 차트 보기]
+      </Button>
       <ApexChart
         type="line"
         series={[
           {
             name: "Price",
-            data: prices,
+            data: seriesData,
           },
         ]}
         options={{
-          colors: ["#FE2F4D"],
+          colors: [chartColor],
           chart: {
             height: 500,
             width: "100%",
@@ -46,14 +106,13 @@ export default function Chart() {
           },
           stroke: {
             curve: "smooth",
-            width: 3,
+            width: 2.8,
           },
           grid: {
             show: false,
           },
           xaxis: {
             type: "datetime",
-            categories: data.map((data) => data.time_close),
             axisBorder: {
               show: false,
             },
