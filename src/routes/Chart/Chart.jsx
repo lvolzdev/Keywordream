@@ -1,18 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { useParams } from "react-router-dom";
 import ApexChart from "react-apexcharts";
 import Button from "@mui/material/Button";
 import { getChart } from "../../lib/apis/chartApi";
 
 export default function Chart() {
+  const colors = useMemo(() => ["#FE2F4D", "#1545FF"], []);
   const stockCode = useParams().stockCode;
   const [chartData, setChartData] = useState([]);
+  const [chartColor, setChartColor] = useState(colors[0]);
 
   useEffect(() => {
     const fetchChart = async () => {
       try {
         const response = await getChart(stockCode);
-        console.log(response.data.t8412OutBlock1);
+        // console.log(response.data.t8412OutBlock1);
 
         if (response) {
           // 시세 데이터 처리
@@ -27,13 +29,37 @@ export default function Chart() {
             y: Number(res.close),
           }));
           setChartData(chartSeriesData);
+
+          // 시세 데이터 추세에 따라 그래프 색상 변경
+          var maxVal = chartSeriesData[0].y;
+          var minVal = chartSeriesData[0].y;
+          var maxDate = new Date(chartSeriesData[0].x);
+          var minDate = new Date(chartSeriesData[0].x);
+
+          chartSeriesData.forEach((data) => {
+            if (data.y > maxVal) {
+              maxVal = data.y;
+              maxDate = new Date(data.x);
+            }
+            if (data.y < minVal) {
+              minVal = data.y;
+              minDate = new Date(data.x);
+            }
+          });
+
+          setChartColor(maxDate > minDate ? colors[0] : colors[1]);
+
+          // const trend =
+          //   chartSeriesData[chartSeriesData.length - 1].y -
+          //   chartSeriesData[0].y;
+          // setChartColor(trend >= 0 ? colors[0] : colors[1]);
         }
       } catch (error) {
         console.error("Error fetching chart data:", error);
       }
     };
     fetchChart();
-  }, [stockCode]);
+  }, [stockCode, colors]);
 
   const seriesData = chartData.map((data) => {
     return {
@@ -66,7 +92,7 @@ export default function Chart() {
           },
         ]}
         options={{
-          colors: ["#FE2F4D"],
+          colors: [chartColor],
           chart: {
             height: 500,
             width: "100%",
