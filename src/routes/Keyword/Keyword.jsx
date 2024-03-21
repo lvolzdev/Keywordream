@@ -1,39 +1,57 @@
 import React, { useEffect, useState, } from "react";
 import { useParams } from "react-router-dom";
 import { getKeyword } from "../../lib/apis/keywordApi";
-import { Cloud } from "react-d3-cloud";
-import styles from "./Keyword.modules.css";
+import  WordCloud  from "react-d3-cloud";
+//import styles from "./Keyword.module.css";
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import ListItemText from '@mui/material/ListItemText';
+
 
 export default function Keyword() {
   const [keywords, setKeywords] = useState([]);
-  const stockCode = useParams().stockCode
+  const [top3Keywords, setTop3Keywords] = useState([]);
+  const stockCode = useParams().stockCode;
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await getKeyword(stockCode);
-        console.log(response.data);
+        console.log(response.data)
         // response에서 "word" 속성만을 추출하여 키워드 배열을 생성합니다.
-        const keywordArray = response.data.map(item => ({
+        const keywordArray = (response.data).map(item => ({
           text: item.word,
-          value: item.cnt,
+          value: item.cnt
         }));
+        console.log(keywordArray);
         setKeywords(keywordArray);
+        const sortedKeywords = keywordArray.sort((a, b) => b.value - a.value).slice(0, 3);
+        setTop3Keywords(sortedKeywords); // 상위 3개 키워드 상태 업데이트
+
       } catch (error) {
         console.error("Error fetching keyword:", error);
       }
     };
     fetchData(); // 데이터 가져오는 함수 호출
-  }, [stockCode]); // stockCode가 변경될 때마다 useEffect가 실행되도록 설정
+  }, [stockCode]); // stockCode가 변경될 때마다 useEffect가 실행
 
+  
+
+  const fontSizeMapper = (word) => Math.sqrt(word.value) * 7;
+  console.log(keywords.map(fontSizeMapper));
   return(
-    <div className={styles.container}>
-      <h2>Keywords for Stock {stockCode}</h2>
-      <Cloud
-        data={keywords}
-        fontSizeMapper={word => Math.log2(word.value) * 5}
-        width={500}
-        height={500}
+    <div>
+      <List>
+        {top3Keywords.map((keyword, index) => (
+          <ListItem key={index}>
+            <ListItemText primary={`${keyword.text}: ${keyword.value}`} />
+          </ListItem>
+        ))}
+      </List>
+      <WordCloud
+        data={keywords} 
+        fontSize={fontSizeMapper}
+        font="sans-serif"
       />
     </div>
   )
