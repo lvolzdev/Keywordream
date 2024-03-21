@@ -12,6 +12,7 @@ import Tab from "@mui/material/Tab/";
 import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
 import FilledHeart from "../../assets/image/FilledHeart.png";
 import { crawlExtractKeyword } from "../../lib/apis/flask";
+import Price from "./Price";
 
 const PopularStock = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -25,10 +26,11 @@ const PopularStock = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const exchangedData = await fetchMostExchanged();
-        const viewedData = await fetchMostViewed();
-        const increasedData = await fetchMostIncreased();
-
+        const [exchangedData, viewedData, increasedData] = await Promise.all([
+          fetchMostExchanged(),
+          fetchMostViewed(),
+          fetchMostIncreased(),
+        ]);
         setMostExchanged(exchangedData);
         setMostViewed(viewedData);
         setMostIncreased(increasedData);
@@ -112,7 +114,7 @@ const PopularStock = () => {
             (tabIndex === 1 && mostViewed) ||
             (tabIndex === 2 && mostIncreased)
           ).map((stock, index) => (
-            <div key={index} className={styles.stockContainer}>
+            <div key={stock.stock_code} className={styles.stockContainer}>
               <div
                 className={styles.exceptHeart}
                 onClick={() => navigateToDetail(stock.stbd_nm, stock.stock_code)}
@@ -128,12 +130,19 @@ const PopularStock = () => {
                   className={styles.stockImg}
                   onError={(e) => {
                     e.target.src =
-                      "https://file.alphasquare.co.kr/media/images/stock_logo/error.png";
+                      "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
                   }}
                 />
                 <div className={styles.verticalFlexContainer}>
                   <div className={styles.stockName}>{stock.stbd_nm}</div>
-                  <div className={styles.stockPrice}>{stock.stock_price}원</div>
+                  <Price
+                    stockCode={stock.stock_code}
+                    list={
+                      (tabIndex === 0 && mostExchanged) ||
+                      (tabIndex === 1 && mostViewed) ||
+                      (tabIndex === 2 && mostIncreased)
+                    }
+                  />
                 </div>
               </div>
               <div
