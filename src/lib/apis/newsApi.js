@@ -24,9 +24,10 @@ export const getNewsTagTop3 = async (stockCode) => {
     }
 }
 
-export const getNewsDetail = async (newsId) => {
+export const getNewsDetail = async (stockCode, newsId) => {
     try{
         const {data} = await instance.post("/news/detail", {
+            stockCode : stockCode,
             newsId : newsId
         })
         return data

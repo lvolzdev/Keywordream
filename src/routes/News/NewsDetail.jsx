@@ -5,7 +5,7 @@ import { getNewsDetail } from "../../lib/apis/newsApi";
 import { decodeHTMLEntities } from "../../components/decode/htmlToValue";
 
 export default function NewsDetail() {
-  const newsId = useParams().newsId
+  const {newsId, stockCode} = useParams()
   const [data, setData] = useState({
     title : "",
     newsDate : "",
@@ -26,7 +26,7 @@ export default function NewsDetail() {
 
   const getNewsDetailData = async () => {
     try{
-      const newsTagTop3Data = await getNewsDetail(newsId);
+      const newsTagTop3Data = await getNewsDetail(stockCode, newsId);
       setData(newsTagTop3Data);
     } catch(error){
       console.log("뉴스 디테일 페이지 오류: ",error)
