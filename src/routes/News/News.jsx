@@ -7,8 +7,8 @@ import { getNewsList, getNewsTagTop3 } from "../../lib/apis/newsApi";
 import NewsList from "./NewsList";
 
 export default function News() {
-  // const stockCode = useParams().stockCode
-  const stockCode = "005930"
+  const stockCode = useParams().stockCode
+  // const stockCode = "005930"
   const [tags, setTags] = useState(["tag1", "tag2", "tag3"])
   const [newsList, setNewsList] = useState([])
 
