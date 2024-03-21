@@ -9,6 +9,7 @@ export default function Chart() {
   const stockCode = useParams().stockCode;
   const [chartData, setChartData] = useState([]);
   const [chartColor, setChartColor] = useState(colors[0]);
+  const [isCandleChart, setIsCandleChart] = useState(false); // 라인 차트와 캔들 차트 토글
 
   useEffect(() => {
     const fetchChart = async () => {
@@ -72,6 +73,7 @@ export default function Chart() {
   return (
     <div className="chart-container">
       <Button
+        onClick={() => setIsCandleChart(!isCandleChart)}
         size="small"
         sx={{
           backgroundColor: "white",
@@ -84,10 +86,10 @@ export default function Chart() {
         [자세한 차트 보기]
       </Button>
       <ApexChart
-        type="line"
+        type={isCandleChart ? "candlestick" : "line"}
         series={[
           {
-            name: "Price",
+            name: "Stock Price",
             data: seriesData,
           },
         ]}
@@ -105,7 +107,7 @@ export default function Chart() {
             type: "solid",
           },
           stroke: {
-            curve: "smooth",
+            curve: isCandleChart ? undefined : "smooth",
             width: 2.8,
           },
           grid: {
