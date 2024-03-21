@@ -41,11 +41,7 @@ export default function Chart() {
       y: data.y, // 가격
     };
   });
-
-  // const categories = chartData.map((data) => new Date(data.x));
-  // const prices = chartData.map((data) => data.y);
-
-  console.log(seriesData);
+  // console.log(seriesData);
 
   return (
     <div className="chart-container">
