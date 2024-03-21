@@ -11,9 +11,10 @@ import Mypage from "../routes/Mypage/Mypage";
 import Keyword from "../routes/Keyword/Keyword";
 import News from "../routes/News/News";
 import NewsDetail from "../routes/News/NewsDetail";
-import Chart from "../routes/Chart/Chart";
 import Info from "../routes/Info/Info";
+import Chart from "../routes/Chart/Chart";
 import DetailLayout from "../components/DetailLayout";
+import DailyPrice from "../routes/Chart/DailyPrice";
 
 export const router = createBrowserRouter([
   {
@@ -56,7 +57,9 @@ export const router = createBrowserRouter([
 
           {
             path: "/detail/:stockCode/news/:newsId",
-            element : <NewsDetail/>
+
+            element: <NewsDetail />,
+
           },
 
           {
@@ -70,6 +73,10 @@ export const router = createBrowserRouter([
           {
             path: "/mypage",
             element: <Mypage />,
+          },
+          {
+            path: "/detail/:stockCode/chart/daily",
+            element: <DailyPrice />
           },
         ],
       },

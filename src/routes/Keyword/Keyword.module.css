@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    align-items: center; /* 수평 가운데 정렬 */
+  }
+    .fire{
+        width: 9.2vw;
+        max-width: 40px;
+        display: inline;
+    }
+    .text{
+      font-weight: 800;
+      font-size: 15px;
+    }
+    .rank{
+        font-weight: 800;
+        font-size: 15px;
+    }
+    

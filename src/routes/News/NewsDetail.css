@@ -47,10 +47,8 @@
 }
 
 .end_photo_org{
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    display: flex;
+    margin-bottom: 10px;
+    display: inline-block;
 }
 
 .nbd_im_w{
@@ -59,4 +57,8 @@
 
 #dic_area img{
     width: 80%;
+}
+
+.newDetailFoot{
+    height: 30px;
 }

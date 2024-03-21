@@ -72,7 +72,7 @@ export default function HotTopic() {
                   }}
                 >
                   <div className={styles.title}>
-                    {trend.title.query.length > 10
+                    {trend.title.query && trend.title.query.length > 10
                       ? `${trend.title.query.slice(0, 10)}...`
                       : trend.title.query}
                   </div>
