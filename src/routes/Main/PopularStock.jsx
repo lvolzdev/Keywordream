@@ -11,6 +11,7 @@ import Tabs from "@mui/material/Tabs/";
 import Tab from "@mui/material/Tab/";
 import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
 import FilledHeart from "../../assets/image/FilledHeart.png";
+import { crawlExtractKeyword } from "../../lib/apis/flask";
 
 const PopularStock = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -55,8 +56,14 @@ const PopularStock = () => {
     });
   };
 
-  const navigateToDetail = (stockCode) => {
-    navigate(`/detail/${stockCode}/keyword`);
+  const navigateToDetail = async (stockName, stockCode) => {
+    setLoading(true);
+    const response = await crawlExtractKeyword(stockName, stockCode)
+    // console.log(typeof response.status)
+    setLoading(false);
+    if(response.status === 200){
+      navigate(`/detail/${stockCode}/keyword`);
+    }
   };
 
   return (
@@ -108,7 +115,7 @@ const PopularStock = () => {
             <div key={index} className={styles.stockContainer}>
               <div
                 className={styles.exceptHeart}
-                onClick={() => navigateToDetail(stock.stock_code)}
+                onClick={() => navigateToDetail(stock.stbd_nm, stock.stock_code)}
               >
                 <div className={styles.rank}>{index + 1}</div>
                 <img
