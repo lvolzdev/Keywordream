@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import stockimage from "./005930.png";
 import "./DetailLayout.css"; // CSS 파일 import
 import styles from "../routes/Main/PopularStock.module.css";
@@ -11,10 +11,21 @@ import { Link } from "react-router-dom";
 export default function DetailLayout() {
   const [tabIndex, setTabIndex] = useState(0);
   const stockCode = useParams().stockCode
+  const {pathname} = useLocation();
 
   const handleChange = (event, newValue) => {
     setTabIndex(newValue);
   };
+
+  useEffect(()=>{
+    if(pathname.endsWith("news")){
+      setTabIndex(1);
+    } else if(pathname.endsWith("chart")){
+      setTabIndex(2);
+    } else if(pathname.endsWith("info")){
+      setTabIndex(3);
+    }
+  },[pathname])
 
   return (
     <div className="detail-container"> {/* 클래스명을 추가하여 CSS 적용 */}
