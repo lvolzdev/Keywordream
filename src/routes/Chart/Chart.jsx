@@ -1,11 +1,10 @@
-
 import React from "react";
+import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ApexChart from "react-apexcharts";
 import Button from "@mui/material/Button";
 
-// 차트 예시
 export default function Chart() {
-  // TODO
   const data = [
     { time_close: "2023-03-01T00:00:00.000Z", close: "100" },
     { time_close: "2023-03-02T00:00:00.000Z", close: "105" },
@@ -20,6 +19,7 @@ export default function Chart() {
   ];
 
   const prices = data.map((price) => Number(price.close));
+  const { stockCode } = useParams();
 
   return (
     <div className="chart-container">
@@ -68,18 +68,20 @@ export default function Chart() {
       />
 
       <div className="btn-container" style={{ textAlign: "center" }}>
-        <Button
-          variant="outlined"
-          sx={{
-            backgroundColor: "white",
-            color: "black",
-            borderColor: "black",
-            minWidth: "80%",
-            "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
-          }}
-        >
-          일별 & 실시간 시세
-        </Button>
+        <Link to={`/detail/${stockCode}/chart/daily`} style={{ textDecoration: "none" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              backgroundColor: "white",
+              color: "black",
+              borderColor: "black",
+              minWidth: "80%",
+              "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
+            }}
+          >
+            일별 & 실시간 시세
+          </Button>
+        </Link>
       </div>
     </div>
   );

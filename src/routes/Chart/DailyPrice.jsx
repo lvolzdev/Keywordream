@@ -36,7 +36,7 @@ export default function DailyPrice() {
   useEffect(() => {
     const fetchDailyStockData = async () => {
       try {
-        const response = await getDailyStock();
+        const response = await getDailyStock(stockCode);
         setDailyStockData(response);
       } catch (error) {
         console.error("Error fetching daily stock data: ", error);

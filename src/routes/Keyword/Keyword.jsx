@@ -1,8 +1,8 @@
 import React, { useEffect, useState, } from "react";
 import { useParams } from "react-router-dom";
 import { getKeyword } from "../../lib/apis/keywordApi";
-import { Cloud } from "react-d3-cloud";
-import styles from "./Keyword.modules.css";
+import Cloud from "react-d3-cloud";
+import styles from "./Keyword.module.css";
 
 export default function Keyword() {
   const [keywords, setKeywords] = useState([]);
@@ -26,7 +26,7 @@ export default function Keyword() {
     fetchData(); // 데이터 가져오는 함수 호출
   }, [stockCode]); // stockCode가 변경될 때마다 useEffect가 실행되도록 설정
 
-  return(
+  return (
     <div className={styles.container}>
       <h2>Keywords for Stock {stockCode}</h2>
       <Cloud
