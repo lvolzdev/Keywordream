@@ -59,13 +59,13 @@ const PopularStock = () => {
   };
 
   const navigateToDetail = async (stockName, stockCode) => {
-    setLoading(true);
-    const response = await crawlExtractKeyword(stockName, stockCode)
-    // console.log(typeof response.status)
-    setLoading(false);
-    if(response.status === 200){
-      navigate(`/detail/${stockCode}/keyword`);
-    }
+    // setLoading(true);
+    // const response = await crawlExtractKeyword(stockName, stockCode)
+    // // console.log(typeof response.status)
+    // setLoading(false);
+    // if(response.status === 200){
+    navigate(`/detail/${stockCode}/keyword`);
+    // }
   };
 
   return (
@@ -117,7 +117,9 @@ const PopularStock = () => {
             <div key={stock.stock_code} className={styles.stockContainer}>
               <div
                 className={styles.exceptHeart}
-                onClick={() => navigateToDetail(stock.stbd_nm, stock.stock_code)}
+                onClick={() =>
+                  navigateToDetail(stock.stbd_nm, stock.stock_code)
+                }
               >
                 <div className={styles.rank}>{index + 1}</div>
                 <img

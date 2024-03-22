@@ -17,13 +17,11 @@ export default function Keyword() {
     const fetchData = async () => {
       try {
         const response = await getKeyword(stockCode);
-        console.log(response.data)
         // response에서 "word" 속성만을 추출하여 키워드 배열을 생성합니다.
         const keywordArray = (response.data).map(item => ({
           text: item.word,
           value: item.cnt
         }));
-        console.log(keywordArray);
         setKeywords(keywordArray);
         const sortedKeywords = keywordArray.sort((a, b) => b.value - a.value).slice(0, 3);
         setTop3Keywords(sortedKeywords); // 상위 3개 키워드 상태 업데이트

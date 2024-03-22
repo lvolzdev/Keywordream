@@ -5,7 +5,7 @@
 
 .detail-icon {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
 }
 .detail-icon p {
   font-size: 1em;
@@ -14,7 +14,7 @@
 .detail-num {
   display: flex;
   align-items: center;
-  margin-left: 3em;
+  margin-left: 1em;
 }
 
 .detail-num p {

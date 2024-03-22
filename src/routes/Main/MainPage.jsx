@@ -5,7 +5,9 @@ import PopularStock from "./PopularStock";
 export default function MainPage() {
   return (
     <div className={styles.layout}>
-      <HotTopic />
+      <div className={styles.hotTopic}>
+        <HotTopic />
+      </div>
       <PopularStock />
     </div>
   );
