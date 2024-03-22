@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
+import stockimage from "./005930.png";
 import "./DetailLayout.css"; // CSS 파일 import
 import styles from "../routes/Main/PopularStock.module.css";
 import Tabs from "@mui/material/Tabs/";
@@ -11,10 +12,12 @@ import { joinRoom, leaveRoom, receiveStockPrice } from "../lib/socket/socket";
 
 export default function DetailLayout() {
   const [tabIndex, setTabIndex] = useState(0);
+  const {pathname} = useLocation();
   const [stockName, setStockName] = useState("");
   const [stockPrice, setStockPrice] = useState(0);
   const [ratio, setRatio] = useState(0);
   const stockCode = useParams().stockCode;
+  
   useEffect(() => {
     joinRoom(stockCode);
     receiveStockPrice(stockCode, setStockPrice, setRatio);
@@ -34,6 +37,16 @@ export default function DetailLayout() {
   const handleChange = (event, newValue) => {
     setTabIndex(newValue);
   };
+
+  useEffect(()=>{
+    if(pathname.endsWith("news")){
+      setTabIndex(1);
+    } else if(pathname.endsWith("chart")){
+      setTabIndex(2);
+    } else if(pathname.endsWith("info")){
+      setTabIndex(3);
+    }
+  },[pathname])
 
   return (
     <div className="detail-container">

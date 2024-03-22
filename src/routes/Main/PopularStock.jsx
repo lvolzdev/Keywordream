@@ -13,6 +13,7 @@ import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
 import FilledHeart from "../../assets/image/FilledHeart.png";
 import { crawlExtractKeyword } from "../../lib/apis/flask";
 import Price from "./Price";
+import Loading from "../../components/Loading";
 
 const PopularStock = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -21,6 +22,7 @@ const PopularStock = () => {
   const [mostViewed, setMostViewed] = useState([]);
   const [mostIncreased, setMostIncreased] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
+  const [detailLoading, setDetailLoading] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,6 +72,8 @@ const PopularStock = () => {
 
   return (
     <div className={styles.layout}>
+      {/* Loading은 다음페이지로 넘어가기 위함 -> 어디에 넣든 상관없음 */}
+      <Loading loading={detailLoading}/>
       <div className={styles.container}>
         <img src={Chart} className={styles.chart} alt="" />
         <div className={styles.text}>실시간 인기 종목</div>

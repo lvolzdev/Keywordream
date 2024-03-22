@@ -1,7 +1,7 @@
 import instance from "./baseApi";
 
-export const getDailyStock = async () => {
-  const { data } = await instance.get("/stock/day");
+export const getDailyStock = async (stockCode) => {
+  const { data } = await instance.get(`/stock/${stockCode}/day`);
 
   return data;
 };
