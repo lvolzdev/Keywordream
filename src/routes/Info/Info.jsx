@@ -1,6 +1,7 @@
 // Info.js
 
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import styles from "./info.css";
 import { getFinStat } from "../../lib/apis/infoApi";
 import dictionary from "./dict.js";
@@ -20,12 +21,14 @@ export default function Info() {
   const [financialInfo, setFinancialInfo] = useState(null);
   const [wordMeaning, setWordMeaning] = useState(null);
   const [furtherExpanded, setFurtherExpanded] = useState(false);
+  const stockCode = useParams().stockCode
 
   useEffect(() => {
     const fetchInfo = async () => {
       try {
-        const data = await getFinStat();
-        setFinancialInfo(data);
+        const data = await getFinStat(stockCode);
+        setFinancialInfo(data[0]);
+        console.log(data[0]);
       } catch (error) {
         console.error("Error fetching info:", error);
       }
@@ -64,15 +67,15 @@ export default function Info() {
       <div className="box">
         <div className="take" style={{ display: "flex", justifyContent: "space-between", marginLeft: "2rem", marginRight: "2rem" }}>
           <p>매출액</p>
-          <p>{formatNumber(financialInfo?.sale_account)}</p>
+          <p>{formatNumber(financialInfo?.saleAccount)}</p>
         </div>
         <div className="take" style={{ display: "flex", justifyContent: "space-between", marginLeft: "2rem", marginRight: "2rem" }}>
           <p>영업이익</p>
-          <p>{formatNumber(financialInfo?.bsop_prti)}</p>
+          <p>{formatNumber(financialInfo?.bsopPrti)}</p>
         </div>
         <div className="take" style={{ display: "flex", justifyContent: "space-between", marginLeft: "2rem", marginRight: "2rem" }}>
           <p>순이익</p>
-          <p>{formatNumber(financialInfo?.thtr_ntin)}</p>
+          <p>{formatNumber(financialInfo?.thtrNtin)}</p>
         </div>
       </div>
       <br />
@@ -87,7 +90,7 @@ export default function Info() {
           </div>
           <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
             <p onClick={() => showWordMeaning("ROE")}>ROE</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.roe_val)}%</p>
+            <p style={{ fontWeight: "bold" }}>{(financialInfo?.roeVal)}%</p>
           </div>
           <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
             <p onClick={() => showWordMeaning("EPS")}>EPS</p>
@@ -99,18 +102,18 @@ export default function Info() {
           </div>
           <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
             <p onClick={() => showWordMeaning("유보율")}>유보율</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.rsrv_rate)}%</p>
+            <p style={{ fontWeight: "bold" }}>{(financialInfo?.rsrvRate)}%</p>
           </div>
         </div>
 
         <div className="secondbox">
           <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
             <p onClick={() => showWordMeaning("순이익률")}>순이익률</p>
-            <p style={{ fontWeight: "bold" }}>{formatPercentage((financialInfo?.thtr_ntin) / (financialInfo?.sale_account) * 100)}</p>
+            <p style={{ fontWeight: "bold" }}>{formatPercentage((financialInfo?.thtrNtin) / (financialInfo?.saleAccount) * 100)}</p>
           </div>
           <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
             <p onClick={() => showWordMeaning("EV/EBITDA")}>EV/EBITDA</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.ev_ebitda)}배</p>
+            <p style={{ fontWeight: "bold" }}>{(financialInfo?.evEbitda)}배</p>
           </div>
           <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
             <p onClick={() => showWordMeaning("PER")}>PER</p>
@@ -119,10 +122,6 @@ export default function Info() {
           <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
             <p onClick={() => showWordMeaning("PBR")}>PBR</p>
             <p style={{ fontWeight: "bold" }}>{(financialInfo?.pbr)}배</p>
-          </div>
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("부채비율")}>부채비율</p>
-            <p style={{ fontWeight: "bold" }}>{formatPercentage((financialInfo?.debt_rate) / (financialInfo?.capt_rate) * 100)}</p>
           </div>
         </div>
       </div>

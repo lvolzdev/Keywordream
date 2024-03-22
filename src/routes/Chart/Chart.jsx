@@ -1,4 +1,6 @@
+import React from "react";
 import React, { useEffect, useState, useMemo } from "react";
+import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import ApexChart from "react-apexcharts";
 import Button from "@mui/material/Button";
@@ -129,18 +131,20 @@ export default function Chart() {
       />
 
       <div className="btn-container" style={{ textAlign: "center" }}>
-        <Button
-          variant="outlined"
-          sx={{
-            backgroundColor: "white",
-            color: "black",
-            borderColor: "black",
-            minWidth: "80%",
-            "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
-          }}
-        >
-          일별 & 실시간 시세
-        </Button>
+        <Link to={`/detail/${stockCode}/chart/daily`} style={{ textDecoration: "none" }}>
+          <Button
+            variant="outlined"
+            sx={{
+              backgroundColor: "white",
+              color: "black",
+              borderColor: "black",
+              minWidth: "80%",
+              "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
+            }}
+          >
+            일별 & 실시간 시세
+          </Button>
+        </Link>
       </div>
     </div>
   );
