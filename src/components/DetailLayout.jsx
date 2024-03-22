@@ -21,6 +21,7 @@ export default function DetailLayout() {
     const fetchData = async () => {
       try {
         const data = await fetchStockInfo(stockCode); // stockCode를 인자로 전달하여 호출
+        console.log(data)
         setStockName(data.stockName.name);
         setStockPrice(data.stockPrice.price);
         setRatio(data.stockPrice.ratio);

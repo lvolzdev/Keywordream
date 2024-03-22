@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./NewsList.module.css";
 import { Link } from "react-router-dom";
 import { decodeHTMLEntities } from "../../components/decode/htmlToValue";
+import NoImg from '../../assets/image/no_img.png'
 
 export default function NewsList({ newsList, stockCode }) {
   
@@ -18,7 +19,14 @@ export default function NewsList({ newsList, stockCode }) {
                   <div>{news.newsDate}</div>
                 </div>
               </div>
-              <img src={news.imgUrl} alt="없음" className={styles.newsImg} />
+              <img 
+                src={news.imgUrl} 
+                alt="" 
+                className={styles.newsImg} 
+                onError={(e) => {
+                  e.currentTarget.src = NoImg
+                }}
+              />
             </div>
           </Link>
         );
