@@ -39,8 +39,9 @@
             display: flex;
             align-items: center;
             gap: 2vh;
-              flex: 1;
-            }
+            flex: 1;
+            cursor: pointer;
+          }
             .rank {
               font-weight: 800;
               color: #0046FF;
@@ -52,9 +53,6 @@
             }
             .stockName {
               font-weight: 900;
-            }
-            .stockPrice {
-              color: #6b7783;
             }
           .heartContainer{
             display: flex;

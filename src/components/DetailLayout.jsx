@@ -1,30 +1,79 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { Outlet, useParams } from "react-router-dom";
+import { Outlet, useLocation, useParams } from "react-router-dom";
 import stockimage from "./005930.png";
 import "./DetailLayout.css"; // CSS 파일 import
 import styles from "../routes/Main/PopularStock.module.css";
 import Tabs from "@mui/material/Tabs/";
 import Tab from "@mui/material/Tab/";
 import { Link } from "react-router-dom";
+import { fetchStockInfo } from "../lib/apis/stockInfo";
 
 export default function DetailLayout() {
   const [tabIndex, setTabIndex] = useState(0);
-  const stockCode = useParams().stockCode
+  const {pathname} = useLocation();
+  const [stockName, setStockName] = useState("");
+  const [stockPrice, setStockPrice] = useState(0);
+  const [ratio, setRatio] = useState(0);
+  const stockCode = useParams().stockCode;
+  
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await fetchStockInfo(stockCode); // stockCode를 인자로 전달하여 호출
+        setStockName(data.stockName.name);
+        setStockPrice(data.stockPrice.price);
+        setRatio(data.stockPrice.ratio);
+      } catch (error) {
+        console.error("Error fetching stockInfo:", error);
+      }
+    };
 
+    fetchData();
+  }, [stockCode]); // stockCode가 변경될 때마다 호출
   const handleChange = (event, newValue) => {
     setTabIndex(newValue);
   };
 
+  useEffect(()=>{
+    if(pathname.endsWith("news")){
+      setTabIndex(1);
+    } else if(pathname.endsWith("chart")){
+      setTabIndex(2);
+    } else if(pathname.endsWith("info")){
+      setTabIndex(3);
+    }
+  },[pathname])
+
   return (
-    <div className="detail-container"> {/* 클래스명을 추가하여 CSS 적용 */}
+    <div className="detail-container">
+      {" "}
+      {/* 클래스명을 추가하여 CSS 적용 */}
       <div className="detail-icon">
-        <img src={stockimage} alt="stock_image" style={{ width: "3em", height: "3em", borderRadius: "30px" }} />
-        <p style={{ marginLeft: "1rem", fontWeight: "bold" }}>삼성전자</p>
+        <img
+          src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stockCode}.png`}
+          alt=""
+          className={styles.stockImg}
+          onError={(e) => {
+            e.target.src =
+              "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
+          }}
+          style={{ width: "3em", height: "3em", borderRadius: "30px" }}
+        />
+        <p style={{ marginLeft: "1rem", fontWeight: "bold" }}>{stockName}</p>
         <div className="detail-num">
-          <p style={{ fontWeight: "bold" }}>74,300</p>
+          <p style={{ fontWeight: "bold" }}>{stockPrice}</p>
           <p style={{ fontSize: "0.7rem" }}>KRW</p>
-          <p style={{ fontSize: "0.8rem", marginLeft: "2rem" }}>▲ 0.53%</p>
+          <p
+            style={{
+              fontSize: "0.8rem",
+              marginLeft: "1rem",
+              color: ratio >= 0 ? "#F04552" : "#3283F7",
+            }}
+          >
+            {ratio >= 0 ? "▲" : "▼"}
+          </p>
+          <p style={{ fontSize: "0.8rem", marginLeft: "0.1rem" }}> {ratio}%</p>
         </div>
       </div>
       <br />
@@ -73,7 +122,6 @@ export default function DetailLayout() {
           }}
         />
       </Tabs>
-
       <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
         <Container>
           <Outlet />
@@ -82,4 +130,3 @@ export default function DetailLayout() {
     </div>
   );
 }
-
