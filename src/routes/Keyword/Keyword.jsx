@@ -4,7 +4,7 @@ import { getKeyword } from "../../lib/apis/keywordApi";
 
 import WordCloud from "react-d3-cloud";
 //import styles from "./Keyword.module.css";
-import List from "@mui/material";
+import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
 
