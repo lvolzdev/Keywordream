@@ -1,5 +1,7 @@
 .newsDetailLayout{
     padding : 2vh 4vh;
+    height: 80vh;
+    overflow: auto;
 }
 
 .newsDetailTitle{
