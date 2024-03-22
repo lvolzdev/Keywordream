@@ -1,17 +1,31 @@
-
-import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { TextField, IconButton, Paper,List, ListItem, ListItemText, Divider } from '@mui/material';
+import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useRef, useCallback } from "react";
+import {
+  TextField,
+  IconButton,
+  Paper,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Divider,
+} from "@mui/material";
 import searchIcon from "../../search.png";
 import styles from "./Search.module.css";
-import { searchStock, allStock } from '../../lib/apis/searchApi';
+import { searchStock, allStock } from "../../lib/apis/searchApi";
+import { crawlExtractKeyword } from "../../lib/apis/flask";
+import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
+import FilledHeart from "../../assets/image/FilledHeart.png";
 
 function SearchBar() {
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState("");
+  const [myStock, setMyStock] = useState(["010140", "109610"]); // Initialize myStock array with favorite stock codes
   const [searchResult, setSearchResult] = useState([]);
   const [result, setResult] = useState([]);
   const [itemsToShow, setItemsToShow] = useState([]);
   const [itemsToShowCount, setItemsToShowCount] = useState(0);
   const observerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     allStock().then((data) => {
@@ -50,17 +64,35 @@ function SearchBar() {
     });
   };
 
+  const navigateToDetail = async (stockName, stockCode) => {
+    //const response = await crawlExtractKeyword(stockName, stockCode);
+    // console.log(typeof response.status)
+    //if (response.status === 200) {
+      navigate(`/detail/${stockCode}/keyword`);
+    //}
+  };
+
+  const toggleFavoriteStock = (stockCode) => {
+    setMyStock((prevStocks) => {
+      if (prevStocks.includes(stockCode)) {
+        return prevStocks.filter((code) => code !== stockCode);
+      } else {
+        return [...prevStocks, stockCode];
+      }
+    });
+  };
+
   return (
     <div className={styles.pageContainer}>
       <div className={styles.searchContainer}>
         <Paper
           component="form"
           sx={{
-            p: '2px 4px',
-            display: 'flex',
-            alignItems: 'center',
+            p: "2px 4px",
+            display: "flex",
+            alignItems: "center",
             width: 400,
-            backgroundColor: '#adadad'
+            backgroundColor: "#adadad",
           }}
           onSubmit={(e) => e.preventDefault()} // 폼 제출 방지
         >
@@ -69,44 +101,121 @@ function SearchBar() {
             placeholder="검색"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            sx={{ ml: 1, flex: 1, backgroundColor: 'white' }}
+            sx={{ ml: 1, flex: 1, backgroundColor: "white" }}
             InputProps={{
               endAdornment: (
-                <IconButton type="button" sx={{ p: '10px' }} aria-label="search">
-                  <img src={searchIcon} alt="search" className={styles.searchIcon} />
+                <IconButton
+                  type="button"
+                  sx={{ p: "10px" }}
+                  aria-label="search"
+                >
+                  <img
+                    src={searchIcon}
+                    alt="search"
+                    className={styles.searchIcon}
+                  />
                 </IconButton>
               ),
             }}
           />
         </Paper>
       </div>
-      
-      <div className={styles.listContainer}>
 
+      <div className={styles.listContainer}>
         <List>
-        {itemsToShow.map((item, index) => (
-          <React.Fragment key={index}>
-            <ListItem alignItems="flex-start">
-              <ListItemText
-                primary={item.name} // 여기서 item은 각각의 결과 데이터입니다. 실제 앱에서는 더 구체적인 데이터 필드를 사용할 수 있습니다.
-                secondary={item.stockCode}
-                
-                // secondary={<React.Fragment>여기에 추가 세부 정보를 넣을 수 있습니다.</React.Fragment>}
-              />
-            </ListItem>
-            {index < itemsToShow.length - 1 && <Divider component="li" />}
-          </React.Fragment>
-        ))}
-        <div ref={observerRef}></div>
-      </List>
+          {itemsToShow.map((item, index) => (
+            <React.Fragment key={index}>
+              <ListItem
+                alignItems="flex-start"
+                onClick={() => navigateToDetail(item.name, item.stockCode)}
+              >
+                <ListItemAvatar>
+                  <img
+                    src={
+                      item.name.slice(0, 5) === "KODEX"
+                        ? "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png"
+                        : `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${item.stockCode}.png`
+                    }
+                    alt=""
+                    className={styles.stockImg}
+                    onError={(e) => {
+                      e.target.src =
+                        "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
+                    }}
+                  />
+                </ListItemAvatar>
+                <ListItemText
+                  primary={item.name} // 종목 이름
+                  secondary={item.stockCode} // 종목 코드
+                />
+                <div
+                  className={styles.heartContainer}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    toggleFavoriteStock(item.stockCode)
+                  }} // Add onClick event to toggle favorite stock
+                >
+                  <img
+                    src={
+                      myStock.includes(item.stockCode)
+                        ? FilledHeart
+                        : UnfilledHeart
+                    }
+                    className={styles.heart}
+                    alt="Heart"
+                  />
+                </div>
+              </ListItem>
+              {index < itemsToShow.length - 1 && <Divider component="li" />}
+            </React.Fragment>
+          ))}
+          <div ref={observerRef}></div>
+        </List>
       </div>
 
-    
-      
+      {/* <div className={styles.contentBox}>
+        {itemsToShow.map((item, index) => (
+          <div key={item.stockCode} className={styles.stockContainer}>
+            <div
+              className={styles.exceptHeart}
+              onClick={() => navigateToDetail(item.name, item.stockCode)}
+            >
+              <img
+                src={
+                  item.name.slice(0, 5) === "KODEX"
+                    ? "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png"
+                    : `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${item.stockCode}.png`
+                }
+                alt=""
+                className={styles.stockImg}
+                onError={(e) => {
+                  e.target.src =
+                    "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
+                }}
+              />
+              <div className={styles.verticalFlexContainer}>
+                <div className={styles.stockName}>{item.name}</div>
+              </div>
+            </div>
+            <div
+              className={styles.heartContainer}
+              onClick={() => toggleFavoriteStock(item.stockCode)} // Add onClick event to toggle favorite stock
+            >
+              <img
+                src={
+                  myStock.includes(item.stockCode)
+                    ? FilledHeart
+                    : UnfilledHeart
+                }
+                className={styles.heart}
+                alt="Heart"
+              />
+            </div>
+          </div>
+        ))}
+      </div> */}
     </div>
   );
 }
 
 export default SearchBar;
-
-
