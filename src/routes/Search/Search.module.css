@@ -1,0 +1,27 @@
+.searchContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 10vh;
+    width: 90%;
+    margin-top: 20px;
+    margin-left: 10px;
+  }
+  
+  .searchIcon {
+    cursor: pointer;
+    width: 20px;
+    height: auto;
+  }
+
+  .pageContainer {
+    display: flex;
+    flex-direction: column;
+    height: 80vh; /* 전체 높이를 브라우저 뷰포트의 100%로 설정 */
+  }
+  
+  .listContainer {
+    margin-top: 15px;
+    flex: 1; /*검색창과 리스트가 차지할 수 있는 모든 공간을 차지하도록 설정*/
+    overflow: auto; /* 내용이 넘칠 경우 스크롤바 생성 */
+  }
