@@ -11,12 +11,16 @@ import { fetchStockInfo } from "../lib/apis/stockInfo";
 export default function DetailLayout() {
   const [tabIndex, setTabIndex] = useState(0);
   const [stockName, setStockName] = useState("");
+  const [stockPrice, setStockPrice] = useState(0);
+  const [ratio, setRatio] = useState(0);
   const stockCode = useParams().stockCode;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const data = await fetchStockInfo(stockCode); // stockCode를 인자로 전달하여 호출
-        setStockName(data);
+        setStockName(data.stockName.name);
+        setStockPrice(data.stockPrice.price);
+        setRatio(data.stockPrice.ratio);
       } catch (error) {
         console.error("Error fetching stockInfo:", error);
       }
@@ -45,9 +49,18 @@ export default function DetailLayout() {
         />
         <p style={{ marginLeft: "1rem", fontWeight: "bold" }}>{stockName}</p>
         <div className="detail-num">
-          <p style={{ fontWeight: "bold" }}>74,300</p>
+          <p style={{ fontWeight: "bold" }}>{stockPrice}</p>
           <p style={{ fontSize: "0.7rem" }}>KRW</p>
-          <p style={{ fontSize: "0.8rem", marginLeft: "2rem" }}>▲ 0.53%</p>
+          <p
+            style={{
+              fontSize: "0.8rem",
+              marginLeft: "1rem",
+              color: ratio >= 0 ? "#F04552" : "#3283F7",
+            }}
+          >
+            {ratio >= 0 ? "▲" : "▼"}
+          </p>
+          <p style={{ fontSize: "0.8rem", marginLeft: "0.1rem" }}> {ratio}%</p>
         </div>
       </div>
       <br />
