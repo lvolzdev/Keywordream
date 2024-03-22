@@ -18,7 +18,7 @@ export default function NewsList({ newsList, stockCode }) {
                   <div>{news.newsDate}</div>
                 </div>
               </div>
-              <img src={news.imgUrl} alt="이미지" className={styles.newsImg} />
+              <img src={news.imgUrl} alt="없음" className={styles.newsImg} />
             </div>
           </Link>
         );
