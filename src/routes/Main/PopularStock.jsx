@@ -63,10 +63,10 @@ const PopularStock = () => {
   const navigateToDetail = async (stockName, stockCode) => {
     // setLoading(true);
     // const response = await crawlExtractKeyword(stockName, stockCode)
-    // // console.log(typeof response.status)
+    // console.log(typeof response.status)
     // setLoading(false);
     // if(response.status === 200){
-    navigate(`/detail/${stockCode}/keyword`);
+      navigate(`/detail/${stockCode}/keyword`);
     // }
   };
 
