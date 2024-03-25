@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom"; // Link 추가
 import { getKeywords } from "../../lib/apis/Shinhan";
 import "./DetailKeyword.css"; // CSS 파일 import
 
@@ -44,7 +44,8 @@ export default function DetailKeyword() {
           <tbody>
             {details.map((item, index) => (
               <tr key={index}>
-                <td>{item.stockName}</td>
+                {/* 종목명을 클릭하면 해당 종목의 종목 코드를 URL에 포함하여 페이지 이동 */}
+                <td><Link to={`/detail/${item.stockCode}/keyword`}>{item.stockName}</Link></td>
                 {/* 등락률이 음수일 때는 파란색, 양수일 때는 빨간색으로 글자색 변경 */}
                 <td style={{ color: item.ratio < 0 ? 'blue' : item.ratio > 0 ? 'red' : 'inherit' }}>{item.ratio}%</td>
                 <td>{item.company_summary}</td>
