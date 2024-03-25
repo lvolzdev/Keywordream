@@ -8,39 +8,47 @@
     box-sizing: border-box;
     gap: 2vh;
   }
-  
   .logoContainer {
     text-align: center;
   }
 
   .logo {
-    width: 50%;
+    width: 95%;
   }
-  
-  .bearContainer {
-    text-align: center;
+
+  .welcome {
+    width: 100%;
+    height: auto;
   }
-  
-  .bear {
-    width: 55%;
+
+  .input {
+    width: 55vw;
+    margin-bottom: 1vh;
   }
 
   .button {
     width: 55vw;
+    margin-top: 1vh;
   }
 
   @media screen and (min-width: 600px) {
     .logo {
-      width: 30%; /* viewport의 가로 길이가 600px 이상일 때 .logo의 너비를 20%로 설정 */
+      width: 50%;
     }
 
-    .bearContainer {
-      text-align: center;
-      width: 30%;
+    .welcome {
+      width: 30vw; /* viewport의 가로 길이가 600px 이상일 때 .logo의 너비를 20%로 설정 */
     }
 
-    .bear {
-      width: 100%;
+    .input {
+      width: 30vw;
+      height: 5vh;
+      margin-bottom: 1vh;
+    }
+
+    .alert {
+      width: 30vw;
+      box-sizing: border-box;
     }
 
     .button{
