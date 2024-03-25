@@ -13,14 +13,7 @@
 }
 .others {
   display: flex;
-  justify-content: space-between; /* 요소들 사이의 간격을 최대화하여 가로 정렬 */
-}
-.firstbox {
-  margin-left: 20px;
-  min-width: 60%;
-}
-.secondbox {
-  min-width: 60%;
+  /* justify-content: space-between; 요소들 사이의 간격을 최대화하여 가로 정렬 */
 }
 
 .firstbox,
