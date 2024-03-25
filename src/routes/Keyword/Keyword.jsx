@@ -12,6 +12,19 @@ export default function Keyword() {
   const [top3Keywords, setTop3Keywords] = useState([]);
   const stockCode = useParams().stockCode;
 
+  // 원형 스파이럴 함수
+  const circleSpiral = (size) => {
+    const e = size[0] / size[1];
+    return (t) => {
+      return [e * (t *= 0.1) * Math.cos(t), t * Math.sin(t)];
+    };
+  };
+  // fontSize 매퍼 함수
+  const fontSizeMapper = (word) => Math.log2(word.value) * 7;
+
+  // rotate 함수: 여기서는 모든 단어를 0도로 설정합니다.
+  const rotate = (word) => 0;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -33,8 +46,6 @@ export default function Keyword() {
     fetchData(); // 데이터 가져오는 함수 호출
   }, [stockCode]); // stockCode가 변경될 때마다 useEffect가 실행
 
-  const fontSizeMapper = (word) => Math.sqrt(word.value) * 7;
-  console.log(keywords.map(fontSizeMapper));
   return (
     <div>
       <List>
@@ -56,7 +67,8 @@ export default function Keyword() {
           </ListItem>
         ))}
       </List>
-      <WordCloud data={keywords} fontSize={fontSizeMapper} font="sans-serif" />
+      <WordCloud data={keywords} fontSize={fontSizeMapper} font="sans-serif" 
+      rotate={rotate}  spiral={circleSpiral}/>
     </div>
   );
 }
