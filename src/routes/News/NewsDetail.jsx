@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getNewsDetail } from "../../lib/apis/newsApi";
 import { decodeHTMLEntities } from "../../components/decode/htmlToValue";
+import { getSentimentResult } from "../../lib/apis/flask";
 
 export default function NewsDetail() {
   const {newsId, stockCode} = useParams()
@@ -10,7 +11,7 @@ export default function NewsDetail() {
     title : "",
     newsDate : "",
     press : "",
-    isGood : null, //TODO 변수명 바뀔 수 있음
+    isGood : null,
     content : ""
   })
 
@@ -19,15 +20,22 @@ export default function NewsDetail() {
   }, [newsId])
 
   useEffect(() => {
-    if(data.isGood === null){
-      //TODO CHAT_GPT 실행????
+    if(data.isGood === null && data.title !== ""){
+      getSentimentResult(newsId).then(res => {
+        const isGood = res.data.isGood
+        console.log(data);
+        setData({
+          ...data,
+          isGood : parseInt(isGood)
+        })
+      })
     }
-  }, [data.isGood])
+  }, [data, data.isGood, newsId])
 
   const getNewsDetailData = async () => {
     try{
-      const newsTagTop3Data = await getNewsDetail(stockCode, newsId);
-      setData(newsTagTop3Data);
+      const newsDetail = await getNewsDetail(stockCode, newsId);
+      setData(newsDetail);
     } catch(error){
       console.log("뉴스 디테일 페이지 오류: ",error)
     }
@@ -35,7 +43,7 @@ export default function NewsDetail() {
 
   const eventStyle = {
     fontWeight:700,
-    color: (data.event === "호재") ? 'red' : 'blue' 
+    color: (data.isGood === 1) ? 'red' : 'blue ' //호재(좋은) : 빨간색 
   }
 
   return (
@@ -48,12 +56,12 @@ export default function NewsDetail() {
       <div className="newsDetailJudgment">
         {
           data.isGood !== null ? (
-            <div>
+            <>
               <img className="newsDetailChatGPTLogo"
-                src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/ChatGPT_logo.svg/2048px-ChatGPT_logo.svg.png"
+                src="https://huggingface.co/front/assets/huggingface_logo-noborder.svg"
               />
-              <div>ChatGPT가 이 뉴스를 <span style={eventStyle}>{data.isGood}</span>로 판단하였습니다.</div>
-            </div>
+              <div>Kr-FinBert가 이 뉴스를 <span style={eventStyle}>{data.isGood === 1 ? "호재" : "악재"}</span>로 판단하였습니다.</div>
+            </>
           ) : (
             <></>
           )
