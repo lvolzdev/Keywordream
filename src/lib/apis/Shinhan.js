@@ -30,3 +30,13 @@ export const fetchMostExchanged = async () => {
     throw error;
   }
 };
+
+export const getKeywords = async() => {
+  try {
+    const response = await instance.get('/main/top-keyword');
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching top keywords: ', error);
+    throw error;
+  }
+}
