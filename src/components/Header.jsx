@@ -17,7 +17,7 @@ const Header = () => {
           width="160px"
           className="logo-img"
           alt="Keywordream logo"
-          style={{ marginTop: "15px", paddingLeft: "4vh" }}
+          style={{ marginTop: "15px", paddingLeft: "1vh" }}
         />
       </Link>
       <Container></Container>
