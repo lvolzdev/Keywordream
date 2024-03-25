@@ -27,3 +27,8 @@ td:nth-child(2) {
 td:nth-child(3) {
   width: 20vh; /* 등락률 열의 너비 */
 }
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
