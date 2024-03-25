@@ -66,8 +66,7 @@ export default function StockChart() {
     discontinuousTimeScaleProviderBuilder().inputDateAccessor(
       (d) => new Date(d.date)
     );
-  const height = 500;
-  const width = 350;
+  const height = 550;
   const margin = { left: 0, right: 48, top: 15, bottom: 24 };
 
   const ema12 = ema()
