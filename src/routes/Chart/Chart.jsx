@@ -1,4 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
+import Button from "@mui/material/Button";
+import ApexChart from "react-apexcharts";
 import { getChart } from "../../lib/apis/chartApi";
 import { useParams } from "react-router-dom";
 import ReactDOM from "react-dom";
@@ -33,7 +35,9 @@ import {
 export default function StockChart() {
   const stockCode = useParams().stockCode;
   const [chartData, setChartData] = useState([]);
+  const [isCandle, setIsCandle] = useState(false);
   const chartContainerRef = useRef(null);
+  const [chartWidth, setChartWidth] = useState(350); // 초기값
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -61,12 +65,21 @@ export default function StockChart() {
     fetchChartData();
   }, [stockCode]);
 
+  useEffect(() => {
+    // 차트 너비 설정
+    if (chartContainerRef.current) {
+      setChartWidth(chartContainerRef.current.clientWidth);
+    }
+  }, [chartContainerRef.current]);
+
+  // Line Chart (default)
+
   // Candle Chart
   const ScaleProvider =
     discontinuousTimeScaleProviderBuilder().inputDateAccessor(
       (d) => new Date(d.date)
     );
-  const height = 550;
+  const height = 530;
   const margin = { left: 0, right: 48, top: 15, bottom: 24 };
 
   const ema12 = ema()
@@ -134,120 +147,137 @@ export default function StockChart() {
     return data.close > data.open ? "#26a69a" : "#ef5350";
   };
 
-  // 차트 너비
-  const chartWidth = chartContainerRef.current
-    ? chartContainerRef.current.clientWidth
-    : null;
-
   return (
-    <div ref={chartContainerRef} style={{ width: "100%", height: "100%" }}>
-      {chartWidth && (
-        <ChartCanvas
-          height={height}
-          ratio={3}
-          width={chartWidth}
-          margin={margin}
-          data={data}
-          displayXAccessor={displayXAccessor}
-          seriesName="Data"
-          xScale={xScale}
-          xAccessor={xAccessor}
-          xExtents={xExtents}
-          zoomAnchor={lastVisibleItemBasedZoomAnchor}
-        >
-          <Chart
-            id={2}
-            height={barChartHeight}
-            origin={barChartOrigin}
-            yExtents={barChartExtents}
-          >
-            <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
-          </Chart>
+    <div className="chart-container">
+      <Button
+        size="small"
+        sx={{
+          backgroundColor: "white",
+          color: "black",
+          borderColor: "black",
+          minWidth: "10%",
+          "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
+        }}
+        onClick={() => setIsCandle(!isCandle)}
+      >
+        {isCandle ? "[간단한 차트 보기]" : "[자세한 차트 보기]"}
+      </Button>
 
-          <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
-            <XAxis showGridLines showTickLabel={false} />
-            <YAxis showGridLines tickFormat={pricesDisplayFormat} />
-            <CandlestickSeries />
-            <LineSeries
-              yAccessor={ema26.accessor()}
-              strokeStyle={ema26.stroke()}
-            />
-            <CurrentCoordinate
-              yAccessor={ema26.accessor()}
-              fillStyle={ema26.stroke()}
-            />
-            <LineSeries
-              yAccessor={ema12.accessor()}
-              strokeStyle={ema12.stroke()}
-            />
-            <CurrentCoordinate
-              yAccessor={ema12.accessor()}
-              fillStyle={ema12.stroke()}
-            />
-            <MouseCoordinateY
-              rectWidth={margin.right}
-              displayFormat={pricesDisplayFormat}
-            />
-            <EdgeIndicator
-              itemType="last"
-              rectWidth={margin.right}
-              fill={openCloseColor}
-              lineStroke={openCloseColor}
-              displayFormat={pricesDisplayFormat}
-              yAccessor={yEdgeIndicator}
-            />
-            <MovingAverageTooltip
-              origin={[8, 24]}
-              options={[
-                {
-                  yAccessor: ema26.accessor(),
-                  type: "EMA",
-                  stroke: ema26.stroke(),
-                  windowSize: ema26.options().windowSize,
-                },
-                {
-                  yAccessor: ema12.accessor(),
-                  type: "EMA",
-                  stroke: ema12.stroke(),
-                  windowSize: ema12.options().windowSize,
-                },
-              ]}
-            />
+      {isCandle ? (
+        <div ref={chartContainerRef} style={{ width: "100%", height: "100%" }}>
+          {chartWidth && (
+            <ChartCanvas
+              height={height}
+              ratio={3}
+              width={chartWidth}
+              margin={margin}
+              data={data}
+              displayXAccessor={displayXAccessor}
+              seriesName="Data"
+              xScale={xScale}
+              xAccessor={xAccessor}
+              xExtents={xExtents}
+              zoomAnchor={lastVisibleItemBasedZoomAnchor}
+            >
+              <Chart
+                id={2}
+                height={barChartHeight}
+                origin={barChartOrigin}
+                yExtents={barChartExtents}
+              >
+                <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
+              </Chart>
 
-            <ZoomButtons />
-            <OHLCTooltip origin={[8, 16]} />
-          </Chart>
-          <Chart
-            id={4}
-            height={elderRayHeight}
-            yExtents={[0, elder.accessor()]}
-            origin={elderRayOrigin}
-            padding={{ top: 8, bottom: 8 }}
-          >
-            <ElderRaySeries yAccessor={elder.accessor()} />
+              <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
+                <XAxis showGridLines showTickLabel={false} />
+                <YAxis showGridLines tickFormat={pricesDisplayFormat} />
+                <CandlestickSeries />
+                <LineSeries
+                  yAccessor={ema26.accessor()}
+                  strokeStyle={ema26.stroke()}
+                />
+                <CurrentCoordinate
+                  yAccessor={ema26.accessor()}
+                  fillStyle={ema26.stroke()}
+                />
+                <LineSeries
+                  yAccessor={ema12.accessor()}
+                  strokeStyle={ema12.stroke()}
+                />
+                <CurrentCoordinate
+                  yAccessor={ema12.accessor()}
+                  fillStyle={ema12.stroke()}
+                />
+                <MouseCoordinateY
+                  rectWidth={margin.right}
+                  displayFormat={pricesDisplayFormat}
+                />
+                <EdgeIndicator
+                  itemType="last"
+                  rectWidth={margin.right}
+                  fill={openCloseColor}
+                  lineStroke={openCloseColor}
+                  displayFormat={pricesDisplayFormat}
+                  yAccessor={yEdgeIndicator}
+                />
+                <MovingAverageTooltip
+                  origin={[8, 24]}
+                  options={[
+                    {
+                      yAccessor: ema26.accessor(),
+                      type: "EMA",
+                      stroke: ema26.stroke(),
+                      windowSize: ema26.options().windowSize,
+                    },
+                    {
+                      yAccessor: ema12.accessor(),
+                      type: "EMA",
+                      stroke: ema12.stroke(),
+                      windowSize: ema12.options().windowSize,
+                    },
+                  ]}
+                />
 
-            <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
-            <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
+                <ZoomButtons />
+                <OHLCTooltip origin={[8, 16]} />
+              </Chart>
+              <Chart
+                id={4}
+                height={elderRayHeight}
+                yExtents={[0, elder.accessor()]}
+                origin={elderRayOrigin}
+                padding={{ top: 8, bottom: 8 }}
+              >
+                <ElderRaySeries yAccessor={elder.accessor()} />
 
-            <MouseCoordinateX displayFormat={timeDisplayFormat} />
-            <MouseCoordinateY
-              rectWidth={margin.right}
-              displayFormat={pricesDisplayFormat}
-            />
+                <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
+                <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
 
-            <SingleValueTooltip
-              yAccessor={elder.accessor()}
-              yLabel="Elder Ray"
-              yDisplayFormat={(d) =>
-                `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
-                  d.bearPower
-                )}`
-              }
-              origin={[8, 16]}
-            />
-          </Chart>
-          <CrossHairCursor />
-        </ChartCanvas>
+                <MouseCoordinateX displayFormat={timeDisplayFormat} />
+                <MouseCoordinateY
+                  rectWidth={margin.right}
+                  displayFormat={pricesDisplayFormat}
+                />
+
+                <SingleValueTooltip
+                  yAccessor={elder.accessor()}
+                  yLabel="Elder Ray"
+                  yDisplayFormat={(d) =>
+                    `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
+                      d.bearPower
+                    )}`
+                  }
+                  origin={[8, 16]}
+                />
+              </Chart>
+              <CrossHairCursor />
+            </ChartCanvas>
+          )}
+        </div>
+      ) : (
+        <h1>으아</h1>
+        // TODO
+        // 여기에 ApexChart 넣자
       )}
     </div>
   );
