@@ -330,27 +330,30 @@ export default function StockChart() {
               },
             }}
           />
+          <div className="btn-container" style={{ textAlign: "center" }}>
+            <Link
+              to={`/detail/${stockCode}/chart/daily`}
+              style={{ textDecoration: "none" }}
+            >
+              <Button
+                variant="outlined"
+                sx={{
+                  backgroundColor: "white",
+                  color: "black",
+                  borderColor: "black",
+                  minWidth: "80%",
+                  "&:hover": {
+                    backgroundColor: "#F0F0F0",
+                    borderColor: "black",
+                  },
+                }}
+              >
+                일별 & 실시간 시세
+              </Button>
+            </Link>
+          </div>
         </div>
       )}
-      <div className="btn-container" style={{ textAlign: "center" }}>
-        <Link
-          to={`/detail/${stockCode}/chart/daily`}
-          style={{ textDecoration: "none" }}
-        >
-          <Button
-            variant="outlined"
-            sx={{
-              backgroundColor: "white",
-              color: "black",
-              borderColor: "black",
-              minWidth: "80%",
-              "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
-            }}
-          >
-            일별 & 실시간 시세
-          </Button>
-        </Link>
-      </div>
     </div>
   );
 }
