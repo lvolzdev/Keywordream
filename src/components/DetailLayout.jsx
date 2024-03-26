@@ -9,6 +9,7 @@ import { Link } from "react-router-dom";
 import { fetchStockInfo } from "../lib/apis/stockInfo";
 import { crawlExtractKeyword } from "../lib/apis/flask";
 import Loading from "./Loading";
+import { joinRoom, leaveRoom, receiveStockPrice } from "../lib/socket/socket";
 
 export default function DetailLayout() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -20,6 +21,8 @@ export default function DetailLayout() {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    joinRoom(stockCode);
+    receiveStockPrice(stockCode, setStockPrice, setRatio);
     const fetchData = async () => {
       try {
         const data = await fetchStockInfo(stockCode); // stockCode를 인자로 전달하여 호출

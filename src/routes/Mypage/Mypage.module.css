@@ -1,0 +1,57 @@
+.container {
+    display: "flex"; 
+    flex-direction : "column";
+    margin-top : "20px";
+    padding: 0vh 4vh;
+    height: 100%;
+}
+
+    .title {
+        font-weight: 800;
+        font-size: 18px;
+    }
+
+    .dropdown {
+        margin-top: 2vh;
+    }
+
+    .contentBox {
+        display: flex;
+        flex-direction: column;
+        gap: 2vh;
+        padding-top: 2vh;
+        padding-left: 0vh;
+      }
+        .stockContainer {
+          display: flex;
+        }
+          .exceptHeart{
+            display: flex;
+            align-items: center;
+            gap: 2vh;
+            flex: 1;
+            cursor: pointer;
+          }
+            .rank {
+              font-weight: 800;
+              color: #0046FF;
+            }
+            .stockImg{
+              width: 5vh;
+              border-radius: 50%;
+              height: 5vh;
+            }
+            .stockName {
+              font-weight: 900;
+            }
+          .heartContainer{
+            display: flex;
+            align-items: center;
+            text-align: end;
+            flex: 0;
+            width: 10vh
+          }
+            .heart{
+              width: 3vh;
+              margin: 0px 1vh;
+            }
