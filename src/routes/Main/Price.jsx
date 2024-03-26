@@ -4,6 +4,7 @@ import {
   leaveRoom,
   receiveStockPrice,
 } from "../../lib/socket/socket";
+import { fetchStockPrice } from "../../lib/apis/stockPrice";
 
 export default function Price({ stockCode }) {
   const [price, setPrice] = useState(0);
@@ -11,6 +12,10 @@ export default function Price({ stockCode }) {
   useEffect(() => {
     joinRoom(stockCode);
     receiveStockPrice(stockCode, setPrice, setRatio);
+    fetchStockPrice(stockCode).then((res) => {
+      setPrice(res.price);
+      setRatio(res.ratio);
+    });
     console.log("방 들어감");
     return () => {
       leaveRoom(stockCode); // 해당 종목을 room에서 나가는 함수 호출
@@ -19,7 +24,7 @@ export default function Price({ stockCode }) {
   }, [stockCode]);
 
   const renderStyle = (ratio) =>
-    ratio[0] === "-" ? { color: "#F04552" } : { color: "#3283F7" };
+    ratio[0] === "-" ? { color: "#3283F7" } : { color: "#F04552" };
 
   return (
     <div style={{ display: "flex", gap: "1vh" }}>

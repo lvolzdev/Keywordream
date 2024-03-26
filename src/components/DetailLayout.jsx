@@ -8,6 +8,7 @@ import Tabs from "@mui/material/Tabs/";
 import Tab from "@mui/material/Tab/";
 import { Link } from "react-router-dom";
 import { fetchStockInfo } from "../lib/apis/stockInfo";
+import { joinRoom, leaveRoom, receiveStockPrice } from "../lib/socket/socket";
 
 export default function DetailLayout() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -18,6 +19,8 @@ export default function DetailLayout() {
   const stockCode = useParams().stockCode;
   
   useEffect(() => {
+    joinRoom(stockCode);
+    receiveStockPrice(stockCode, setStockPrice, setRatio);
     const fetchData = async () => {
       try {
         const data = await fetchStockInfo(stockCode); // stockCode를 인자로 전달하여 호출

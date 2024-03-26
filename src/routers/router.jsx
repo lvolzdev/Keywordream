@@ -15,6 +15,7 @@ import Info from "../routes/Info/Info";
 import Chart from "../routes/Chart/Chart";
 import DetailLayout from "../components/DetailLayout";
 import DailyPrice from "../routes/Chart/DailyPrice";
+import DetailKeyword from "../routes/Main/DetailKeyword";
 
 export const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
           {
             path: "/main",
             element: <MainPage />,
+          },
+          {
+            path: "/keyword/:keyword",
+            element: <DetailKeyword />,
           },
 
           // DetailLayout을 직접 적용

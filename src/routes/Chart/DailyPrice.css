@@ -12,6 +12,7 @@
   border-bottom: 1px solid #ddd;
   border-right: none; /* 각 셀의 오른쪽 테두리를 없앰 */
   padding: 12px; /* 셀의 안쪽 여백 설정 */
+  width: calc(100% / 5);
 }
 
 .stock-table th {
@@ -19,7 +20,7 @@
   text-align: right;
   /* 표 헤더의 텍스트 정렬 설정 */
 }
-.stock-table th:first-child {
+.stock-table tbody tr td:first-child {
   text-align: center;
 }
 

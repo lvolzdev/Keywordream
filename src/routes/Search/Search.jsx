@@ -20,8 +20,8 @@ import FilledHeart from "../../assets/image/FilledHeart.png";
 function SearchBar() {
   const [inputValue, setInputValue] = useState("");
   const [myStock, setMyStock] = useState(["010140", "109610"]); // Initialize myStock array with favorite stock codes
-  const [searchResult, setSearchResult] = useState([]);
   const [result, setResult] = useState([]);
+  const [allData, setAllData] = useState([]);
   const [itemsToShow, setItemsToShow] = useState([]);
   const [itemsToShowCount, setItemsToShowCount] = useState(0);
   const observerRef = useRef(null);
@@ -29,13 +29,33 @@ function SearchBar() {
 
   useEffect(() => {
     allStock().then((data) => {
-      console.log(data.data);
       setResult(data.data);
-      setSearchResult(data.data);
+      setAllData(data.data);
+      console.log(data.data);
       //setItemsToShow(data.data.slice(0, 15)); // 초기에 15개의 아이템 설정
       //setItemsToShowCount(15); // 초기에 보여줄 아이템 수 설정
     });
   }, []);
+
+  useEffect(()=>{
+    const handler = setTimeout(() => {
+      if(inputValue){
+        const filteredResults = allData.filter((item) =>
+          item.name.toLowerCase().includes(inputValue.toLowerCase())||
+          item.stockCode.includes(inputValue)
+        );
+        setResult(filteredResults);
+      }
+      else{
+        setResult(allData);
+      }
+     
+    }, 50); // 사용자 입력이 멈춘 후 50ms 뒤에 검색 실행
+
+    return () => {
+      clearTimeout(handler);
+    };
+  },[inputValue, allData]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -54,6 +74,7 @@ function SearchBar() {
       }
     };
   }, [result]);
+  
 
   const loadMoreItems = () => {
     setItemsToShowCount((prevCount) => {
@@ -62,6 +83,11 @@ function SearchBar() {
       setItemsToShow(result.slice(0, newCount));
       return newCount;
     });
+  };
+
+  // 사용자 입력을 처리하는 함수
+  const handleSearchChange = (value) => {
+    setInputValue(value); // 입력값을 상태로 설정합니다.
   };
 
   const navigateToDetail = async (stockName, stockCode) => {
@@ -100,7 +126,7 @@ function SearchBar() {
             variant="outlined"
             placeholder="검색"
             value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
+            onChange={(e) => handleSearchChange(e.target.value)}
             sx={{ ml: 1, flex: 1, backgroundColor: "white" }}
             InputProps={{
               endAdornment: (
@@ -111,6 +137,7 @@ function SearchBar() {
                 >
                   <img
                     src={searchIcon}
+                    loading="lazy"
                     alt="search"
                     className={styles.searchIcon}
                   />
@@ -123,7 +150,7 @@ function SearchBar() {
 
       <div className={styles.listContainer}>
         <List>
-          {itemsToShow.map((item, index) => (
+          {result.map((item, index) => (
             <React.Fragment key={index}>
               <ListItem
                 alignItems="flex-start"
@@ -166,54 +193,12 @@ function SearchBar() {
                   />
                 </div>
               </ListItem>
-              {index < itemsToShow.length - 1 && <Divider component="li" />}
+              {index < result.length - 1 && <Divider component="li" />}
             </React.Fragment>
           ))}
           <div ref={observerRef}></div>
         </List>
       </div>
-
-      {/* <div className={styles.contentBox}>
-        {itemsToShow.map((item, index) => (
-          <div key={item.stockCode} className={styles.stockContainer}>
-            <div
-              className={styles.exceptHeart}
-              onClick={() => navigateToDetail(item.name, item.stockCode)}
-            >
-              <img
-                src={
-                  item.name.slice(0, 5) === "KODEX"
-                    ? "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png"
-                    : `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${item.stockCode}.png`
-                }
-                alt=""
-                className={styles.stockImg}
-                onError={(e) => {
-                  e.target.src =
-                    "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
-                }}
-              />
-              <div className={styles.verticalFlexContainer}>
-                <div className={styles.stockName}>{item.name}</div>
-              </div>
-            </div>
-            <div
-              className={styles.heartContainer}
-              onClick={() => toggleFavoriteStock(item.stockCode)} // Add onClick event to toggle favorite stock
-            >
-              <img
-                src={
-                  myStock.includes(item.stockCode)
-                    ? FilledHeart
-                    : UnfilledHeart
-                }
-                className={styles.heart}
-                alt="Heart"
-              />
-            </div>
-          </div>
-        ))}
-      </div> */}
     </div>
   );
 }
