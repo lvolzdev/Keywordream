@@ -132,7 +132,7 @@ export default function Mypage() {
         </Select>
         <div className={styles.contentBox}>
           {myStocks
-            .filter((stock) => stock.section === selectedCategory)
+            .filter((stock) => stock?.section === selectedCategory)
             .map((stock, index) => (
               <div key={stock.name} className={styles.stockContainer}>
                 <div
