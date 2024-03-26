@@ -1,3 +1,5 @@
+// Chart.jsx
+
 import React, { useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
@@ -284,7 +286,6 @@ export default function StockChart() {
         </div>
       ) : (
         <div>
-          <p>문구</p>
           <ApexChart
             type="line"
             series={[
@@ -331,6 +332,25 @@ export default function StockChart() {
           />
         </div>
       )}
+      <div className="btn-container" style={{ textAlign: "center" }}>
+        <Link
+          to={`/detail/${stockCode}/chart/daily`}
+          style={{ textDecoration: "none" }}
+        >
+          <Button
+            variant="outlined"
+            sx={{
+              backgroundColor: "white",
+              color: "black",
+              borderColor: "black",
+              minWidth: "80%",
+              "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
+            }}
+          >
+            일별 & 실시간 시세
+          </Button>
+        </Link>
+      </div>
     </div>
   );
 }
