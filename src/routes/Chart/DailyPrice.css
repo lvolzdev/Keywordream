@@ -1,10 +1,11 @@
 .stock-table-container {
   overflow-x: auto;
+  height: 67vh;
 }
 
 .stock-table {
   border-collapse: collapse; /* 테두리를 겹치게 설정하여 겹치는 부분이 없도록 합니다. */
-  width: 120%;
+  width: 130%;
 }
 
 .stock-table th,

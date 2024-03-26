@@ -364,7 +364,7 @@ export default function StockChart() {
           />
           <div className="btn-container" style={{ textAlign: "center" }}>
             <Link
-              to={`/detail/${stockCode}/chart/daily`}
+              to={`/detail/${stockCode}/chart/market/daily`}
               style={{ textDecoration: "none" }}
             >
               <Button
