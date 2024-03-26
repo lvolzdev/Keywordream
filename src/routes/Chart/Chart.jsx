@@ -2,6 +2,8 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
+import { styled } from "@mui/material/styles";
+import styles from "./Chart.module.css";
 import { Link } from "react-router-dom";
 import ApexChart from "react-apexcharts";
 import { getChart } from "../../lib/apis/chartApi";
@@ -157,21 +159,29 @@ export default function StockChart() {
     return data.close > data.open ? "#26a69a" : "#ef5350";
   };
 
+  // Button
+  const StyledButton = styled(Button)(({ theme }) => ({
+    backgroundColor: "white",
+    color: "black",
+    borderColor: "black",
+    borderWidth: "1px",
+    borderStyle: "solid",
+    minWidth: "10%",
+    "&:hover": {
+      backgroundColor: "#F0F0F0",
+      borderColor: "black",
+    },
+  }));
+
   return (
     <div className="chart-container">
-      <Button
+      <StyledButton
+        className={styles.btn}
         size="small"
-        sx={{
-          backgroundColor: "white",
-          color: "black",
-          borderColor: "black",
-          minWidth: "10%",
-          "&:hover": { backgroundColor: "#F0F0F0", borderColor: "black" },
-        }}
         onClick={() => setIsCandle(!isCandle)}
       >
-        {isCandle ? "[간단한 차트 보기]" : "[자세한 차트 보기]"}
-      </Button>
+        {isCandle ? "간단한 차트 보기" : "자세한 차트 보기"}
+      </StyledButton>
 
       {isCandle ? (
         <div ref={chartContainerRef} style={{ width: "100%", height: "100%" }}>
