@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import Button from "@mui/material/Button";
+import { Link } from "react-router-dom";
 import ApexChart from "react-apexcharts";
 import { getChart } from "../../lib/apis/chartApi";
 import { useParams } from "react-router-dom";
@@ -73,6 +74,13 @@ export default function StockChart() {
   }, [chartContainerRef.current]);
 
   // Line Chart (default)
+  const lineChart = chartData.map((data) => {
+    // TODO
+    return {
+      x: data.date,
+      y: data.close,
+    };
+  });
 
   // Candle Chart
   const ScaleProvider =
@@ -275,9 +283,50 @@ export default function StockChart() {
           )}
         </div>
       ) : (
-        <h1>으아</h1>
-        // TODO
-        // 여기에 ApexChart 넣자
+        <div>
+          <p>문구</p>
+          <ApexChart
+            type="line"
+            series={[
+              {
+                name: "Price",
+                data: lineChart,
+              },
+            ]}
+            options={{
+              chart: {
+                height: 500,
+                width: "100%",
+                toolbar: {
+                  tools: {},
+                },
+                background: "transparent",
+              },
+              fill: {
+                type: "solid",
+              },
+              stroke: {
+                curve: "smooth",
+                width: 2.8,
+              },
+              grid: {
+                show: false,
+              },
+              xaxis: {
+                type: "datetime",
+                axisBorder: {
+                  show: false,
+                },
+                axisTicks: {
+                  show: false,
+                },
+              },
+              yaxis: {
+                show: false,
+              },
+            }}
+          />
+        </div>
       )}
     </div>
   );
