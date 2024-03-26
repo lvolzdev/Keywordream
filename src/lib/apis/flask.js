@@ -1,18 +1,26 @@
-import axios from "axios";
-
-const FLASK_RUL = "http://127.0.0.1:5000/api/news";
+import instance from "./baseApi";
 
 export const crawlExtractKeyword = async (stockName, stockCode) => {
-    console.log(stockName);
-    console.log(stockCode);
-    try {
-        const response = await axios.post(FLASK_RUL, {
-            name : stockName,
-            code : stockCode
-        })
-        return response
-      } catch (error) {
-        console.error('Error crawling and extract keyowrd : ', error);
-        throw error;
-      }
+  try {
+      const response = await instance.post("/flask/news", {
+          name : stockName,
+          code : stockCode
+      })
+      return response
+    } catch (error) {
+      console.error('Error crawling and extract keyowrd : ', error);
+      throw error;
+    }
 };
+
+export const getSentimentResult = async (newsId) => {
+  try{
+    const response = await instance.post("/flask/krFinBert", {
+      newsId : newsId,
+    })
+    return response
+  } catch(error){
+    console.error("Error news sentiment analysis : ", error)
+    throw error
+  }
+}

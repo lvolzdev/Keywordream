@@ -1,67 +1,85 @@
-.layout{
+.layout {
   padding: 0 0;
 }
-  .customTabSelected {
-    color: black !important; /* 선택된 탭의 텍스트 색상 */
-  }
-  .customTextColor{
-    font-size: 15px !important;
-    font-family: "Pretendard" !important;
-    font-weight: 900 !important;
-  }
-  .customTabIndicator {
-    background-color: black !important; /* 탭의 아래 indicator 색상 */
-  }
-  .container {
-      display: flex;
-      align-items: center; /* 수평 가운데 정렬 */
-    }
-      .chart{
-          width: 9.2vw;
-          max-width: 40px;
-          display: inline;
-      }
-      .text{
-        font-weight: 800;
-        font-size: 15px;
-      }
-      .contentBox {
-        display: flex;
-        flex-direction: column;
-        gap: 2vh;
-        padding-top: 2vh;
-        padding-left: 0vh;
-      }
-        .stockContainer {
-          display: flex;
-        }
-          .exceptHeart{
-            display: flex;
-            align-items: center;
-            gap: 2vh;
-            flex: 1;
-            cursor: pointer;
-          }
-            .rank {
-              font-weight: 800;
-              color: #0046FF;
-            }
-            .stockImg{
-              width: 5vh;
-              border-radius: 50%;
-              height: 5vh;
-            }
-            .stockName {
-              font-weight: 900;
-            }
-          .heartContainer{
-            display: flex;
-            align-items: center;
-            text-align: end;
-            flex: 0;
-            width: 10vh
-          }
-            .heart{
-              width: 3vh;
-              margin: 0px 1vh;
-            }
+.customTabSelected {
+  color: black !important; /* 선택된 탭의 텍스트 색상 */
+}
+.customTextColor {
+  font-size: 15px !important;
+  font-family: "Pretendard" !important;
+  font-weight: 900 !important;
+}
+.customTabIndicator {
+  background-color: black !important; /* 탭의 아래 indicator 색상 */
+}
+.container {
+  display: flex;
+  align-items: center; /* 수평 가운데 정렬 */
+}
+.chart {
+  width: 9.2vw;
+  max-width: 40px;
+  display: inline;
+}
+.text {
+  font-weight: 800;
+  font-size: 15px;
+  margin-left: 5px;
+}
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding-top: 2vh;
+  padding-left: 2vh;
+}
+.keywordRow {
+  display: flex;
+  justify-content: space-between;
+  margin-left: 1rem;
+  text-decoration: none;
+}
+
+
+.keywordItem a {
+  text-decoration: none; /* 밑줄 제거 */
+  background-color: #e7ecff;
+  color: black;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.stockContainer {
+  display: flex;
+}
+.exceptHeart {
+  display: flex;
+  align-items: center;
+  gap: 2vh;
+  flex: 1;
+  cursor: pointer;
+}
+.rank {
+  font-weight: 800;
+  color: #0046ff;
+}
+.stockImg {
+  width: 5vh;
+  border-radius: 50%;
+  height: 5vh;
+}
+.stockName {
+  font-weight: 900;
+}
+.heartContainer {
+  display: flex;
+  align-items: center;
+  text-align: end;
+  flex: 0;
+  width: 10vh;
+}
+.heart {
+  width: 3vh;
+  margin: 0px 1vh;
+}

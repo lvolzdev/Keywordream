@@ -1,11 +1,10 @@
-// Info.js
-
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styles from "./info.css";
 import { getFinStat } from "../../lib/apis/infoApi";
 import dictionary from "./dict.js";
 import caution from "./caution.png";
+import FinancialItem from "./FinancialItem";
 
 function formatNumber(number) {
   if (isNaN(number)) return "0";
@@ -21,7 +20,7 @@ export default function Info() {
   const [financialInfo, setFinancialInfo] = useState(null);
   const [wordMeaning, setWordMeaning] = useState(null);
   const [furtherExpanded, setFurtherExpanded] = useState(false);
-  const stockCode = useParams().stockCode
+  const stockCode = useParams().stockCode;
 
   useEffect(() => {
     const fetchInfo = async () => {
@@ -34,7 +33,7 @@ export default function Info() {
       }
     };
     fetchInfo();
-  }, []);
+  }, [stockCode]);
 
   const showWordMeaning = (term) => {
     const meaning = dictionary.find((item) => item.term === term);
@@ -45,8 +44,7 @@ export default function Info() {
   };
 
   const toggleWordMeaning = () => {
-    setFurtherExpanded(true)
-
+    setFurtherExpanded(true);
   };
 
   const hideWordMeaning = () => {
@@ -63,69 +61,39 @@ export default function Info() {
       </div>
       <p style={{ fontSize: "0.7rem", float: "right", margin: "0.2rem 1rem", color: "#A0A0A0" }}> 단위: 억원</p>
       <br />
+      <br />
 
       <div className="box">
-        <div className="take" style={{ display: "flex", justifyContent: "space-between", marginLeft: "2rem", marginRight: "2rem" }}>
-          <p>매출액</p>
-          <p>{formatNumber(financialInfo?.saleAccount)}</p>
-        </div>
-        <div className="take" style={{ display: "flex", justifyContent: "space-between", marginLeft: "2rem", marginRight: "2rem" }}>
-          <p>영업이익</p>
-          <p>{formatNumber(financialInfo?.bsopPrti)}</p>
-        </div>
-        <div className="take" style={{ display: "flex", justifyContent: "space-between", marginLeft: "2rem", marginRight: "2rem" }}>
-          <p>순이익</p>
-          <p>{formatNumber(financialInfo?.thtrNtin)}</p>
-        </div>
+        <FinancialItem label="매출액" value={formatNumber(financialInfo?.saleAccount)} />
+        <FinancialItem label="영업이익" value={formatNumber(financialInfo?.bsopPrti)} />
+        <FinancialItem label="순이익" value={formatNumber(financialInfo?.thtrNtin)} />
       </div>
       <br />
 
       <div className="others">
         <div className="firstbox">
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("영업이익률")}>영업이익률</p>
-            <p style={{ fontWeight: "bold", whiteSpace: 'pre-wrap' }}>
-              {formatPercentage((financialInfo?.bsop_prti) / (financialInfo?.sale_account) * 100)}
-            </p>
-          </div>
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("ROE")}>ROE</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.roeVal)}%</p>
-          </div>
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("EPS")}>EPS</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.eps)}</p>
-          </div>
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("BPS")}>BPS</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.bps)}</p>
-          </div>
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("유보율")}>유보율</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.rsrvRate)}%</p>
-          </div>
+          <FinancialItem
+            label="영업이익률"
+            value={formatPercentage((financialInfo?.bsopPrti) / (financialInfo?.saleAccount) * 100)}
+            onClick={() => showWordMeaning("영업이익률")}
+          />
+          <FinancialItem label="ROE" value={`${(financialInfo?.roeVal)}%`} onClick={() => showWordMeaning("ROE")} />
+          <FinancialItem label="EPS" value={financialInfo?.eps} onClick={() => showWordMeaning("EPS")} />
+          <FinancialItem label="BPS" value={financialInfo?.bps} onClick={() => showWordMeaning("BPS")} />
+          <FinancialItem label="유보율" value={`${(financialInfo?.rsrvRate)}%`} onClick={() => showWordMeaning("유보율")} />
         </div>
 
         <div className="secondbox">
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("순이익률")}>순이익률</p>
-            <p style={{ fontWeight: "bold" }}>{formatPercentage((financialInfo?.thtrNtin) / (financialInfo?.saleAccount) * 100)}</p>
-          </div>
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("EV/EBITDA")}>EV/EBITDA</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.evEbitda)}배</p>
-          </div>
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("PER")}>PER</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.per)}배</p>
-          </div>
-          <div className="take1" style={{ display: "flex", justifyContent: "space-between" }}>
-            <p onClick={() => showWordMeaning("PBR")}>PBR</p>
-            <p style={{ fontWeight: "bold" }}>{(financialInfo?.pbr)}배</p>
-          </div>
+          <FinancialItem
+            label="순이익률"
+            value={formatPercentage((financialInfo?.thtrNtin) / (financialInfo?.saleAccount) * 100)}
+            onClick={() => showWordMeaning("순이익률")}
+          />
+          <FinancialItem label="EV/EBITDA" value={`${(financialInfo?.evEbitda)}배`} onClick={() => showWordMeaning("EV/EBITDA")} />
+          <FinancialItem label="PER" value={`${(financialInfo?.per)}배`} onClick={() => showWordMeaning("PER")} />
+          <FinancialItem label="PBR" value={`${(financialInfo?.pbr)}배`} onClick={() => showWordMeaning("PBR")} />
         </div>
       </div>
-
 
       <br />
       {/* 설명 표시 부분 */}
@@ -145,7 +113,7 @@ export default function Info() {
                     ▲닫기
                   </div>
 
-                  <p><img src={caution}></img>{wordMeaning?.further}</p>
+                  <p><img src={caution} alt="ref"></img>{wordMeaning?.further}</p>
                 </div>
               ) : (
                 <button className="further" onClick={toggleWordMeaning}>
