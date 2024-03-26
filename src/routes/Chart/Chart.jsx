@@ -301,6 +301,9 @@ export default function StockChart() {
                   tools: {},
                 },
                 background: "transparent",
+                animations: {
+                  enabled: false,
+                },
               },
               fill: {
                 type: "solid",
