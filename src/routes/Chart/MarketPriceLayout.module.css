@@ -1,0 +1,11 @@
+.customTabSelected {
+    color: black !important; /* 선택된 탭의 텍스트 색상 */
+  }
+.customTextColor {
+    font-size: 15px !important;
+    font-family: "Pretendard" !important;
+    font-weight: 900 !important;
+}
+.customTabIndicator {
+    background-color: black !important; /* 탭의 아래 indicator 색상 */
+}
