@@ -90,12 +90,8 @@ function SearchBar() {
     setInputValue(value); // 입력값을 상태로 설정합니다.
   };
 
-  const navigateToDetail = async (stockName, stockCode) => {
-    //const response = await crawlExtractKeyword(stockName, stockCode);
-    // console.log(typeof response.status)
-    //if (response.status === 200) {
-      navigate(`/detail/${stockCode}/keyword`);
-    //}
+  const navigateToDetail = async (stockCode) => {
+    navigate(`/detail/${stockCode}/keyword`);
   };
 
   const toggleFavoriteStock = (stockCode) => {
@@ -154,7 +150,7 @@ function SearchBar() {
             <React.Fragment key={index}>
               <ListItem
                 alignItems="flex-start"
-                onClick={() => navigateToDetail(item.name, item.stockCode)}
+                onClick={() => navigateToDetail(item.stockCode)}
               >
                 <ListItemAvatar>
                   <img

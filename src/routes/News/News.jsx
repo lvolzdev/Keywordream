@@ -9,7 +9,7 @@ import NewsList from "./NewsList";
 export default function News() {
   const stockCode = useParams().stockCode
   // const stockCode = "005930"
-  const [tags, setTags] = useState(["tag1", "tag2", "tag3"])
+  const [tags, setTags] = useState([])
   const [newsList, setNewsList] = useState([])
 
   useEffect(()=>{
@@ -19,7 +19,8 @@ export default function News() {
 
   const getNewsListData = async () => {
     try{
-      const newsListData = await getNewsList(stockCode);
+      let newsListData = await getNewsList(stockCode);
+      if(newsListData === "") newsListData = [];
       setNewsList(newsListData)
     } catch(error){
       console.log("뉴스 리스트 가져오기 실패: ", error);
@@ -28,7 +29,8 @@ export default function News() {
 
   const getNewsTagTop3Data = async () => {
     try{
-      const newsTagTop3Data = await getNewsTagTop3(stockCode);
+      let newsTagTop3Data = await getNewsTagTop3(stockCode);
+      if(newsTagTop3Data === "") newsTagTop3Data = []
       setTags(newsTagTop3Data);
     } catch(error){
       console.log("뉴스 상위 키워드 3개 가져오기 실패: ",error)
