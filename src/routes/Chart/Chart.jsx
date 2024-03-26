@@ -1,6 +1,6 @@
 // Chart.jsx
 
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useMemo } from "react";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import styles from "./Chart.module.css";
@@ -43,6 +43,8 @@ export default function StockChart() {
   const [isCandle, setIsCandle] = useState(false);
   const chartContainerRef = useRef(null);
   const [chartWidth, setChartWidth] = useState(350); // 초기값
+  const colors = useMemo(() => ["#FE2F4D", "#1545FF"], []);
+  const [chartColor, setChartColor] = useState(colors[0]);
 
   useEffect(() => {
     const fetchChartData = async () => {
@@ -62,13 +64,32 @@ export default function StockChart() {
           low: Number(res.low),
         }));
         setChartData(data);
+
+        // 시세 데이터 추세에 따라 라인 그래프 색상 변경
+        var maxVal = data[0].close;
+        var minVal = data[0].close;
+        var maxDate = new Date(data[0].date);
+        var minDate = new Date(data[0].date);
+
+        data.forEach((data) => {
+          if (data.close > maxVal) {
+            maxVal = data.close;
+            maxDate = new Date(data.date);
+          }
+          if (data.close < minVal) {
+            minVal = data.close;
+            minDate = new Date(data.date);
+          }
+        });
+
+        setChartColor(maxDate > minDate ? colors[0] : colors[1]);
       } catch (error) {
         console.log(error);
       }
     };
 
     fetchChartData();
-  }, [stockCode]);
+  }, [stockCode, colors]);
 
   useEffect(() => {
     // 차트 너비 설정
@@ -305,6 +326,7 @@ export default function StockChart() {
               },
             ]}
             options={{
+              colors: [chartColor],
               chart: {
                 height: 500,
                 width: "100%",
