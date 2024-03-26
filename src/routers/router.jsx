@@ -64,7 +64,6 @@ export const router = createBrowserRouter([
             path: "/detail/:stockCode/news/:newsId",
 
             element: <NewsDetail />,
-
           },
 
           {
@@ -81,7 +80,7 @@ export const router = createBrowserRouter([
           },
           {
             path: "/detail/:stockCode/chart/daily",
-            element: <DailyPrice />
+            element: <DailyPrice />,
           },
         ],
       },
