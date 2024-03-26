@@ -128,7 +128,10 @@ export default function Chart() {
       />
 
       <div className="btn-container" style={{ textAlign: "center" }}>
-        <Link to={`/detail/${stockCode}/chart/daily`} style={{ textDecoration: "none" }}>
+        <Link
+          to={`/detail/${stockCode}/chart/daily`}
+          style={{ textDecoration: "none" }}
+        >
           <Button
             variant="outlined"
             sx={{

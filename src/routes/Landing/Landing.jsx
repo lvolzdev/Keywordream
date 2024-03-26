@@ -3,8 +3,20 @@ import RunningBear from "../../assets/image/RunningBear.gif";
 import Logo from "../../assets/image/logo.png";
 import styles from "./Landing.module.css";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 export default function Landing() {
+  const navigate = useNavigate();
+
+  const handleStartClick = () => {
+    const nickName = localStorage.getItem("nickName");
+    if (!nickName) {
+      navigate("/login");
+    } else {
+      navigate("/main");
+    }
+  };
+
   return (
     <div className={styles.container}>
       <div className={styles.logoContainer}>
@@ -16,7 +28,7 @@ export default function Landing() {
       <div className={styles.buttonContainer}>
         <Button
           variant="contained"
-          href="/main"
+          onClick={handleStartClick}
           className={styles.button}
           sx={{ bgcolor: "#0046FF" }}
         >
