@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import { Outlet, useLocation, useParams } from "react-router-dom";
-import stockimage from "./005930.png";
 import "./DetailLayout.css"; // CSS 파일 import
 import styles from "../routes/Main/PopularStock.module.css";
 import Tabs from "@mui/material/Tabs/";
 import Tab from "@mui/material/Tab/";
 import { Link } from "react-router-dom";
 import { fetchStockInfo } from "../lib/apis/stockInfo";
+import { crawlExtractKeyword } from "../lib/apis/flask";
+import Loading from "./Loading";
+import { joinRoom, leaveRoom, receiveStockPrice } from "../lib/socket/socket";
 
 export default function DetailLayout() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -16,8 +18,11 @@ export default function DetailLayout() {
   const [stockPrice, setStockPrice] = useState(0);
   const [ratio, setRatio] = useState(0);
   const stockCode = useParams().stockCode;
+  const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+    joinRoom(stockCode);
+    receiveStockPrice(stockCode, setStockPrice, setRatio);
     const fetchData = async () => {
       try {
         const data = await fetchStockInfo(stockCode); // stockCode를 인자로 전달하여 호출
@@ -32,6 +37,20 @@ export default function DetailLayout() {
 
     fetchData();
   }, [stockCode]); // stockCode가 변경될 때마다 호출
+  
+  useEffect(()=>{
+    updateNewsAndKeyword(stockCode)
+  }, [stockCode])
+
+  const updateNewsAndKeyword = async (stockCode) => {
+    setLoading(true);
+    const response = await crawlExtractKeyword(stockCode)
+    if(response.status !== 200){
+      console.log("최근 뉴스 크롤링 실패! DB에 저장된 데이터를 가져옵니다.")
+    }
+    setLoading(false);
+  }
+
   const handleChange = (event, newValue) => {
     setTabIndex(newValue);
   };
@@ -123,11 +142,13 @@ export default function DetailLayout() {
           }}
         />
       </Tabs>
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <Container>
-          <Outlet />
-        </Container>
-      </div>
+      {loading ? (<Loading/>) : (
+        <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+          <Container>
+            <Outlet />
+          </Container>
+        </div>
+      )}
     </div>
   );
 }

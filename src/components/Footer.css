@@ -1,6 +1,7 @@
 .footer-copyright-text {
   color: #6c6c6c !important;
   text-decoration: none;
+
 }
 
 .footer-navbar {
@@ -11,4 +12,9 @@
 .footer-icon {
   width: 1.5rem;
   margin: 0 3.1rem; /* 이미지 간의 간격을 조정합니다. */
+}
+
+.footer-navbar a {
+  text-decoration: none; /* 링크의 밑줄 제거 */
+  color: inherit; /* 링크의 색상을 부모 요소의 색상으로 상속 */
 }
