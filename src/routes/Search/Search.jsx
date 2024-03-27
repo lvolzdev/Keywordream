@@ -10,7 +10,6 @@ import {
   ListItemAvatar,
   Divider,
 } from "@mui/material";
-import searchIcon from "../../search.png";
 import styles from "./Search.module.css";
 import { searchStock, allStock } from "../../lib/apis/searchApi";
 import { crawlExtractKeyword } from "../../lib/apis/flask";
@@ -37,25 +36,24 @@ function SearchBar() {
     });
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     const handler = setTimeout(() => {
-      if(inputValue){
-        const filteredResults = allData.filter((item) =>
-          item.name.toLowerCase().includes(inputValue.toLowerCase())||
-          item.stockCode.includes(inputValue)
+      if (inputValue) {
+        const filteredResults = allData.filter(
+          (item) =>
+            item.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+            item.stockCode.includes(inputValue)
         );
         setResult(filteredResults);
-      }
-      else{
+      } else {
         setResult(allData);
       }
-     
     }, 50); // 사용자 입력이 멈춘 후 50ms 뒤에 검색 실행
 
     return () => {
       clearTimeout(handler);
     };
-  },[inputValue, allData]);
+  }, [inputValue, allData]);
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -74,7 +72,6 @@ function SearchBar() {
       }
     };
   }, [result]);
-  
 
   const loadMoreItems = () => {
     setItemsToShowCount((prevCount) => {
@@ -132,7 +129,7 @@ function SearchBar() {
                   aria-label="search"
                 >
                   <img
-                    src={searchIcon}
+                    src={process.env.PUBLIC_URL + "/search.png"}
                     loading="lazy"
                     alt="search"
                     className={styles.searchIcon}
@@ -175,7 +172,7 @@ function SearchBar() {
                   className={styles.heartContainer}
                   onClick={(e) => {
                     e.stopPropagation();
-                    toggleFavoriteStock(item.stockCode)
+                    toggleFavoriteStock(item.stockCode);
                   }} // Add onClick event to toggle favorite stock
                 >
                   <img
