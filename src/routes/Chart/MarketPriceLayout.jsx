@@ -25,7 +25,6 @@ export default function MarketPriceLayout() {
         value={tabIndex}
         onChange={handleChange}
         aria-label="popular stock tabs"
-        variant="fullWidth"
         classes={{
           indicator: styles.customTabIndicator,
         }}
