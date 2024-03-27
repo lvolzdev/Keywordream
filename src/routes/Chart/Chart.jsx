@@ -91,6 +91,27 @@ export default function StockChart() {
     fetchChartData();
   }, [stockCode, colors]);
 
+  // x축(시간) 9:00 ~ 15:30로 고정
+  const generateXAxis = () => {
+    const xAxis = [];
+    const startTime = new Date();
+    startTime.setHours(9, 0, 0, 0);
+    const endTime = new Date();
+    endTime.setHours(15, 30, 0, 0);
+
+    for (
+      let time = startTime;
+      time <= endTime;
+      time.setMinutes(time.getMinutes() + 30)
+    ) {
+      xAxis.push(new Date(time));
+    }
+
+    return xAxis;
+  };
+
+  const xAxis = generateXAxis();
+
   useEffect(() => {
     // 차트 너비 설정
     if (chartContainerRef.current) {
@@ -100,7 +121,6 @@ export default function StockChart() {
 
   // Line Chart (default)
   const lineChart = chartData.map((data) => {
-    // TODO
     return {
       x: data.date,
       y: data.close,
@@ -350,6 +370,7 @@ export default function StockChart() {
               },
               xaxis: {
                 type: "datetime",
+                categories: xAxis, // x축 고정
                 axisBorder: {
                   show: false,
                 },
