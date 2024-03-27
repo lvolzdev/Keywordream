@@ -5,37 +5,18 @@ import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import styles from "./Chart.module.css";
 import { Link } from "react-router-dom";
-import ApexChart from "react-apexcharts";
 import { getChart } from "../../lib/apis/chartApi";
 import { useParams } from "react-router-dom";
 import ReactDOM from "react-dom";
-import { format } from "d3-format";
-import { timeFormat } from "d3-time-format";
 import {
   elderRay,
   ema,
   discontinuousTimeScaleProviderBuilder,
-  Chart,
-  ChartCanvas,
-  CurrentCoordinate,
-  BarSeries,
-  CandlestickSeries,
-  ElderRaySeries,
-  LineSeries,
-  MovingAverageTooltip,
-  OHLCTooltip,
-  SingleValueTooltip,
-  lastVisibleItemBasedZoomAnchor,
-  XAxis,
-  YAxis,
-  CrossHairCursor,
-  EdgeIndicator,
-  MouseCoordinateX,
-  MouseCoordinateY,
-  ZoomButtons,
-  withDeviceRatio,
-  withSize,
 } from "react-financial-charts";
+import { format } from "d3-format";
+import { timeFormat } from "d3-time-format";
+import LineChartComponent from "./LineChart";
+import CandleChartComponent from "./CandleChart";
 
 export default function StockChart() {
   const stockCode = useParams().stockCode;
@@ -132,8 +113,6 @@ export default function StockChart() {
     discontinuousTimeScaleProviderBuilder().inputDateAccessor(
       (d) => new Date(d.date)
     );
-  const height = 530;
-  const margin = { left: 0, right: 48, top: 15, bottom: 24 };
 
   const ema12 = ema()
     .id(1)
@@ -152,6 +131,9 @@ export default function StockChart() {
     .accessor((d) => d.ema26);
 
   const elder = elderRay();
+
+  const height = 530;
+  const margin = { left: 0, right: 48, top: 15, bottom: 24 };
 
   const calculatedData = elder(ema26(ema12(chartData)));
   const { data, xScale, xAccessor, displayXAccessor } =
@@ -225,164 +207,40 @@ export default function StockChart() {
       </StyledButton>
 
       {isCandle ? (
-        <div ref={chartContainerRef} style={{ width: "100%", height: "100%" }}>
-          {chartWidth && (
-            <ChartCanvas
-              height={height}
-              ratio={3}
-              width={chartWidth}
-              margin={margin}
-              data={data}
-              displayXAccessor={displayXAccessor}
-              seriesName="Data"
-              xScale={xScale}
-              xAccessor={xAccessor}
-              xExtents={xExtents}
-              zoomAnchor={lastVisibleItemBasedZoomAnchor}
-            >
-              <Chart
-                id={2}
-                height={barChartHeight}
-                origin={barChartOrigin}
-                yExtents={barChartExtents}
-              >
-                <BarSeries fillStyle={volumeColor} yAccessor={volumeSeries} />
-              </Chart>
-
-              <Chart id={3} height={chartHeight} yExtents={candleChartExtents}>
-                <XAxis showGridLines showTickLabel={false} />
-                <YAxis showGridLines tickFormat={pricesDisplayFormat} />
-                <CandlestickSeries />
-                <LineSeries
-                  yAccessor={ema26.accessor()}
-                  strokeStyle={ema26.stroke()}
-                />
-                <CurrentCoordinate
-                  yAccessor={ema26.accessor()}
-                  fillStyle={ema26.stroke()}
-                />
-                <LineSeries
-                  yAccessor={ema12.accessor()}
-                  strokeStyle={ema12.stroke()}
-                />
-                <CurrentCoordinate
-                  yAccessor={ema12.accessor()}
-                  fillStyle={ema12.stroke()}
-                />
-                <MouseCoordinateY
-                  rectWidth={margin.right}
-                  displayFormat={pricesDisplayFormat}
-                />
-                <EdgeIndicator
-                  itemType="last"
-                  rectWidth={margin.right}
-                  fill={openCloseColor}
-                  lineStroke={openCloseColor}
-                  displayFormat={pricesDisplayFormat}
-                  yAccessor={yEdgeIndicator}
-                />
-                <MovingAverageTooltip
-                  origin={[8, 24]}
-                  options={[
-                    {
-                      yAccessor: ema26.accessor(),
-                      type: "EMA",
-                      stroke: ema26.stroke(),
-                      windowSize: ema26.options().windowSize,
-                    },
-                    {
-                      yAccessor: ema12.accessor(),
-                      type: "EMA",
-                      stroke: ema12.stroke(),
-                      windowSize: ema12.options().windowSize,
-                    },
-                  ]}
-                />
-
-                <ZoomButtons />
-                <OHLCTooltip origin={[8, 16]} />
-              </Chart>
-              <Chart
-                id={4}
-                height={elderRayHeight}
-                yExtents={[0, elder.accessor()]}
-                origin={elderRayOrigin}
-                padding={{ top: 8, bottom: 8 }}
-              >
-                <ElderRaySeries yAccessor={elder.accessor()} />
-
-                <XAxis showGridLines gridLinesStrokeStyle="#e0e3eb" />
-                <YAxis ticks={4} tickFormat={pricesDisplayFormat} />
-
-                <MouseCoordinateX displayFormat={timeDisplayFormat} />
-                <MouseCoordinateY
-                  rectWidth={margin.right}
-                  displayFormat={pricesDisplayFormat}
-                />
-
-                <SingleValueTooltip
-                  yAccessor={elder.accessor()}
-                  yLabel="Elder Ray"
-                  yDisplayFormat={(d) =>
-                    `${pricesDisplayFormat(d.bullPower)}, ${pricesDisplayFormat(
-                      d.bearPower
-                    )}`
-                  }
-                  origin={[8, 16]}
-                />
-              </Chart>
-              <CrossHairCursor />
-            </ChartCanvas>
-          )}
-        </div>
+        <CandleChartComponent
+          chartContainerRef={chartContainerRef}
+          height={height}
+          chartWidth={chartWidth}
+          margin={margin}
+          data={data}
+          xScale={xScale}
+          displayXAccessor={displayXAccessor}
+          xAccessor={xAccessor}
+          xExtents={xExtents}
+          barChartHeight={barChartHeight}
+          barChartOrigin={barChartOrigin}
+          barChartExtents={barChartExtents}
+          volumeColor={volumeColor}
+          volumeSeries={volumeSeries}
+          chartHeight={chartHeight}
+          candleChartExtents={candleChartExtents}
+          pricesDisplayFormat={pricesDisplayFormat}
+          ema26={ema26}
+          ema12={ema12}
+          openCloseColor={openCloseColor}
+          yEdgeIndicator={yEdgeIndicator}
+          elderRayHeight={elderRayHeight}
+          elder={elder}
+          timeDisplayFormat={timeDisplayFormat}
+          elderRayOrigin={elderRayOrigin}
+        ></CandleChartComponent>
       ) : (
-        <div>
-          <ApexChart
-            type="line"
-            series={[
-              {
-                name: "Price",
-                data: lineChart,
-              },
-            ]}
-            options={{
-              colors: [chartColor],
-              chart: {
-                height: 500,
-                width: "100%",
-                toolbar: {
-                  tools: {},
-                },
-                background: "transparent",
-                animations: {
-                  enabled: false,
-                },
-              },
-              fill: {
-                type: "solid",
-              },
-              stroke: {
-                curve: "smooth",
-                width: 2.8,
-              },
-              grid: {
-                show: false,
-              },
-              xaxis: {
-                type: "datetime",
-                categories: xAxis, // x축 고정
-                axisBorder: {
-                  show: false,
-                },
-                axisTicks: {
-                  show: false,
-                },
-              },
-              yaxis: {
-                show: false,
-              },
-            }}
-          />
+        <>
+          <LineChartComponent
+            lineChart={lineChart}
+            chartColor={chartColor}
+            xAxis={xAxis}
+          ></LineChartComponent>
           <div className="btn-container" style={{ textAlign: "center" }}>
             <Link
               to={`/detail/${stockCode}/chart/market/daily`}
@@ -405,7 +263,7 @@ export default function StockChart() {
               </Button>
             </Link>
           </div>
-        </div>
+        </>
       )}
     </div>
   );
