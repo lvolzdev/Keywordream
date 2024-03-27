@@ -52,6 +52,23 @@ export default function Info() {
     setFurtherExpanded(false); // furtherExpanded 상태를 false로 설정하여 펼친 상태를 닫습니다.
   };
 
+  const hasNullValues = () => {
+    if (!financialInfo) return true;
+    for (const key in financialInfo) {
+      if (financialInfo[key] === null) return true;
+    }
+    return false;
+  };
+
+  if (hasNullValues()) {
+    return (
+      <div className={styles.layout}>
+        <p style={{ textAlign: "center", fontSize: "1.2rem", marginTop: "20vh" }}>Sorry... <br />😥재무제표를 확인할 수 없습니다</p>
+      </div>
+    );
+  }
+
+
   return (
     <div className={styles.layout}>
       <br />
