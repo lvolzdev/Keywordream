@@ -11,8 +11,18 @@
   display: flex;
   flex-direction: column; /* 세로로 정렬 */
 }
+
+.bearContainer {
+  text-align: center;
+}
+
+.bear {
+  width: 30%;
+}
+
 .others {
   display: flex;
+  justify-content: space-between;
   /* justify-content: space-between; 요소들 사이의 간격을 최대화하여 가로 정렬 */
 }
 

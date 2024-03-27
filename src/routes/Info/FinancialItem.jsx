@@ -7,8 +7,8 @@ function FinancialItem({ label, value, onClick }) {
       style={{
         display: "flex",
         justifyContent: "space-between",
-        marginLeft: "2rem",
-        marginRight: "1.5rem",
+        marginLeft: "1rem",
+        marginRight: "1rem",
 
       }}
       onClick={onClick}
