@@ -53,28 +53,11 @@ export default function Info() {
     setFurtherExpanded(false); // furtherExpanded 상태를 false로 설정하여 펼친 상태를 닫습니다.
   };
 
-  const hasNullValues = () => {
-    if (!financialInfo) return true;
-    for (const key in financialInfo) {
-      if (financialInfo[key] === null) return true;
-    }
-    return false;
-  };
-
-  if (hasNullValues()) {
-    return (
-      <div className={styles.layout}>
-        <p style={{ textAlign: "center", fontSize: "1.2rem", marginTop: "20vh" }}>Sorry... <br />😥재무제표를 확인할 수 없습니다</p>
-      </div>
-    );
-  }
-
-
   return (
     <div className={styles.layout}>
       {(!financialInfo || financialInfo.roeVal === null) && (
         <div className="bearContainer">
-          <img src={SorryBear} alt="" style={{ width:"70% ", marginTop: "20%"}}/>
+          <img src={SorryBear} alt="" className="bear"  />
           <p style={{ fontWeight: "bold", fontSize: "1.2rem", textAlign: "center" }}>재무제표를 확인할 수 없습니다😥</p>
         </div>
       )}
@@ -85,14 +68,10 @@ export default function Info() {
           <React.Fragment>
             <h3 style={{ margin: "0rem 1.5rem" }}>재무</h3>
             <p style={{ fontSize: "0.7rem", float: "right", margin: "0 1rem" }}>2023년 기준[연간]</p>
-            <div style = {{marginRight: "0rem"}}>
-              <p style={{ fontSize: "0.7rem", float: "right", margin: "0.2rem 1rem", color: "#A0A0A0" }}>단위: 억원</p>
-            </div>
           </React.Fragment>
         )}
       </div>
-
-
+      <p style={{ fontSize: "0.7rem", float: "right", margin: "0.2rem 1rem", color: "#A0A0A0", display: financialInfo ? "block" : "none" }}>단위: 억원</p>
       <br />
       <br />
 
