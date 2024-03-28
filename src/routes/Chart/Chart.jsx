@@ -7,7 +7,6 @@ import styles from "./Chart.module.css";
 import { Link } from "react-router-dom";
 import { getChart } from "../../lib/apis/chartApi";
 import { useParams } from "react-router-dom";
-import ReactDOM from "react-dom";
 import {
   elderRay,
   ema,
@@ -39,10 +38,10 @@ export default function StockChart() {
             2,
             4
           )}:00.000Z`,
-          open: Number(res.open),
-          close: Number(res.close),
-          high: Number(res.high),
-          low: Number(res.low),
+          open: res.open !== null ? Number(res.open) : null,
+          close: res.open !== null ? Number(res.close) : null,
+          high: res.open !== null ? Number(res.high) : null,
+          low: res.open !== null ? Number(res.low) : null,
         }));
         setChartData(data);
 
@@ -71,27 +70,6 @@ export default function StockChart() {
 
     fetchChartData();
   }, [stockCode, colors]);
-
-  // x축(시간) 9:00 ~ 15:30로 고정
-  const generateXAxis = () => {
-    const xAxis = [];
-    const startTime = new Date();
-    startTime.setHours(9, 0, 0, 0);
-    const endTime = new Date();
-    endTime.setHours(15, 30, 0, 0);
-
-    for (
-      let time = startTime;
-      time <= endTime;
-      time.setMinutes(time.getMinutes() + 30)
-    ) {
-      xAxis.push(new Date(time));
-    }
-
-    return xAxis;
-  };
-
-  const xAxis = generateXAxis();
 
   useEffect(() => {
     // 차트 너비 설정
@@ -239,7 +217,6 @@ export default function StockChart() {
           <LineChartComponent
             lineChart={lineChart}
             chartColor={chartColor}
-            xAxis={xAxis}
           ></LineChartComponent>
           <div className="btn-container" style={{ textAlign: "center" }}>
             <Link

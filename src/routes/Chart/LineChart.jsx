@@ -1,7 +1,7 @@
 import React from "react";
 import ApexChart from "react-apexcharts";
 
-const LineChartComponent = ({ lineChart, chartColor, xAxis }) => {
+const LineChartComponent = ({ lineChart, chartColor }) => {
   return (
     <div>
       <ApexChart
@@ -37,7 +37,7 @@ const LineChartComponent = ({ lineChart, chartColor, xAxis }) => {
           },
           xaxis: {
             type: "datetime",
-            categories: xAxis, // x축 고정
+            // categories: xAxis, // x축 고정
             axisBorder: {
               show: false,
             },
