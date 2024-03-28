@@ -65,15 +65,14 @@ export default function Login() {
           variant="outlined"
           value={nickname}
           onChange={handleNicknameChange}
-          className={styles.input}
           onKeyDown={handleKeyDown}
           sx={{ marginBottom: "1vh" }}
         />
         {showAlert && (
           <Alert
             severity="warning"
-            className={styles.alert}
             sx={{ marginBottom: "1vh" }}
+            className={styles.Alert}
           >
             닉네임을 입력해주세요
           </Alert>

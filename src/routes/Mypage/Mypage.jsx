@@ -8,20 +8,7 @@ import FilledHeart from "../../assets/image/FilledHeart.png";
 
 export default function Mypage() {
   const [selectedCategory, setSelectedCategory] = useState("업종(전체)");
-  const [myStocks, setMyStocks] = useState([
-    {
-      name: "삼성전자",
-      section: "건설",
-      market: "코스피",
-      updated: "2023-01-04",
-    },
-    {
-      name: "삼성전자",
-      section: "건설",
-      market: "코스피",
-      updated: "2023-01-04",
-    },
-  ]);
+  const [myStocks, setMyStocks] = useState([]);
   const navigate = useNavigate();
   const nickName = localStorage.getItem("nickName");
   if (!nickName) {
@@ -145,50 +132,45 @@ export default function Mypage() {
           })}
         </Select>
         <div className={styles.contentBox}>
-          {myStocks
-            .filter((stock) => stock?.section === selectedCategory)
-            .map((stock, index) => (
-              <div key={stock.name} className={styles.stockContainer}>
-                <div
-                  className={styles.exceptHeart}
-                  onClick={() =>
-                    navigateToDetail(stock.stbd_nm, stock.stock_code)
-                  }
-                >
-                  <div className={styles.rank}>{index + 1}</div>
-                  <img
-                    src={
-                      stock.stbd_nm?.slice(0, 5) === "KODEX"
-                        ? "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png"
-                        : `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.stock_code}.png`
-                    }
-                    alt=""
-                    className={styles.stockImg}
-                    onError={(e) => {
-                      e.target.src =
-                        "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
-                    }}
-                  />
-                  <div className={styles.verticalFlexContainer}>
-                    <div className={styles.stockName}>{stock.stbd_nm}</div>
-                  </div>
-                </div>
-                <div
-                  className={styles.heartContainer}
-                  onClick={() => toggleFavoriteStock(stock.stock_code)} // Add onClick event to toggle favorite stock
-                >
-                  <img
-                    src={
-                      myStocks.includes(stock.stock_code)
-                        ? FilledHeart
-                        : UnfilledHeart
-                    }
-                    className={styles.heart}
-                    alt="Heart"
-                  />
+          {(selectedCategory === "업종(전체)"
+            ? myStocks
+            : myStocks.filter((stock) => stock?.section === selectedCategory)
+          ).map((stock, index) => (
+            <div key={stock.name} className={styles.stockContainer}>
+              <div
+                className={styles.exceptHeart}
+                onClick={() =>
+                  navigateToDetail(stock.stbd_nm, stock.stock_code)
+                }
+              >
+                <div className={styles.rank}>{index + 1}</div>
+                <img
+                  src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.stockCode}.png`}
+                  alt=""
+                  className={styles.stockImg}
+                  onError={(e) => {
+                    e.target.src =
+                      "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
+                  }}
+                />
+                <div className={styles.verticalFlexContainer}>
+                  <div className={styles.stockName}>{stock.name}</div>
                 </div>
               </div>
-            ))}
+              <div
+                className={styles.heartContainer}
+                onClick={() => toggleFavoriteStock(stock.stockCode)} // Add onClick event to toggle favorite stock
+              >
+                <img
+                  src={
+                    myStocks.some(stock.stockCode) ? FilledHeart : UnfilledHeart
+                  }
+                  className={styles.heart}
+                  alt="Heart"
+                />
+              </div>
+            </div>
+          ))}
         </div>
       </Box>
     </Box>

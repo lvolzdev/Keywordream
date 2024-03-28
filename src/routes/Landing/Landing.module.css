@@ -31,12 +31,12 @@
 
   @media screen and (min-width: 600px) {
     .logo {
-      width: 30%; /* viewport의 가로 길이가 600px 이상일 때 .logo의 너비를 20%로 설정 */
+      width: 20%; /* viewport의 가로 길이가 600px 이상일 때 .logo의 너비를 20%로 설정 */
     }
 
     .bearContainer {
       text-align: center;
-      width: 30%;
+      width: 20%;
     }
 
     .bear {
@@ -44,7 +44,7 @@
     }
 
     .button{
-        width: 30vw;
-        height: 5vh;
+        width: 20vw;
+        height: 4vh;
     }
   }

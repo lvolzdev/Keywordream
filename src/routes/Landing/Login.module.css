@@ -23,7 +23,6 @@
 
   .input {
     width: 55vw;
-    margin-bottom: 1vh;
   }
 
   .button {
@@ -33,26 +32,25 @@
 
   @media screen and (min-width: 600px) {
     .logo {
-      width: 50%;
+      width: 40%;
     }
 
     .welcome {
-      width: 30vw; /* viewport의 가로 길이가 600px 이상일 때 .logo의 너비를 20%로 설정 */
+      width: 20vw; /* viewport의 가로 길이가 600px 이상일 때 .logo의 너비를 20%로 설정 */
     }
 
     .input {
-      width: 30vw;
-      height: 5vh;
-      margin-bottom: 1vh;
+      width: 20vw;
+      height: 4vh;
     }
 
     .alert {
-      width: 30vw;
+      width: 20vw;
       box-sizing: border-box;
     }
 
     .button{
-        width: 30vw;
-        height: 5vh;
+        width: 20vw;
+        height: 4vh;
     }
   }
