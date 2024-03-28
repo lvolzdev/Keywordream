@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import ApexChart from "react-apexcharts";
+import styled from "styled-components";
 
 const LineChartComponent = ({ lineChart, chartColor }) => {
   const chartRef = useRef(null);
@@ -22,22 +23,49 @@ const LineChartComponent = ({ lineChart, chartColor }) => {
       const x = chart.w.globals.seriesX[0][lastIndex];
       const y = series[lastIndex];
 
+      // 큰 마커
       chart.addPointAnnotation({
         x,
         y,
         marker: {
-          size: 3.5,
-          fillColor: chartColor,
-          strokeColor: chartColor,
+          size: 6,
+          fillColor: "transparent",
+          strokeColor: "transparent",
           radius: 2,
         },
+        id: "big-marker", // 큰 마커의 id 설정
+        animation: {
+          speed: 600,
+          easing: "easeinout",
+          animateGradually: {
+            enabled: true,
+            delay: 20,
+          },
+          opacity: {
+            from: 1,
+            to: 0.5,
+          },
+        },
+      });
+
+      // 작은 마커
+      chart.addPointAnnotation({
+        x,
+        y,
+        marker: {
+          size: 3,
+          fillColor: "#fe2f4d",
+          strokeColor: "#fe2f4d",
+          radius: 2,
+        },
+        id: "small-marker",
       });
     }
   }, [lineChart]);
 
   return (
     <div>
-      <ApexChart
+      <StyledApexChart
         ref={chartRef}
         type="line"
         series={[
@@ -89,5 +117,26 @@ const LineChartComponent = ({ lineChart, chartColor }) => {
     </div>
   );
 };
+
+const StyledApexChart = styled(ApexChart)`
+  .apexcharts-point-annotations circle#small-marker {
+    animation: none;
+  }
+
+  .apexcharts-point-annotations circle {
+    animation: blink 1s infinite alternate;
+  }
+
+  @keyframes blink {
+    0% {
+      fill: "#FFC4CC";
+      stroke: transparent;
+    }
+    100% {
+      fill: #fe2f4d;
+      stroke: transparent;
+    }
+  }
+`;
 
 export default LineChartComponent;
