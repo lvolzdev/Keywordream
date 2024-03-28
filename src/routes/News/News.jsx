@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Tag from "./Tag";
-import { getNewsList, getNewsTagTop3 } from "../../lib/apis/newsApi";
+import { getKeywordNewsList, getNewsList, getNewsTagTop3 } from "../../lib/apis/newsApi";
 import NewsList from "./NewsList";
 
 export default function News() {
@@ -27,6 +27,18 @@ export default function News() {
     }
   }
 
+  const changeNewsList = async (keyword) => {
+    console.log(keyword)
+    try{
+      let newsListData = await getKeywordNewsList(stockCode, keyword);
+      if(newsListData === "") newsListData = [];
+      console.log(newsListData)
+      setNewsList(newsListData)
+    } catch(error){
+      console.log("키워드 뉴스 리스트 가져오기 실패: ", error);
+    }
+  }
+
   const getNewsTagTop3Data = async () => {
     try{
       let newsTagTop3Data = await getNewsTagTop3(stockCode);
@@ -39,7 +51,7 @@ export default function News() {
 
   return(
     <div>
-      <Tag tags={tags}/>
+      <Tag tags={tags} changeNewsList={changeNewsList}/>
       <NewsList newsList={newsList} stockCode={stockCode}/>
     </div>
   );
