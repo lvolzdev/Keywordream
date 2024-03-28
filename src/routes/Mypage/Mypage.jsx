@@ -18,9 +18,11 @@ export default function Mypage() {
   useEffect(() => {
     fetchMyStock(nickName)
       .then((res) => {
-        const myStock = res;
-        console.log(myStock);
-        setMyStocks(myStock);
+        const stocks = res.map((stock) => ({
+          ...stock,
+          deleted: false,
+        }));
+        setMyStocks(stocks);
       })
       .catch((error) => {
         console.log(error);
@@ -91,22 +93,30 @@ export default function Mypage() {
     setSelectedCategory(event.target.value);
   };
 
-  const navigateToDetail = async (stockCode) => {
+  const navigateToDetail = (stockCode) => {
     navigate(`/detail/${stockCode}/keyword`);
   };
 
-  const toggleFavoriteStock = (stockCode) => {
+  const toggleFavoriteStock = (stock) => {
     const nickName = localStorage.getItem("nickName");
     if (!nickName) {
       navigate("/login");
     } else {
-      setMyStocks(async (prevStocks) => {
-        if (prevStocks.some((stock) => stock.stockCode === stockCode)) {
-          await deleteMyStock(nickName, stockCode);
-          return prevStocks.filter((code) => code !== stockCode);
+      setMyStocks((prevStocks) => {
+        if (!stock.deleted) {
+          deleteMyStock(nickName, stock.stockCode);
+          return prevStocks.map((prevStock) =>
+            prevStock.stockCode === stock.stockCode
+              ? { ...prevStock, deleted: true }
+              : prevStock
+          );
         } else {
-          await addMyStock(nickName, stockCode);
-          return [...prevStocks, stockCode];
+          addMyStock(nickName, stock.stockCode);
+          return prevStocks.map((prevStock) =>
+            prevStock.stockCode === stock.stockCode
+              ? { ...prevStock, deleted: false }
+              : prevStock
+          );
         }
       });
     }
@@ -134,7 +144,7 @@ export default function Mypage() {
         <div className={styles.contentBox}>
           {(selectedCategory === "업종(전체)"
             ? myStocks
-            : myStocks.filter((stock) => stock?.section === selectedCategory)
+            : myStocks.filter((stock) => stock.section === selectedCategory)
           ).map((stock, index) => (
             <div key={stock.name} className={styles.stockContainer}>
               <div
@@ -159,12 +169,10 @@ export default function Mypage() {
               </div>
               <div
                 className={styles.heartContainer}
-                onClick={() => toggleFavoriteStock(stock.stockCode)} // Add onClick event to toggle favorite stock
+                onClick={() => toggleFavoriteStock(stock)}
               >
                 <img
-                  src={
-                    myStocks.some(stock.stockCode) ? FilledHeart : UnfilledHeart
-                  }
+                  src={stock.deleted ? UnfilledHeart : FilledHeart}
                   className={styles.heart}
                   alt="Heart"
                 />
