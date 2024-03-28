@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { TextField, Button, Typography, Box, Alert } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../lib/apis/login";
 import styles from "./Login.module.css";
 import Welcome from "../../assets/image/Welcome.gif";
 import Logo from "../../assets/image/logo.png";
@@ -14,12 +15,19 @@ export default function Login() {
     setNickname(event.target.value);
   };
 
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (nickname === "") {
       setShowAlert(true);
     } else {
-      localStorage.setItem("nickName", nickname);
-      navigate("/main");
+      try {
+        // 로컬 스토리지에서 받은 닉네임으로 login 함수 호출
+        console.log(await login(nickname));
+        localStorage.setItem("nickName", nickname);
+        navigate("/main");
+      } catch (error) {
+        console.error("로그인 실패:", error);
+        // 로그인 실패 처리
+      }
     }
   };
 

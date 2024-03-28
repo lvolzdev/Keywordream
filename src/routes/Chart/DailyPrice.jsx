@@ -38,90 +38,90 @@ export default function DailyPrice() {
   }, []);
 
   return (
-      <div className="stock-table-container">
-        <ScrollMenu>
-          <div>
-            <table className="stock-table">
-              <thead>
-                <tr>
-                  <th
-                    style={{
-                      position: "sticky",
-                      left: "0",
-                      zIndex: "1",
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    날짜
-                  </th>
-                  <th>종가</th>
-                  <th>등락률</th>
-                  <th>거래량(주)</th>
-                  <th>거래대금</th>
-                </tr>
-              </thead>
-              <tbody>
-                {dailyStockData !== null &&
-                  dailyStockData.map((item, index) => (
-                    <tr key={index}>
-                      <td
-                        style={{
-                          position: "sticky",
-                          left: "0",
-                          zIndex: "1",
-                          backgroundColor: "#fff",
-                        }}
-                      >
-                        {item.stck_bsop_date.slice(4)}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {numberWithCommas(item.stck_clpr)}원
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {index < dailyStockData.length - 1 && (
-                          <span
-                            className={
-                              item.stck_clpr -
-                                dailyStockData[index + 1].stck_clpr >
-                              0
-                                ? "positive"
-                                : item.stck_clpr -
-                                    dailyStockData[index + 1].stck_clpr <
-                                  0
-                                ? "negative"
-                                : "grey"
-                            }
-                          >
-                            {item.stck_clpr -
+    <div className="stock-table-container">
+      <ScrollMenu>
+        <div>
+          <table className="stock-table">
+            <thead>
+              <tr>
+                <th
+                  style={{
+                    position: "sticky",
+                    left: "0",
+                    zIndex: "1",
+                    backgroundColor: "#fff",
+                  }}
+                >
+                  날짜
+                </th>
+                <th>종가</th>
+                <th>등락률</th>
+                <th>거래량(주)</th>
+                <th>거래대금</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dailyStockData !== null &&
+                dailyStockData.map((item, index) => (
+                  <tr key={index}>
+                    <td
+                      style={{
+                        position: "sticky",
+                        left: "0",
+                        zIndex: "1",
+                        backgroundColor: "#fff",
+                      }}
+                    >
+                      {item.stck_bsop_date.slice(4)}
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      {numberWithCommas(item.stck_clpr)}원
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      {index < dailyStockData.length - 1 && (
+                        <span
+                          className={
+                            item.stck_clpr -
                               dailyStockData[index + 1].stck_clpr >
                             0
-                              ? "+"
-                              : "-"}
-                            {Math.floor(
-                              (Math.abs(
-                                item.stck_clpr -
-                                  dailyStockData[index + 1].stck_clpr
-                              ) /
-                                dailyStockData[index + 1].stck_clpr) *
-                                100 *
-                                100
-                            ) / 100}
-                            %
-                          </span>
-                        )}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {numberWithCommas(item.acml_vol)}
-                      </td>
-                      <td style={{ textAlign: "right" }}>
-                        {formatAmount(item.acml_tr_pbmn)}
-                      </td>
-                    </tr>
-                  ))}
-              </tbody>
-            </table>
-          </div>
-        </ScrollMenu>
-      </div>
+                              ? "positive"
+                              : item.stck_clpr -
+                                  dailyStockData[index + 1].stck_clpr <
+                                0
+                              ? "negative"
+                              : "grey"
+                          }
+                        >
+                          {item.stck_clpr -
+                            dailyStockData[index + 1].stck_clpr >
+                          0
+                            ? "+"
+                            : "-"}
+                          {Math.floor(
+                            (Math.abs(
+                              item.stck_clpr -
+                                dailyStockData[index + 1].stck_clpr
+                            ) /
+                              dailyStockData[index + 1].stck_clpr) *
+                              100 *
+                              100
+                          ) / 100}
+                          %
+                        </span>
+                      )}
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      {numberWithCommas(item.acml_vol)}
+                    </td>
+                    <td style={{ textAlign: "right" }}>
+                      {formatAmount(item.acml_tr_pbmn)}
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
+          </table>
+        </div>
+      </ScrollMenu>
+    </div>
   );
 }
