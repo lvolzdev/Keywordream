@@ -35,19 +35,27 @@
 }
 .keywordRow {
   display: flex;
-  justify-content: space-between;
-  margin-left: 1rem;
+  margin-left: 0.3rem;
   text-decoration: none;
 }
+.keywordItem {
+  /* width: fit-content !important; */
+  /* box-sizing: content-box; */
 
+  box-sizing: border-box;
+  padding-left: 5px;
+  padding-right: 7px;
+  text-align: center;
+}
 
 .keywordItem a {
   text-decoration: none; /* 밑줄 제거 */
   background-color: #e7ecff;
   color: black;
-  border-radius: 5px;
-  font-size: 1rem;
+  border-radius: 3px;
+  font-size: 0.9rem;
   font-weight: bold;
+  padding: 8px 12px;
 }
 
 .stockContainer {

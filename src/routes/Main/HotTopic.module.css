@@ -21,6 +21,7 @@
   margin: 0.5vh 0;
 }
 .swiper {
+  /* height: 7vh; */
   height: 7vh;
 }
 .slide {
@@ -32,6 +33,8 @@
 .medal {
   height: 4vh;
 }
+
+
 .textContainer {
   text-align: left;
   flex: 1;
