@@ -1,20 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom"; // Link 추가
+import { useParams, Link } from "react-router-dom";
 import { getKeywords } from "../../lib/apis/Shinhan";
-import "./DetailKeyword.css"; // CSS 파일 import
+import "./DetailKeyword.css";
 
 export default function DetailKeyword() {
   const { keyword } = useParams();
-  console.log(keyword);
   const [details, setDetails] = useState([]);
 
   useEffect(() => {
     const fetchKeywordDetails = async () => {
       try {
         const response = await getKeywords();
-        // 주어진 키워드에 해당하는 상세 정보를 찾음
         const keywordDetails = response.find(item => item.keyword === keyword);
-
         if (keywordDetails) {
           setDetails(keywordDetails.details);
         } else {
@@ -31,29 +28,35 @@ export default function DetailKeyword() {
 
   return (
     <div>
-      <div className="social"> {/* 새로운 클래스명 container 추가 */}
-        <h2>🔑{keyword}</h2>
-        <table>
-          <thead>
-            <tr>
-              <th>종목명</th>
-              <th>등락률</th>
-              <th>기업개요</th>
-            </tr>
-          </thead>
-          <tbody>
-            {details.map((item, index) => (
-              <tr key={index}>
-                {/* 종목명을 클릭하면 해당 종목의 종목 코드를 URL에 포함하여 페이지 이동 */}
-                <td><Link to={`/detail/${item.stockCode}/keyword`}>{item.stockName}</Link></td>
-                {/* 등락률이 음수일 때는 파란색, 양수일 때는 빨간색으로 글자색 변경 */}
-                <td style={{ color: item.ratio < 0 ? 'blue' : item.ratio > 0 ? 'red' : 'inherit' }}>{item.ratio}%</td>
-                <td>{item.company_summary}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="social">
+        <div className="keywordtitleInfo">
+          <div style={{ marginTop: "0", fontSize: "1.5rem", fontWeight: "bold" }}>🔑{keyword}</div>
+          <p style={{ color: "#A0A0A0", fontsize: "1rem", marginBottom: "0.4rem" }}>종목명을 클릭하여 세부정보를 확인해보세요!</p>
+        </div>
+
+        {details.map((item, index) => (
+          <div key={index} className="stock-item" style={{ backgroundColor: "#e7ecff", borderRadius: "10px" }}>
+            <div className="detailtitle">
+              <div className="stockInfo">
+                <img
+                  src={`https://file.alphasquare.co.kr/media/images/stock_logo/kr/${item.stockCode}.png`} alt=""
+                  className="stockImg"
+                  onError={(e) => {
+                    e.target.src =
+                      "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
+                  }}
+                />
+                <div style={{ fontWeight: "bold", backgroundColor: "#FFFFFF", fontSize: "1.0rem", padding: "0.5rem 0.5rem", borderRadius: "10px" }}>
+                  <Link to={`/detail/${item.stockCode}/keyword`}>{item.stockName}</Link>
+                </div>
+              </div>
+              <div style={{ marginLeft: "auto", color: item.ratio < 0 ? 'blue' : item.ratio > 0 ? 'red' : 'inherit', marginRight: "0.2rem" }}>{item.ratio}%</div>
+            </div>
+            <br />
+            <div style={{ marginLeft: "0.5rem" }}>{item.company_summary}</div>
+          </div>
+        ))}
       </div>
-    </div>
+    </div >
   );
 }

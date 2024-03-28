@@ -3,6 +3,11 @@ import { Link } from "react-router-dom";
 import { getKeywords } from "../../lib/apis/Shinhan";
 import Keyword from "./keyword.png";
 import styles from "./PopularStock.module.css";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import { Pagination, Autoplay, Navigation } from "swiper/modules";
 
 export default function TopKeyword() {
   const [keywords, setKeywords] = useState([]);
@@ -11,8 +16,7 @@ export default function TopKeyword() {
     const fetchKeywords = async () => {
       try {
         const response = await getKeywords();
-        // response는 객체이므로 그 안에 있는 키워드 정보를 뽑아냅니다.
-        const keywordList = response.map(item => item.keyword);
+        const keywordList = response.map((item) => item.keyword);
         setKeywords(keywordList);
       } catch (error) {
         console.error("Error fetching keywords:", error);
@@ -30,11 +34,21 @@ export default function TopKeyword() {
       </div>
       <br />
       <div className={styles.keywordRow}>
-        {keywords.map((keyword, index) => (
-          <div key={index} className={styles.keywordItem}>
-            <Link to={`/keyword/${keyword}`}>{keyword}</Link>
-          </div>
-        ))}
+        <Swiper
+          direction="horizontal"
+          slidesPerView="3"
+          // spaceBetween={"20px"}
+          autoplay={{ delay: 3000 }}
+          loop={true}
+          modules={[Autoplay, Pagination, Navigation]}
+          className={styles.swiper}
+        >
+          {keywords.map((keyword, index) => (
+            <SwiperSlide key={index} className={styles.keywordItem}>
+              <Link to={`/keyword/${keyword}`}>{keyword}</Link>
+            </SwiperSlide>
+          ))}
+        </Swiper>
       </div>
       <br />
       <br />
