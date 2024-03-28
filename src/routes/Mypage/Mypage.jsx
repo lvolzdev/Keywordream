@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Box, MenuItem, Select } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styles from "./Mypage.module.css";
-import { fetchMyStock } from "../../lib/apis/mypage";
+import { fetchMyStock, addMyStock, deleteMyStock } from "../../lib/apis/mypage";
 import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
 import FilledHeart from "../../assets/image/FilledHeart.png";
 
@@ -23,16 +23,23 @@ export default function Mypage() {
     },
   ]);
   const navigate = useNavigate();
+  const nickName = localStorage.getItem("nickName");
+  if (!nickName) {
+    navigate("/login");
+  }
 
   useEffect(() => {
-    const storedNickName = localStorage.getItem("nickName");
-    if (!storedNickName) {
-      navigate("/login");
-    } else {
-      const myStock = fetchMyStock(storedNickName);
-      // setMyStocks(myStock);
-    }
-  }, [navigate]);
+    fetchMyStock(nickName)
+      .then((res) => {
+        const myStock = res;
+        console.log(myStock);
+        setMyStocks(myStock);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const categories = [
     "건설",
@@ -102,13 +109,20 @@ export default function Mypage() {
   };
 
   const toggleFavoriteStock = (stockCode) => {
-    setMyStocks((prevStocks) => {
-      if (prevStocks.includes(stockCode)) {
-        return prevStocks.filter((code) => code !== stockCode);
-      } else {
-        return [...prevStocks, stockCode];
-      }
-    });
+    const nickName = localStorage.getItem("nickName");
+    if (!nickName) {
+      navigate("/login");
+    } else {
+      setMyStocks(async (prevStocks) => {
+        if (prevStocks.some((stock) => stock.stockCode === stockCode)) {
+          await deleteMyStock(nickName, stockCode);
+          return prevStocks.filter((code) => code !== stockCode);
+        } else {
+          await addMyStock(nickName, stockCode);
+          return [...prevStocks, stockCode];
+        }
+      });
+    }
   };
 
   return (

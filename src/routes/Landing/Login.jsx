@@ -21,7 +21,7 @@ export default function Login() {
     } else {
       try {
         // 로컬 스토리지에서 받은 닉네임으로 login 함수 호출
-        await login(nickname);
+        console.log(await login(nickname));
         localStorage.setItem("nickName", nickname);
         navigate("/main");
       } catch (error) {

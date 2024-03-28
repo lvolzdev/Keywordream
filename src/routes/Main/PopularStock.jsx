@@ -5,6 +5,7 @@ import {
   fetchMostIncreased,
   fetchMostExchanged,
 } from "../../lib/apis/Shinhan";
+import { fetchMyStock, addMyStock, deleteMyStock } from "../../lib/apis/mypage";
 import Chart from "../../assets/image/Chart.png";
 import styles from "./PopularStock.module.css";
 import Tabs from "@mui/material/Tabs/";
@@ -17,13 +18,18 @@ import Loading from "../../components/Loading";
 
 const PopularStock = () => {
   const [tabIndex, setTabIndex] = useState(0);
-  const [myStock, setMyStock] = useState(["010140", "109610"]); // Initialize myStock array with favorite stock codes
+  const [myStocks, setMyStocks] = useState([]); // Initialize myStock array with favorite stock codes
   const [mostExchanged, setMostExchanged] = useState([]);
   const [mostViewed, setMostViewed] = useState([]);
   const [mostIncreased, setMostIncreased] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
   const [detailLoading, setDetailLoading] = useState(false);
   const navigate = useNavigate();
+
+  const nickName = localStorage.getItem("nickName");
+  if (!nickName) {
+    navigate("/login");
+  }
 
   useEffect(() => {
     const fetchData = async () => {
@@ -41,6 +47,11 @@ const PopularStock = () => {
         console.error("인기종목 조회 실패:", error);
         setLoading(false); // Set loading state to false if there's an error
       }
+      try {
+        setMyStocks(await fetchMyStock(nickName));
+      } catch (error) {
+        return error;
+      }
     };
 
     fetchData();
@@ -51,11 +62,14 @@ const PopularStock = () => {
   };
 
   const toggleFavoriteStock = (stockCode) => {
-    setMyStock((prevStocks) => {
-      if (prevStocks.includes(stockCode)) {
-        return prevStocks.filter((code) => code !== stockCode);
+    setMyStocks((prevStocks) => {
+      console.log(prevStocks);
+      if (prevStocks?.some((stock) => stock.stockCode === stockCode)) {
+        deleteMyStock(nickName, stockCode);
+        return prevStocks.filter((code) => code.stockCode !== stockCode);
       } else {
-        return [...prevStocks, stockCode];
+        addMyStock(nickName, stockCode);
+        return [...prevStocks, { stockCode }];
       }
     });
   };
@@ -66,14 +80,14 @@ const PopularStock = () => {
     // console.log(typeof response.status)
     // setLoading(false);
     // if(response.status === 200){
-      navigate(`/detail/${stockCode}/keyword`);
+    navigate(`/detail/${stockCode}/keyword`);
     // }
   };
 
   return (
     <div className={styles.layout}>
       {/* Loading은 다음페이지로 넘어가기 위함 -> 어디에 넣든 상관없음 */}
-      <Loading loading={detailLoading}/>
+      <Loading loading={detailLoading} />
       <div className={styles.container}>
         <img src={Chart} className={styles.chart} alt="" />
         <div className={styles.text}>실시간 인기 종목</div>
@@ -157,7 +171,9 @@ const PopularStock = () => {
               >
                 <img
                   src={
-                    myStock.includes(stock.stock_code)
+                    myStocks?.some(
+                      (myStock) => myStock.stockCode === stock.stock_code
+                    )
                       ? FilledHeart
                       : UnfilledHeart
                   }

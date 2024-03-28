@@ -8,10 +8,8 @@ import styles from "../../routes/Main/PopularStock.module.css";
 import stockimage from "../../components/005930.png";
 import "./DailyPrice.css";
 import { getDailyStock } from "../../lib/apis/dailystockApi";
-import {
-  ScrollMenu,
-} from 'react-horizontal-scrolling-menu';
-import 'react-horizontal-scrolling-menu/dist/styles.css';
+import { ScrollMenu } from "react-horizontal-scrolling-menu";
+import "react-horizontal-scrolling-menu/dist/styles.css";
 
 export default function DailyPrice() {
   const [tabIndex, setTabIndex] = useState(0);
@@ -102,7 +100,16 @@ export default function DailyPrice() {
                 <table className="stock-table">
                   <thead>
                     <tr>
-                      <th style={{ position: "sticky", left: "0", zIndex: "1", backgroundColor: "#fff" }}>날짜</th>
+                      <th
+                        style={{
+                          position: "sticky",
+                          left: "0",
+                          zIndex: "1",
+                          backgroundColor: "#fff",
+                        }}
+                      >
+                        날짜
+                      </th>
                       <th>종가</th>
                       <th>등락률</th>
                       <th>거래량(주)</th>
@@ -113,7 +120,16 @@ export default function DailyPrice() {
                     {dailyStockData !== null &&
                       dailyStockData.map((item, index) => (
                         <tr key={index}>
-                          <td style={{ position: "sticky", left: "0", zIndex: "1", backgroundColor: "#fff" }}>{item.stck_bsop_date.slice(4)}</td>
+                          <td
+                            style={{
+                              position: "sticky",
+                              left: "0",
+                              zIndex: "1",
+                              backgroundColor: "#fff",
+                            }}
+                          >
+                            {item.stck_bsop_date.slice(4)}
+                          </td>
                           <td style={{ textAlign: "right" }}>
                             {numberWithCommas(item.stck_clpr)}원
                           </td>
@@ -121,18 +137,32 @@ export default function DailyPrice() {
                             {index < dailyStockData.length - 1 && (
                               <span
                                 className={
-                                  item.stck_clpr - dailyStockData[index + 1].stck_clpr >
-                                    0
+                                  item.stck_clpr -
+                                    dailyStockData[index + 1].stck_clpr >
+                                  0
                                     ? "positive"
                                     : item.stck_clpr -
-                                      dailyStockData[index + 1].stck_clpr < 0
-                                      ? "negative"
-                                      : "grey"
+                                        dailyStockData[index + 1].stck_clpr <
+                                      0
+                                    ? "negative"
+                                    : "grey"
                                 }
                               >
-                                {item.stck_clpr - dailyStockData[index + 1].stck_clpr > 0 ? "+" : "-"}
-                                {Math.floor((Math.abs(item.stck_clpr - dailyStockData[index + 1].stck_clpr) /
-                                  dailyStockData[index + 1].stck_clpr) * 100 * 100) / 100}%
+                                {item.stck_clpr -
+                                  dailyStockData[index + 1].stck_clpr >
+                                0
+                                  ? "+"
+                                  : "-"}
+                                {Math.floor(
+                                  (Math.abs(
+                                    item.stck_clpr -
+                                      dailyStockData[index + 1].stck_clpr
+                                  ) /
+                                    dailyStockData[index + 1].stck_clpr) *
+                                    100 *
+                                    100
+                                ) / 100}
+                                %
                               </span>
                             )}
                           </td>
