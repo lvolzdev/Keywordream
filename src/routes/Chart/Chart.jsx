@@ -30,6 +30,7 @@ export default function StockChart() {
     const fetchChartData = async () => {
       try {
         const response = await getChart(stockCode);
+
         const data = response.data.t8412OutBlock1.map((res) => ({
           date: `${res.date.slice(0, 4)}-${res.date.slice(
             4,
@@ -52,13 +53,13 @@ export default function StockChart() {
         var minDate = new Date(data[0].date);
 
         data.forEach((data) => {
-          if (data.close > maxVal) {
+          if (data.close !== null && data.close > maxVal) {
             maxVal = data.close;
             maxDate = new Date(data.date);
           }
-          if (data.close < minVal) {
-            minVal = data.close;
-            minDate = new Date(data.date);
+          if (data.close !== null && data.close < minVal) {
+            maxVal = data.close;
+            maxDate = new Date(data.date);
           }
         });
 
@@ -70,6 +71,26 @@ export default function StockChart() {
 
     fetchChartData();
   }, [stockCode, colors]);
+
+  // useEffect(() => {
+  //   joinRoom(stockCode);
+
+  //   return () => {
+  //     leaveRoom(stockCode);
+  //   };
+  // }, [stockCode]);
+
+  // useEffect(() => {
+  //   receiveStockPriceList(stockCode, updateChartData);
+  // }, [realChartData]);
+
+  // const updateChartData = (newData) => {
+  //   setRealChartData(realChartData.concat(newData));
+  // };
+
+  // // 실시간 데이터
+  // // TODO
+  // // const
 
   useEffect(() => {
     // 차트 너비 설정
