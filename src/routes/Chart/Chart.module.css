@@ -1,3 +1,9 @@
 .btn {
   margin-top: 10px;
 }
+
+.infoText {
+  color: gray;
+  font-size: small;
+  margin-top: 0.3rem;
+}

@@ -204,7 +204,9 @@ export default function StockChart() {
       >
         {isCandle ? "간단한 차트 보기" : "자세한 차트 보기"}
       </StyledButton>
-
+      <p className={styles.infoText}>
+        금일 시세 차트를 실시간으로 확인하실 수 있습니다.
+      </p>
       {isCandle ? (
         <CandleChartComponent
           chartContainerRef={chartContainerRef}
