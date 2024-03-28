@@ -3,14 +3,17 @@ import { useParams } from "react-router-dom";
 import { getKeyword } from "../../lib/apis/keywordApi";
 
 import WordCloud from "react-d3-cloud";
-//import styles from "./Keyword.module.css";
+import styles from "./Keyword.module.css";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
+import Modal from 'react-modal';
 
 export default function Keyword() {
   const [keywords, setKeywords] = useState([]);
   const [top3Keywords, setTop3Keywords] = useState([]);
+  const [selectedWord, setSelectedWord] = useState(""); // 클릭된 단어 상태 추가
+  const [isOpen, setIsOpen] = useState(false); // 모달 열림/닫힘 상태 추가
   const stockCode = useParams().stockCode;
 
   // 원형 스파이럴 함수
@@ -21,7 +24,7 @@ export default function Keyword() {
     };
   };
   // fontSize 매퍼 함수
-  const fontSizeMapper = (word) => Math.log2(word.value) * 7;
+  const fontSizeMapper = (word) => Math.log2(word.value) * 10;
 
   // rotate 함수: 여기서는 모든 단어를 0도로 설정합니다.
   const rotate = (word) => 0;
@@ -47,9 +50,26 @@ export default function Keyword() {
     fetchData(); // 데이터 가져오는 함수 호출
   }, [stockCode]); // stockCode가 변경될 때마다 useEffect가 실행
 
+  // 단어 클릭 핸들러
+  const handleWordClick = (word) => {
+    setSelectedWord(word);
+    setIsOpen(true); // 모달 열기
+  };
+
+  // 모달 닫기 핸들러
+  const closeModal = () => {
+    setSelectedWord(null); // 선택된 단어 초기화
+    setIsOpen(false);
+  };
+
+  // Google 뉴스 검색 결과 페이지 URL 생성 함수
+  const generateGoogleNewsUrl = () => {
+    return `https://search.naver.com/search.naver?ssc=tab.news.all&where=news&query=${stockCode}+${selectedWord}`;
+  };
+
   return (
-    <div>
-      <List>
+    <div className={styles.pageContainer}>
+      <List style={{ marginTop: "10px" }}>
         {top3Keywords.map((keyword, index) => (
           <ListItem
             key={index}
@@ -59,8 +79,27 @@ export default function Keyword() {
               borderRadius: "10px",
             }}
           >
+            <div
+              style={{
+                display: "inline-block",
+                width: "30px",
+                textAlign: "center",
+                backgroundColor:
+                  index === 0
+                    ? "#FFD700"
+                    : index === 1
+                    ? "#C0C0C0"
+                    : index === 2
+                    ? "#CD7F32"
+                    : "#fff", // 순위에 따라 색상 지정
+                borderRadius: "10px 0 0 10px", // 왼쪽 둥근 모서리만 적용
+                marginRight: "20px",
+              }}
+            >
+              <span style={{ fontWeight: "bold" }}>{index + 1}</span>
+            </div>
             <ListItemText
-              primary={`${keyword.text}: ${keyword.value}`}
+              primary={`${keyword.text}`}
               primaryTypographyProps={{
                 style: { fontWeight: "bold", color: "#333" },
               }}
@@ -68,8 +107,30 @@ export default function Keyword() {
           </ListItem>
         ))}
       </List>
-      <WordCloud data={keywords} fontSize={fontSizeMapper} font="sans-serif" 
-      rotate={rotate}  spiral={circleSpiral}/>
+      <div style={{ width: "90%", height: "800px", marginTop: "15px" }}>
+        <WordCloud
+          data={keywords}
+          fontSize={fontSizeMapper}
+          font="sans-serif"
+          rotate={rotate}
+          spiral={circleSpiral}
+          padding="8"
+          onWordClick={(event, d) => handleWordClick(d.text)}
+        />
+      </div>
+
+
+{/*       
+      <Modal
+        isOpen={isOpen}
+        onRequestClose={closeModal}
+        contentLabel="Google News Modal"
+        className={styles.modal} // 모달에 적용할 CSS 클래스
+        overlayClassName={styles.overlay} // 모달 배경에 적용할 CSS 클래스
+      >
+        <button onClick={closeModal}>Close</button>
+        <a href={generateGoogleNewsUrl()} target="_blank" rel="noopener noreferrer">Open in new tab</a>
+      </Modal> */}
     </div>
   );
 }
