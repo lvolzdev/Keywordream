@@ -45,6 +45,7 @@ export default function SubDetailLayout() {
         value={tabIndex}
         onChange={handleChange}
         aria-label="popular stock tabs"
+        variant="fullWidth"
         classes={{
           indicator: styles.customTabIndicator,
         }}

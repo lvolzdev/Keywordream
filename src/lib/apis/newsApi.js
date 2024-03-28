@@ -12,6 +12,19 @@ export const getNewsList = async (stockCode) => {
       }
 };
 
+export const getKeywordNewsList = async (stockCode, keyword) => {
+    try {
+        const {data} = await instance.post("/news/keywordList", {
+            stockCode : stockCode,
+            keyword : keyword
+        })
+        return data;
+      } catch (error) {
+        console.error('Error keyword fetching news list:', error);
+        throw error;
+      }
+};
+
 export const getNewsTagTop3 = async (stockCode) => {
     try{
         const {data} = await instance.post("/news/tags", {

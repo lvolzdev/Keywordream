@@ -72,10 +72,11 @@ const PopularStock = () => {
         value={tabIndex}
         onChange={handleChange}
         aria-label="popular stock tabs"
+        variant="fullWidth"
         classes={{
           indicator: styles.customTabIndicator,
         }}
-        centered
+        // centered
       >
         <Tab
           label="거래량"
