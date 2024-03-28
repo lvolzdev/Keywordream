@@ -1,7 +1,8 @@
-.container {
-    display: flex;
-    align-items: center; /* 수평 가운데 정렬 */
-  }
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  height: 65vh;
+}
     .fire{
         width: 9.2vw;
         max-width: 40px;
