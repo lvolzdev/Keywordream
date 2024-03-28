@@ -1,18 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
-import { Outlet, useLocation, useParams } from "react-router-dom";
-import stockimage from "./005930.png";
+import { Outlet, useParams } from "react-router-dom";
 import "./DetailLayout.css"; // CSS 파일 import
 import styles from "../routes/Main/PopularStock.module.css";
-import Tabs from "@mui/material/Tabs/";
-import Tab from "@mui/material/Tab/";
-import { Link } from "react-router-dom";
 import { fetchStockInfo } from "../lib/apis/stockInfo";
 import { joinRoom, leaveRoom, receiveStockPrice } from "../lib/socket/socket";
 
 export default function DetailLayout() {
-  const [tabIndex, setTabIndex] = useState(0);
-  const {pathname} = useLocation();
   const [stockName, setStockName] = useState("");
   const [stockPrice, setStockPrice] = useState(0);
   const [ratio, setRatio] = useState(0);
@@ -34,20 +28,12 @@ export default function DetailLayout() {
     };
 
     fetchData();
-  }, [stockCode]); // stockCode가 변경될 때마다 호출
-  const handleChange = (event, newValue) => {
-    setTabIndex(newValue);
-  };
 
-  useEffect(()=>{
-    if(pathname.endsWith("news")){
-      setTabIndex(1);
-    } else if(pathname.endsWith("chart")){
-      setTabIndex(2);
-    } else if(pathname.endsWith("info")){
-      setTabIndex(3);
-    }
-  },[pathname])
+    return () => {
+      leaveRoom(stockCode); // 해당 종목을 room에서 나가는 함수 호출
+      console.log("방 나감");
+    };
+  }, [stockCode]); // stockCode가 변경될 때마다 호출
 
   return (
     <div className="detail-container">
@@ -81,56 +67,9 @@ export default function DetailLayout() {
         </div>
       </div>
       <br />
-      <Tabs
-        value={tabIndex}
-        onChange={handleChange}
-        aria-label="popular stock tabs"
-        classes={{
-          indicator: styles.customTabIndicator,
-        }}
-      >
-        <Tab
-          label={<span style={{ fontWeight: "bold" }}>키워드</span>}
-          component={Link}
-          to={`/detail/${stockCode}/keyword`}
-          classes={{
-            root: styles.customTextColor,
-            selected: styles.customTabSelected,
-          }}
-        />
-        <Tab
-          label={<span style={{ fontWeight: "bold" }}>뉴스</span>}
-          component={Link}
-          to={`/detail/${stockCode}/news`}
-          classes={{
-            root: styles.customTextColor,
-            selected: styles.customTabSelected,
-          }}
-        />
-        <Tab
-          label={<span style={{ fontWeight: "bold" }}>차트</span>}
-          component={Link}
-          to={`/detail/${stockCode}/chart`}
-          classes={{
-            root: styles.customTextColor,
-            selected: styles.customTabSelected,
-          }}
-        />
-        <Tab
-          label={<span style={{ fontWeight: "bold" }}>정보</span>}
-          component={Link}
-          to={`/detail/${stockCode}/info`}
-          classes={{
-            root: styles.customTextColor,
-            selected: styles.customTabSelected,
-          }}
-        />
-      </Tabs>
-      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
-        <Container>
-          <Outlet />
-        </Container>
-      </div>
+      <Container>
+        <Outlet />
+      </Container>
     </div>
   );
 }

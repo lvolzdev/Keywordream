@@ -16,6 +16,9 @@ import Chart from "../routes/Chart/Chart";
 import DetailLayout from "../components/DetailLayout";
 import DailyPrice from "../routes/Chart/DailyPrice";
 import DetailKeyword from "../routes/Main/DetailKeyword";
+import SubDetailLayout from "../components/SubDetailLayout";
+import MarketPriceLayout from "../routes/Chart/MarketPriceLayout";
+import RealtimePrice from "../routes/Chart/RealtimePrice";
 
 export const router = createBrowserRouter([
   {
@@ -53,18 +56,28 @@ export const router = createBrowserRouter([
             path: "/detail/:stockCode",
             element: <DetailLayout />,
             children: [
-              { path: "keyword", element: <Keyword /> },
-              { path: "news", element: <News /> },
-              { path: "chart", element: <Chart /> },
-              { path: "info", element: <Info /> },
+              {
+                element : <SubDetailLayout/>,
+                children : [
+                  { path: "keyword", element: <Keyword /> },
+                  { path: "news", element: <News /> },
+                  { path: "chart", element: <Chart /> },
+                  { path: "info", element: <Info /> },
+                ]
+              },
+              {
+                path: "chart/market",
+                element: <MarketPriceLayout />,
+                children : [
+                  { path: "daily", element: <DailyPrice/>},
+                  { path: "realtime", element: <RealtimePrice/>}
+                ]
+              },
             ],
           },
-
           {
             path: "/detail/:stockCode/news/:newsId",
-
             element: <NewsDetail />,
-
           },
 
           {
@@ -78,10 +91,6 @@ export const router = createBrowserRouter([
           {
             path: "/mypage",
             element: <Mypage />,
-          },
-          {
-            path: "/detail/:stockCode/chart/daily",
-            element: <DailyPrice />
           },
         ],
       },

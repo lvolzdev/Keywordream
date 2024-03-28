@@ -5,6 +5,7 @@ import { getFinStat } from "../../lib/apis/infoApi";
 import dictionary from "./dict.js";
 import caution from "./caution.png";
 import FinancialItem from "./FinancialItem";
+import SorryBear from "../../assets/image/apologize.gif";
 
 function formatNumber(number) {
   if (isNaN(number)) return "0";
@@ -54,46 +55,61 @@ export default function Info() {
 
   return (
     <div className={styles.layout}>
-      <br />
-      <div className="fin" style={{ overflow: "auto" }}>
-        <h3 style={{ margin: "0rem 1.5rem" }}> 재무 </h3>
-        <p style={{ fontSize: "0.7rem", float: "right", margin: "0 1rem" }}> 2023년 기준[연간]</p>
-      </div>
-      <p style={{ fontSize: "0.7rem", float: "right", margin: "0.2rem 1rem", color: "#A0A0A0" }}> 단위: 억원</p>
-      <br />
-      <br />
-
-      <div className="box">
-        <FinancialItem label="매출액" value={formatNumber(financialInfo?.saleAccount)} />
-        <FinancialItem label="영업이익" value={formatNumber(financialInfo?.bsopPrti)} />
-        <FinancialItem label="순이익" value={formatNumber(financialInfo?.thtrNtin)} />
-      </div>
-      <br />
-
-      <div className="others">
-        <div className="firstbox">
-          <FinancialItem
-            label="영업이익률"
-            value={formatPercentage((financialInfo?.bsopPrti) / (financialInfo?.saleAccount) * 100)}
-            onClick={() => showWordMeaning("영업이익률")}
-          />
-          <FinancialItem label="ROE" value={`${(financialInfo?.roeVal)}%`} onClick={() => showWordMeaning("ROE")} />
-          <FinancialItem label="EPS" value={financialInfo?.eps} onClick={() => showWordMeaning("EPS")} />
-          <FinancialItem label="BPS" value={financialInfo?.bps} onClick={() => showWordMeaning("BPS")} />
-          <FinancialItem label="유보율" value={`${(financialInfo?.rsrvRate)}%`} onClick={() => showWordMeaning("유보율")} />
+      {(!financialInfo || financialInfo.roeVal === null) && (
+        <div className="bearContainer">
+          <img src={SorryBear} alt="" className="bear"  />
+          <p style={{ fontWeight: "bold", fontSize: "1.2rem", textAlign: "center" }}>재무제표를 확인할 수 없습니다😥</p>
         </div>
+      )}
+      <br />
 
-        <div className="secondbox">
-          <FinancialItem
-            label="순이익률"
-            value={formatPercentage((financialInfo?.thtrNtin) / (financialInfo?.saleAccount) * 100)}
-            onClick={() => showWordMeaning("순이익률")}
-          />
-          <FinancialItem label="EV/EBITDA" value={`${(financialInfo?.evEbitda)}배`} onClick={() => showWordMeaning("EV/EBITDA")} />
-          <FinancialItem label="PER" value={`${(financialInfo?.per)}배`} onClick={() => showWordMeaning("PER")} />
-          <FinancialItem label="PBR" value={`${(financialInfo?.pbr)}배`} onClick={() => showWordMeaning("PBR")} />
-        </div>
+      <div className="fin" style={{ overflow: "auto", display: (!financialInfo || financialInfo.roeVal === null) ? "none" : "block" }}>
+        {financialInfo && (
+          <React.Fragment>
+            <h3 style={{ margin: "0rem 1.5rem" }}>재무</h3>
+            <p style={{ fontSize: "0.7rem", float: "right", margin: "0 1rem" }}>2023년 기준[연간]</p>
+          </React.Fragment>
+        )}
       </div>
+      <p style={{ fontSize: "0.7rem", float: "right", margin: "0.2rem 1rem", color: "#A0A0A0", display: financialInfo ? "block" : "none" }}>단위: 억원</p>
+      <br />
+      <br />
+
+      {financialInfo && financialInfo.roeVal !== null && (
+        <div>
+          <div className="box">
+            <FinancialItem label="매출액" value={formatNumber(financialInfo?.saleAccount)} />
+            <FinancialItem label="영업이익" value={formatNumber(financialInfo?.bsopPrti)} />
+            <FinancialItem label="순이익" value={formatNumber(financialInfo?.thtrNtin)} />
+          </div>
+          <br />
+
+          <div className="others">
+            <div className="firstbox">
+              <FinancialItem
+                label="영업이익률"
+                value={formatPercentage((financialInfo?.bsopPrti) / (financialInfo?.saleAccount) * 100)}
+                onClick={() => showWordMeaning("영업이익률")}
+              />
+              <FinancialItem label="ROE" value={`${(financialInfo?.roeVal)}%`} onClick={() => showWordMeaning("ROE")} />
+              <FinancialItem label="EPS" value={financialInfo?.eps} onClick={() => showWordMeaning("EPS")} />
+              <FinancialItem label="BPS" value={financialInfo?.bps} onClick={() => showWordMeaning("BPS")} />
+              <FinancialItem label="유보율" value={`${(financialInfo?.rsrvRate)}%`} onClick={() => showWordMeaning("유보율")} />
+            </div>
+
+            <div className="secondbox">
+              <FinancialItem
+                label="순이익률"
+                value={formatPercentage((financialInfo?.thtrNtin) / (financialInfo?.saleAccount) * 100)}
+                onClick={() => showWordMeaning("순이익률")}
+              />
+              <FinancialItem label="EV/EBITDA" value={`${(financialInfo?.evEbitda)}배`} onClick={() => showWordMeaning("EV/EBITDA")} />
+              <FinancialItem label="PER" value={`${(financialInfo?.per)}배`} onClick={() => showWordMeaning("PER")} />
+              <FinancialItem label="PBR" value={`${(financialInfo?.pbr)}배`} onClick={() => showWordMeaning("PBR")} />
+            </div>
+          </div>
+        </div>
+      )}
 
       <br />
       {/* 설명 표시 부분 */}
@@ -107,13 +123,10 @@ export default function Info() {
             {wordMeaning?.further && (
               furtherExpanded ? (
                 <div>
-                  <div onClick={() => {
-                    setFurtherExpanded(false)
-                  }}>
+                  <div onClick={() => setFurtherExpanded(false)}>
                     ▲닫기
                   </div>
-
-                  <p><img src={caution} alt="ref"></img>{wordMeaning?.further}</p>
+                  <p><img src={caution} alt="ref" />{wordMeaning?.further}</p>
                 </div>
               ) : (
                 <button className="further" onClick={toggleWordMeaning}>
@@ -121,10 +134,10 @@ export default function Info() {
                 </button>
               )
             )}
-
           </div>
         </div>
       )}
     </div>
   );
 }
+
