@@ -1,0 +1,35 @@
+.stock-table-container {
+  overflow-x: auto;
+  height: 67vh;
+}
+
+.stock-table {
+  border-collapse: collapse;
+  width: 130%;
+}
+
+.stock-table th,
+.stock-table td {
+  border-bottom: 1px solid #ddd;
+  border-right: none;
+  padding: 12px;
+  text-align: center; /* 컬럼명을 가운데 정렬합니다. */
+  width: calc(100% / 5);
+}
+
+.stock-table th {
+  font-weight: 300;
+  text-align: right;
+}
+
+.stock-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+.positive {
+  color: red;
+}
+
+.negative {
+  color: blue;
+}
