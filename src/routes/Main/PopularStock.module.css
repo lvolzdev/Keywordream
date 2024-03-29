@@ -17,14 +17,25 @@
   align-items: center; /* 수평 가운데 정렬 */
 }
 .chart {
-  width: 9.2vw;
+  width: 2rem;
+  max-width: 40px;
+  display: inline;
+}
+
+.keywordpic {
+  width: 1.7rem;
   max-width: 40px;
   display: inline;
 }
 .text {
   font-weight: 800;
   font-size: 15px;
-  margin-left: 5px;
+  margin-left: 0.2rem;
+}
+.keytext {
+  font-weight: 800;
+  font-size: 15px;
+  margin-left: 0.45rem;
 }
 .contentBox {
   display: flex;
