@@ -7,6 +7,7 @@ export default function MainPage() {
   return (
     <div className={styles.layout}>
       <div className={styles.hotTopic}>
+        
         <HotTopic />
       </div>
       <TopKeyword />
