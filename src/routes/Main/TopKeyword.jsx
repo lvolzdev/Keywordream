@@ -28,11 +28,12 @@ export default function TopKeyword() {
 
   return (
     <div>
+      <br />
       <div className={styles.container}>
         <img src={Keyword} className={styles.keywordpic} alt="" />
         <div className={styles.keytext}>인기 키워드</div>
       </div>
-      <br />
+      {/* <br /> */}
       <div className={styles.keywordRow}>
         <Swiper
           direction="horizontal"
@@ -40,8 +41,8 @@ export default function TopKeyword() {
           // spaceBetween={"20px"}
           autoplay={{ delay: 3000 }}
           loop={true}
+          className={styles.swiperWrapper}
           modules={[Autoplay, Pagination, Navigation]}
-          className={styles.swiper}
         >
           {keywords.map((keyword, index) => (
             <SwiperSlide key={index} className={styles.keywordItem}>
@@ -50,7 +51,6 @@ export default function TopKeyword() {
           ))}
         </Swiper>
       </div>
-      <br />
       <br />
     </div>
   );
