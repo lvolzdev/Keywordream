@@ -84,7 +84,10 @@ export default function Mypage() {
 
   return (
     <Box className={styles.container}>
-      <div className={styles.title}>{nickName}님이 찜한 종목</div>
+      <div>
+        <span className={styles.name}>{nickName}</span>
+        <span className={styles.title}>님이 찜한 종목</span>
+      </div>
       <Box>
         <div className={styles.filterContainer}>
           <Select
