@@ -13,6 +13,7 @@ import Tab from "@mui/material/Tab/";
 import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
 import FilledHeart from "../../assets/image/FilledHeart.png";
 import Price from "./Price";
+import Coming from "../../assets/image/ComingSoon.gif";
 
 const PopularStock = () => {
   const [tabIndex, setTabIndex] = useState(0);
@@ -60,7 +61,6 @@ const PopularStock = () => {
 
   const toggleFavoriteStock = (stockCode) => {
     setMyStocks((prevStocks) => {
-      console.log(prevStocks);
       if (prevStocks?.some((stock) => stock.stockCode === stockCode)) {
         deleteMyStock(nickName, stockCode);
         return prevStocks.filter((code) => code.stockCode !== stockCode);
@@ -77,8 +77,6 @@ const PopularStock = () => {
 
   return (
     <div className={styles.layout}>
-      
-      {/* Loading은 다음페이지로 넘어가기 위함 -> 어디에 넣든 상관없음 */}
       <div className={styles.container}>
         <img src={Chart} className={styles.chart} alt="" />
         <div className={styles.text}>실시간 인기 종목</div>
@@ -91,17 +89,17 @@ const PopularStock = () => {
         classes={{
           indicator: styles.customTabIndicator,
         }}
-      // centered
+        // centered
       >
         <Tab
-          label="거래량"
+          label="조회수"
           classes={{
             root: styles.customTextColor,
             selected: styles.customTabSelected,
           }}
         />
         <Tab
-          label="조회수"
+          label="거래량"
           classes={{
             root: styles.customTextColor,
             selected: styles.customTabSelected,
@@ -120,8 +118,8 @@ const PopularStock = () => {
           <div>Loading...</div>
         ) : (
           (
-            (tabIndex === 0 && mostExchanged) ||
-            (tabIndex === 1 && mostViewed) ||
+            (tabIndex === 0 && mostViewed) ||
+            (tabIndex === 1 && mostExchanged) ||
             (tabIndex === 2 && mostIncreased)
           ).map((stock, index) => (
             <div key={stock.stock_code} className={styles.stockContainer}>
@@ -173,6 +171,19 @@ const PopularStock = () => {
               </div>
             </div>
           ))
+        )}
+
+        {(
+          (tabIndex === 0 && mostViewed) ||
+          (tabIndex === 1 && mostExchanged) ||
+          (tabIndex === 2 && mostIncreased)
+        ).length === 0 && (
+          <div className={styles.comingContainer}>
+            <img src={Coming} alt="" className={styles.coming}></img>
+            <div className={styles.comingTitle}>
+              아직 시장이 열리지 않았어요!
+            </div>
+          </div>
         )}
       </div>
     </div>

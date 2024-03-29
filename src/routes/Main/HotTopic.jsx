@@ -21,6 +21,12 @@ export default function HotTopic() {
     const fetchTrends = async () => {
       try {
         const data = await getTrends();
+        // 조회수 순으로 정렬
+        data.sort((a, b) => {
+          const numA = parseFloat(a.formattedTraffic.replace("K+", ""));
+          const numB = parseFloat(b.formattedTraffic.replace("K+", ""));
+          return numB - numA;
+        });
         setTrends(data);
       } catch (error) {
         console.error("Error fetching hot topics:", error);
