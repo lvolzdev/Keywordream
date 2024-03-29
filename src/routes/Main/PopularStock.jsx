@@ -93,14 +93,14 @@ const PopularStock = () => {
         // centered
       >
         <Tab
-          label="거래량"
+          label="조회수"
           classes={{
             root: styles.customTextColor,
             selected: styles.customTabSelected,
           }}
         />
         <Tab
-          label="조회수"
+          label="거래량"
           classes={{
             root: styles.customTextColor,
             selected: styles.customTabSelected,
@@ -119,8 +119,8 @@ const PopularStock = () => {
           <div>Loading...</div>
         ) : (
           (
-            (tabIndex === 0 && mostExchanged) ||
-            (tabIndex === 1 && mostViewed) ||
+            (tabIndex === 0 && mostViewed) ||
+            (tabIndex === 1 && mostExchanged) ||
             (tabIndex === 2 && mostIncreased)
           ).map((stock, index) => (
             <div key={stock.stock_code} className={styles.stockContainer}>

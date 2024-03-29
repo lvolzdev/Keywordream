@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { Box, MenuItem, Select } from "@mui/material";
+import { Box, MenuItem, Select, Button } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import styles from "./Mypage.module.css";
 import { fetchMyStock, addMyStock, deleteMyStock } from "../../lib/apis/mypage";
 import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
 import FilledHeart from "../../assets/image/FilledHeart.png";
+import Sorting from "../../assets/image/Sorting.png";
 
 export default function Mypage() {
-  const [selectedCategory, setSelectedCategory] = useState("업종(전체)");
+  const [selectedCategory, setSelectedCategory] = useState("전체");
   const [myStocks, setMyStocks] = useState([]);
+  const [order, setOrder] = useState(0);
   const navigate = useNavigate();
   const nickName = localStorage.getItem("nickName");
   if (!nickName) {
@@ -25,69 +27,11 @@ export default function Mypage() {
         setMyStocks(stocks);
       })
       .catch((error) => {
-        console.log(error);
+        console.error("Error fetching my stocks:", error);
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [nickName]);
 
-  const categories = [
-    "건설",
-    "건설업",
-    "광업",
-    "금속",
-    "금융",
-    "기계",
-    "기계·장비",
-    "기타금융",
-    "기타서비스",
-    "기타제조",
-    "기타제조업",
-    "농업, 임업 및 어업",
-    "디지털컨텐츠",
-    "반도체",
-    "방송서비스",
-    "보험",
-    "비금속",
-    "비금속광물",
-    "서비스업",
-    "섬유·의류",
-    "섬유의복",
-    "소프트웨어",
-    "숙박·음식",
-    "오락·문화",
-    "운송",
-    "운송장비·부품",
-    "운수장비",
-    "운수창고업",
-    "유통",
-    "유통업",
-    "은행",
-    "음식료·담배",
-    "음식료품",
-    "의료·정밀기기",
-    "의료정밀",
-    "의약품",
-    "인터넷",
-    "일반전기전자",
-    "전기·가스·수도",
-    "전기가스업",
-    "전기전자",
-    "정보기기",
-    "제약",
-    "종이·목재",
-    "종이목재",
-    "증권",
-    "철강금속",
-    "출판·매체복제",
-    "컴퓨터서비스",
-    "코스닥",
-    "코스피",
-    "통신서비스",
-    "통신업",
-    "통신장비",
-    "화학",
-    "IT부품",
-  ];
+  const categories = ["KOSPI", "KOSDAQ"];
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -122,36 +66,57 @@ export default function Mypage() {
     }
   };
 
+  const toggleOrder = () => {
+    setOrder(1 - order);
+  };
+
+  const sortedStocks = myStocks
+    .filter((stock) =>
+      selectedCategory === "전체"
+        ? true
+        : stock.market === (selectedCategory === "KOSPI" ? "1" : "2")
+    )
+    .sort((a, b) =>
+      order === 0
+        ? a.name.localeCompare(b.name)
+        : a.stockCode.localeCompare(b.stockCode)
+    );
+
   return (
     <Box className={styles.container}>
-      <div className={styles.title}>내가 찜한 종목</div>
+      <div className={styles.title}>{nickName}님이 찜한 종목</div>
       <Box>
-        <Select
-          value={selectedCategory}
-          onChange={handleCategoryChange}
-          displayEmpty
-          className={styles.dropdown}
-        >
-          <MenuItem value="업종(전체)">업종(전체)</MenuItem>
-          {categories.map((item) => {
-            return (
+        <div className={styles.filterContainer}>
+          <Select
+            value={selectedCategory}
+            onChange={handleCategoryChange}
+            displayEmpty
+            className={styles.dropdown}
+          >
+            <MenuItem value="전체">전체</MenuItem>
+            {categories.map((item) => (
               <MenuItem value={item} key={item}>
                 {item}
               </MenuItem>
-            );
-          })}
-        </Select>
+            ))}
+          </Select>
+          <div
+            variant="outlined"
+            className={styles.sortingContainer}
+            onClick={toggleOrder}
+          >
+            <img src={Sorting} alt="정렬" className={styles.sortImg} />
+            <div className={styles.sort}>
+              {order === 0 ? "이름순" : "코드순"}
+            </div>
+          </div>
+        </div>
         <div className={styles.contentBox}>
-          {(selectedCategory === "업종(전체)"
-            ? myStocks
-            : myStocks.filter((stock) => stock.section === selectedCategory)
-          ).map((stock, index) => (
-            <div key={stock.name} className={styles.stockContainer}>
+          {sortedStocks.map((stock, index) => (
+            <div key={stock.stockCode} className={styles.stockContainer}>
               <div
                 className={styles.exceptHeart}
-                onClick={() =>
-                  navigateToDetail(stock.stbd_nm, stock.stock_code)
-                }
+                onClick={() => navigateToDetail(stock.stockCode)}
               >
                 <div className={styles.rank}>{index + 1}</div>
                 <img
@@ -165,6 +130,12 @@ export default function Mypage() {
                 />
                 <div className={styles.verticalFlexContainer}>
                   <div className={styles.stockName}>{stock.name}</div>
+                  <div className={styles.detailContainer}>
+                    <div className="">{stock.stockCode}</div>
+                    <div className="">
+                      {stock.market === 1 ? "KOSPI" : "KOSDAQ"}
+                    </div>
+                  </div>
                 </div>
               </div>
               <div

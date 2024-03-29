@@ -9,7 +9,9 @@ import SorryBear from "../../assets/image/apologize.gif";
 
 function formatNumber(number) {
   if (isNaN(number)) return "0";
-  return parseFloat(number).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  return parseFloat(number)
+    .toFixed(0)
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function formatPercentage(number) {
@@ -21,20 +23,27 @@ export default function Info() {
   const [financialInfo, setFinancialInfo] = useState(null);
   const [wordMeaning, setWordMeaning] = useState(null);
   const [furtherExpanded, setFurtherExpanded] = useState(false);
+  const [showBear, setShowBear] = useState(false);
   const stockCode = useParams().stockCode;
 
   useEffect(() => {
-    const fetchInfo = async () => {
-      try {
-        const data = await getFinStat(stockCode);
+    getFinStat(stockCode)
+      .then((data) => {
         setFinancialInfo(data[0]);
-        console.log(data[0]);
-      } catch (error) {
+      })
+      .catch((error) => {
         console.error("Error fetching info:", error);
-      }
-    };
-    fetchInfo();
+        setShowBear(true);
+      });
   }, [stockCode]);
+
+  useEffect(() => {
+    if (financialInfo && financialInfo.roeVal === null) {
+      setShowBear(true);
+    } else {
+      setShowBear(false);
+    }
+  }, [financialInfo]);
 
   const showWordMeaning = (term) => {
     const meaning = dictionary.find((item) => item.term === term);
@@ -55,32 +64,69 @@ export default function Info() {
 
   return (
     <div className={styles.layout}>
-      {(!financialInfo || financialInfo.roeVal === null) && (
+      {showBear && (
         <div className="bearContainer">
-          <img src={SorryBear} alt="" className="bear"  />
-          <p style={{ fontWeight: "bold", fontSize: "1.2rem", textAlign: "center" }}>재무제표를 확인할 수 없습니다😥</p>
+          <img src={SorryBear} alt="" className="bear" />
+          <p
+            style={{
+              fontWeight: "bold",
+              fontSize: "1.2rem",
+              textAlign: "center",
+            }}
+          >
+            재무제표를 확인할 수 없습니다😥
+          </p>
         </div>
       )}
       <br />
 
-      <div className="fin" style={{ overflow: "auto", display: (!financialInfo || financialInfo.roeVal === null) ? "none" : "block" }}>
+      <div
+        className="fin"
+        style={{
+          overflow: "auto",
+          display: showBear ? "none" : "block",
+        }}
+      >
         {financialInfo && (
           <React.Fragment>
             <h3 style={{ margin: "0rem 1.5rem" }}>재무</h3>
-            <p style={{ fontSize: "0.7rem", float: "right", margin: "0 1rem" }}>2023년 기준[연간]</p>
+            <p style={{ fontSize: "0.7rem", float: "right", margin: "0 1rem" }}>
+              2023년 기준[연간]
+            </p>
           </React.Fragment>
         )}
       </div>
-      <p style={{ fontSize: "0.7rem", float: "right", margin: "0.2rem 1rem", color: "#A0A0A0", display: financialInfo ? "block" : "none" }}>단위: 억원</p>
+      {!showBear && (
+        <p
+          style={{
+            fontSize: "0.7rem",
+            float: "right",
+            margin: "0.2rem 1rem",
+            color: "#A0A0A0",
+            display: financialInfo ? "block" : "none",
+          }}
+        >
+          단위: 억원
+        </p>
+      )}
       <br />
       <br />
 
-      {financialInfo && financialInfo.roeVal !== null && (
+      {financialInfo && !showBear && (
         <div>
           <div className="box">
-            <FinancialItem label="매출액" value={formatNumber(financialInfo?.saleAccount)} />
-            <FinancialItem label="영업이익" value={formatNumber(financialInfo?.bsopPrti)} />
-            <FinancialItem label="순이익" value={formatNumber(financialInfo?.thtrNtin)} />
+            <FinancialItem
+              label="매출액"
+              value={formatNumber(financialInfo?.saleAccount)}
+            />
+            <FinancialItem
+              label="영업이익"
+              value={formatNumber(financialInfo?.bsopPrti)}
+            />
+            <FinancialItem
+              label="순이익"
+              value={formatNumber(financialInfo?.thtrNtin)}
+            />
           </div>
           <br />
 
@@ -88,24 +134,56 @@ export default function Info() {
             <div className="firstbox">
               <FinancialItem
                 label="영업이익률"
-                value={formatPercentage((financialInfo?.bsopPrti) / (financialInfo?.saleAccount) * 100)}
+                value={formatPercentage(
+                  (financialInfo?.bsopPrti / financialInfo?.saleAccount) * 100
+                )}
                 onClick={() => showWordMeaning("영업이익률")}
               />
-              <FinancialItem label="ROE" value={`${(financialInfo?.roeVal)}%`} onClick={() => showWordMeaning("ROE")} />
-              <FinancialItem label="EPS" value={financialInfo?.eps} onClick={() => showWordMeaning("EPS")} />
-              <FinancialItem label="BPS" value={financialInfo?.bps} onClick={() => showWordMeaning("BPS")} />
-              <FinancialItem label="유보율" value={`${(financialInfo?.rsrvRate)}%`} onClick={() => showWordMeaning("유보율")} />
+              <FinancialItem
+                label="ROE"
+                value={`${financialInfo?.roeVal}%`}
+                onClick={() => showWordMeaning("ROE")}
+              />
+              <FinancialItem
+                label="EPS"
+                value={financialInfo?.eps}
+                onClick={() => showWordMeaning("EPS")}
+              />
+              <FinancialItem
+                label="BPS"
+                value={financialInfo?.bps}
+                onClick={() => showWordMeaning("BPS")}
+              />
+              <FinancialItem
+                label="유보율"
+                value={`${financialInfo?.rsrvRate}%`}
+                onClick={() => showWordMeaning("유보율")}
+              />
             </div>
 
             <div className="secondbox">
               <FinancialItem
                 label="순이익률"
-                value={formatPercentage((financialInfo?.thtrNtin) / (financialInfo?.saleAccount) * 100)}
+                value={formatPercentage(
+                  (financialInfo?.thtrNtin / financialInfo?.saleAccount) * 100
+                )}
                 onClick={() => showWordMeaning("순이익률")}
               />
-              <FinancialItem label="EV/EBITDA" value={`${(financialInfo?.evEbitda)}배`} onClick={() => showWordMeaning("EV/EBITDA")} />
-              <FinancialItem label="PER" value={`${(financialInfo?.per)}배`} onClick={() => showWordMeaning("PER")} />
-              <FinancialItem label="PBR" value={`${(financialInfo?.pbr)}배`} onClick={() => showWordMeaning("PBR")} />
+              <FinancialItem
+                label="EV/EBITDA"
+                value={`${financialInfo?.evEbitda}배`}
+                onClick={() => showWordMeaning("EV/EBITDA")}
+              />
+              <FinancialItem
+                label="PER"
+                value={`${financialInfo?.per}배`}
+                onClick={() => showWordMeaning("PER")}
+              />
+              <FinancialItem
+                label="PBR"
+                value={`${financialInfo?.pbr}배`}
+                onClick={() => showWordMeaning("PBR")}
+              />
             </div>
           </div>
         </div>
@@ -120,24 +198,23 @@ export default function Info() {
             <button className="info" onClick={hideWordMeaning}>
               X
             </button>
-            {wordMeaning?.further && (
-              furtherExpanded ? (
+            {wordMeaning?.further &&
+              (furtherExpanded ? (
                 <div>
-                  <div onClick={() => setFurtherExpanded(false)}>
-                    ▲닫기
-                  </div>
-                  <p><img src={caution} alt="ref" />{wordMeaning?.further}</p>
+                  <div onClick={() => setFurtherExpanded(false)}>▲닫기</div>
+                  <p>
+                    <img src={caution} alt="ref" />
+                    {wordMeaning?.further}
+                  </p>
                 </div>
               ) : (
                 <button className="further" onClick={toggleWordMeaning}>
                   ▼펼치기
                 </button>
-              )
-            )}
+              ))}
           </div>
         </div>
       )}
     </div>
   );
 }
-
