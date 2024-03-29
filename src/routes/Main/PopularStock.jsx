@@ -77,6 +77,7 @@ const PopularStock = () => {
 
   return (
     <div className={styles.layout}>
+      
       {/* Loading은 다음페이지로 넘어가기 위함 -> 어디에 넣든 상관없음 */}
       <div className={styles.container}>
         <img src={Chart} className={styles.chart} alt="" />
@@ -90,7 +91,7 @@ const PopularStock = () => {
         classes={{
           indicator: styles.customTabIndicator,
         }}
-        // centered
+      // centered
       >
         <Tab
           label="거래량"
