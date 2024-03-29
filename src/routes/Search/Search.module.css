@@ -24,7 +24,7 @@
   .pageContainer {
     display: flex;
     flex-direction: column;
-    height: 85vh; /* 전체 높이를 브라우저 뷰포트의 100%로 설정 */
+    height: 85vh;
   }
   
   .listContainer {

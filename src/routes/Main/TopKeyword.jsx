@@ -29,8 +29,8 @@ export default function TopKeyword() {
   return (
     <div>
       <div className={styles.container}>
-        <img src={Keyword} className={styles.chart} alt="" />
-        <div className={styles.text}>인기 키워드</div>
+        <img src={Keyword} className={styles.keywordpic} alt="" />
+        <div className={styles.keytext}>인기 키워드</div>
       </div>
       <br />
       <div className={styles.keywordRow}>

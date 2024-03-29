@@ -12,27 +12,28 @@ const Footer = () => {
     >
       <Container>
         <Navbar.Text className="footer-copyright-text">
-          <Link to="/search">
+          
+          <Link to="#" onClick={() => window.history.back()}>
             {" "}
             <img
-              src={process.env.PUBLIC_URL + "/search.png"}
-              alt="search glass"
+              src={process.env.PUBLIC_URL + "/back.png"}
+              alt="back"
               className="footer-icon"
             />
           </Link>
           <Link to="/main">
             {" "}
             <img
-              src={process.env.PUBLIC_URL + "/bluehouse.png"}
-              alt="Blue House"
+              src={process.env.PUBLIC_URL + "/house.png"}
+              alt="House"
               className="footer-icon"
             />
           </Link>
           <Link to="/mypage">
             {" "}
             <img
-              src={process.env.PUBLIC_URL + "/treasure_box.png"}
-              alt="treasure box"
+              src={process.env.PUBLIC_URL + "/favorite.png"}
+              alt="userFavorite"
               className="footer-icon"
             />
           </Link>
