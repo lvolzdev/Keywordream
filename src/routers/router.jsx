@@ -11,8 +11,14 @@ import Mypage from "../routes/Mypage/Mypage";
 import Keyword from "../routes/Keyword/Keyword";
 import News from "../routes/News/News";
 import NewsDetail from "../routes/News/NewsDetail";
-import Chart from "../routes/Chart/Chart";
 import Info from "../routes/Info/Info";
+import Chart from "../routes/Chart/Chart";
+import DetailLayout from "../components/DetailLayout";
+import DailyPrice from "../routes/Chart/DailyPrice";
+import DetailKeyword from "../routes/Main/DetailKeyword";
+import SubDetailLayout from "../components/SubDetailLayout";
+import MarketPriceLayout from "../routes/Chart/MarketPriceLayout";
+import RealtimePrice from "../routes/Chart/RealtimePrice";
 
 export const router = createBrowserRouter([
   {
@@ -41,20 +47,39 @@ export const router = createBrowserRouter([
             element: <MainPage />,
           },
           {
+            path: "/keyword/:keyword",
+            element: <DetailKeyword />,
+          },
+
+          // DetailLayout을 직접 적용
+          {
             path: "/detail/:stockCode",
+            element: <DetailLayout />,
             children: [
-              { path: "keyword", element: <Keyword /> },
               {
-                path: "news",
-                children: [
-                  { index: true, element: <News /> },
-                  { path: ":newsId", element: <NewsDetail /> },
-                ],
+                element : <SubDetailLayout/>,
+                children : [
+                  { path: "keyword", element: <Keyword /> },
+                  { path: "news", element: <News /> },
+                  { path: "chart", element: <Chart /> },
+                  { path: "info", element: <Info /> },
+                ]
               },
-              { path: "chart", element: <Chart /> },
-              { path: "info", element: <Info /> },
+              {
+                path: "chart/market",
+                element: <MarketPriceLayout />,
+                children : [
+                  { path: "daily", element: <DailyPrice/>},
+                  { path: "realtime", element: <RealtimePrice/>}
+                ]
+              },
             ],
           },
+          {
+            path: "/detail/:stockCode/news/:newsId",
+            element: <NewsDetail />,
+          },
+
           {
             path: "/search",
             element: <Search />,

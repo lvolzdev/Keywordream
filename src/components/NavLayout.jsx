@@ -6,28 +6,21 @@ import { Outlet } from "react-router-dom";
 
 export default function NavLayout() {
   return (
-    <>
-      <div style={{ display: "flex", minHeight: "100vh" }}>
-        <div
+    <div
+      style={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}
+    >
+      <div style={{ flex: 1, display: "flex", flexDirection: "column" }}>
+        <Header />
+        <Container
           style={{
+            backgroundColor: "#ffffff",
             flex: 1,
-            display: "flex",
-            flexDirection: "column",
           }}
         >
-          <Header />
-          <Container
-            style={{
-              backgroundColor: "#ffffff",
-            }}
-          >
-            <Outlet />
-          </Container>
-          <Footer />
-        </div>
+          <Outlet />
+        </Container>
       </div>
-    </>
+      <Footer />
+    </div>
   );
 }
-
-<div>NavLayout</div>;

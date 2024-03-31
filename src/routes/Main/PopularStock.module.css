@@ -1,0 +1,134 @@
+.layout {
+  padding: 0 0;
+}
+.customTabSelected {
+  color: black !important; /* 선택된 탭의 텍스트 색상 */
+}
+.customTextColor {
+  font-size: 15px !important;
+  font-family: "Pretendard" !important;
+  font-weight: 900 !important;
+}
+.customTabIndicator {
+  background-color: black !important; /* 탭의 아래 indicator 색상 */
+}
+.container {
+  display: flex;
+  align-items: center; /* 수평 가운데 정렬 */
+}
+.chart {
+  width: 1.5rem;
+  max-width: 40px;
+  display: inline;
+}
+
+.keywordpic {
+  width: 1.3rem;
+  max-width: 40px;
+  display: inline;
+}
+.text {
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-left: 0.2rem;
+}
+.keytext {
+  font-weight: 800;
+  font-size: 1.1rem;
+  margin-left: 0.45rem;
+}
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5vh;
+  padding-top: 2vh;
+}
+.keywordRow {
+  display: flex;
+  margin-left: 0.3rem;
+  text-decoration: none;
+  /* height: 5rem; */
+}
+.keywordItem {
+  /* width: fit-content !important; */
+  /* box-sizing: content-box; */
+  height: 2.7rem;
+  box-sizing: border-box;
+  padding-left: 5px;
+  padding-right: 7px;
+  text-align: center;
+}
+
+.swiperWrapper {
+  padding-top: 22px;
+}
+
+.keywordItem a {
+  text-decoration: none; /* 밑줄 제거 */
+  background-color: #ffffff;
+  color: black;
+  border-color: #d4e2f6;
+  border-width: 5px;
+  border-radius: 20px;
+  font-size: 1rem;
+  font-weight: bold;
+  padding: 0.7rem 0.7rem;
+  /* 오른쪽, 아래, 위, 왼쪽에 그림자를 적용합니다. */
+  box-shadow: 3px 3px 5px 3px #dbdbdb;
+}
+
+.stockContainer {
+  display: flex;
+  height: 3.2rem;
+}
+.exceptHeart {
+  display: flex;
+  align-items: center;
+  gap: 2vh;
+  flex: 1;
+  cursor: pointer;
+}
+.rank {
+  font-weight: 800;
+  color: #0046ff;
+}
+.stockImg {
+  width: 5vh;
+  border-radius: 50%;
+  height: 5vh;
+}
+.stockName {
+  font-weight: 900;
+}
+.heartContainer {
+  display: flex;
+  align-items: center;
+  text-align: end;
+  flex: 0;
+  width: 10vh;
+}
+.heart {
+  width: 3vh;
+  margin: 0px 1vh;
+}
+.comingContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+  .coming{
+    width:50%;
+  }
+  .comingTitle{
+    font-size: 1.2rem;
+  }
+  
+  @media screen and (min-width: 600px) {
+    .coming {
+      width: 9%;
+    }
+    .comingTitle{
+      font-size: 0.8rem;
+    }
+}

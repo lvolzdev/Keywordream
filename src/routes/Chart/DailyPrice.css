@@ -1,0 +1,38 @@
+.stock-table-container {
+  overflow-x: auto;
+  height: 67vh;
+}
+
+.stock-table {
+  border-collapse: collapse; /* 테두리를 겹치게 설정하여 겹치는 부분이 없도록 합니다. */
+  width: 130%;
+}
+
+.stock-table th,
+.stock-table td {
+  border-bottom: 1px solid #ddd;
+  border-right: none; /* 각 셀의 오른쪽 테두리를 없앰 */
+  padding: 12px; /* 셀의 안쪽 여백 설정 */
+  width: calc(100% / 5);
+}
+
+.stock-table th {
+  font-weight: 300;
+  text-align: right;
+  /* 표 헤더의 텍스트 정렬 설정 */
+}
+.stock-table tbody tr td:first-child {
+  text-align: center;
+}
+
+.stock-table tbody tr:hover {
+  background-color: #ddd; /* 마우스를 올린 행의 배경색 설정 */
+}
+
+.positive {
+  color: red;
+}
+
+.negative {
+  color: blue;
+}

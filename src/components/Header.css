@@ -1,0 +1,9 @@
+.header-icon {
+  width: 1.5rem;
+  margin-top: 2rem;
+  /* 이미지 간의 간격을 조정합니다. */
+}
+.header-title {
+  display: flex;
+  justify-content: space-between;
+}

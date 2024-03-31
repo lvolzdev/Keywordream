@@ -9,17 +9,28 @@ const Header = () => {
     <Navbar
       className="header-navbar"
       fixed="top"
-      style={{ height: "8%", backgroundColor: "white" }}
+      style={{ height: "8%", padding: "2vh 4vh", backgroundColor: "white" }}
     >
-      <Link to="/">
-        <img
-          src={logo}
-          width="160px"
-          className="logo-img"
-          alt="Keywordream logo"
-          style={{ marginTop: "15px", marginLeft: "10px" }}
-        />
-      </Link>
+      <div className="header-title">
+        <Link to="/">
+          <img
+            src={logo}
+            width="160px"
+            className="logo-img"
+            alt="Keywordream logo"
+            style={{ marginTop: "2rem", paddingLeft: "0vh" }}
+          />
+        </Link>
+
+        <Link to="/search">
+          {" "}
+          <img
+            src={process.env.PUBLIC_URL + "/search.png"}
+            alt="search glass"
+            className="header-icon"
+          />
+        </Link>
+      </div>
       <Container></Container>
     </Navbar>
   );
