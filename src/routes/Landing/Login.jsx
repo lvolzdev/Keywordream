@@ -80,7 +80,7 @@ export default function Login() {
         <Button
           variant="contained"
           onClick={handleLogin}
-          sx={{ bgcolor: "#0046FF" }}
+          sx={{ bgcolor: "#1D5AFF" }}
           className={styles.button}
         >
           로그인

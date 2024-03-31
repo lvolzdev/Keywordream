@@ -1,5 +1,5 @@
 .detail-container {
-  padding: 20px 20px;
+  padding: 10px 20px;
   height: 100%;
 }
 
@@ -7,6 +7,11 @@
   display: flex;
   align-items: center;
 }
+
+.detail-stockName {
+  font-size: 2em;
+}
+
 .detail-icon p {
   font-size: 1em;
 }
@@ -14,7 +19,7 @@
 .detail-num {
   display: flex;
   align-items: center;
-  margin-left: 1em;
+  margin-left: 4em;
 }
 
 .detail-num p {

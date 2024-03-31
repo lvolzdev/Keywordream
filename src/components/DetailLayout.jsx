@@ -11,14 +11,14 @@ export default function DetailLayout() {
   const [stockPrice, setStockPrice] = useState(0);
   const [ratio, setRatio] = useState(0);
   const stockCode = useParams().stockCode;
-  
+
   useEffect(() => {
     joinRoom(stockCode);
     receiveStockPrice(stockCode, setStockPrice, setRatio);
     const fetchData = async () => {
       try {
         const data = await fetchStockInfo(stockCode); // stockCode를 인자로 전달하여 호출
-        console.log(data)
+        console.log(data);
         setStockName(data.stockName.name);
         setStockPrice(data.stockPrice.price);
         setRatio(data.stockPrice.ratio);
@@ -48,11 +48,21 @@ export default function DetailLayout() {
             e.target.src =
               "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
           }}
-          style={{ width: "3em", height: "3em", borderRadius: "30px" }}
+          style={{
+            width: "3em",
+            height: "3em",
+            borderRadius: "30px",
+            marginLeft: "0.5em",
+          }}
         />
-        <p style={{ marginLeft: "1rem", fontWeight: "bold" }}>{stockName}</p>
+        <p
+          className="detail-stockName"
+          style={{ marginLeft: "1rem", fontWeight: "bold" }}
+        >
+          {stockName}
+        </p>
         <div className="detail-num">
-          <p style={{ fontWeight: "bold" }}>{stockPrice}</p>
+          <p style={{ fontWeight: "bold", fontSize: "1.1em" }}>{stockPrice}</p>
           <p style={{ fontSize: "0.7rem" }}>KRW</p>
           <p
             style={{

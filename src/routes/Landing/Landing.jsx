@@ -30,7 +30,7 @@ export default function Landing() {
           variant="contained"
           onClick={handleStartClick}
           className={styles.button}
-          sx={{ bgcolor: "#0046FF" }}
+          sx={{ bgcolor: "#1D5AFF" }}
         >
           시작하기
         </Button>

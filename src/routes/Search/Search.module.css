@@ -1,56 +1,56 @@
 .searchContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 10vh;
-    width: 90%;
-    margin-top: 20px;
-    margin-left: 10px;
-  }
-  
-  .searchIcon {
-    cursor: pointer;
-    width: 20px;
-    height: auto;
-  }
-  .contentBox {
-    display: flex;
-    flex-direction: column;
-    gap: 2vh;
-    padding-top: 2vh;
-    padding-left: 0vh;
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 10vh;
+  width: 90%;
+  margin-top: 20px;
+  margin-left: 10px;
+}
 
-  .pageContainer {
-    display: flex;
-    flex-direction: column;
-    height: 85vh;
-  }
-  
-  .listContainer {
-    margin-top: 15px;
-    flex: 1; /*검색창과 리스트가 차지할 수 있는 모든 공간을 차지하도록 설정*/
-    overflow: auto; /* 내용이 넘칠 경우 스크롤바 생성 */
-  }
-  .stockContainer {
-    display: flex;
-  }
-  .stockImg{
-    width: 5vh;
-    border-radius: 50%;
-    height: 5vh;
-  }
-  .stockName {
-    font-weight: 900;
-  }
-  .heartContainer{
-    display: flex;
-    align-items: center;
-    text-align: end;
-    flex: 0;
-    width: 10vh
-  } 
-  .heart{
-    width: 3vh;
-    margin: 0px 1vh;
-  }
+.searchIcon {
+  cursor: pointer;
+  width: 15px;
+  height: auto;
+}
+.contentBox {
+  display: flex;
+  flex-direction: column;
+  gap: 2vh;
+  padding-top: 2vh;
+  padding-left: 0vh;
+}
+
+.pageContainer {
+  display: flex;
+  flex-direction: column;
+  height: 85vh;
+}
+
+.listContainer {
+  margin-top: 15px;
+  flex: 1; /*검색창과 리스트가 차지할 수 있는 모든 공간을 차지하도록 설정*/
+  overflow: auto; /* 내용이 넘칠 경우 스크롤바 생성 */
+}
+.stockContainer {
+  display: flex;
+}
+.stockImg {
+  width: 5vh;
+  border-radius: 50%;
+  height: 5vh;
+}
+.stockName {
+  font-weight: 900;
+}
+.heartContainer {
+  display: flex;
+  align-items: center;
+  text-align: end;
+  flex: 0;
+  width: 10vh;
+}
+.heart {
+  width: 3vh;
+  margin: 0px 1vh;
+}
