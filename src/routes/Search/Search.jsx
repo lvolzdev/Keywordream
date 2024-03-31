@@ -9,6 +9,7 @@ import {
   ListItemText,
   ListItemAvatar,
   Divider,
+  Typography,
 } from "@mui/material";
 import styles from "./Search.module.css";
 import { searchStock, allStock } from "../../lib/apis/searchApi";
@@ -103,21 +104,70 @@ function SearchBar() {
 
   return (
     <div className={styles.pageContainer}>
-      <div className={styles.searchContainer}>
-        <Paper
+      <div
+        className={styles.searchContainer}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <Typography
+          variant="subtitle1"
+          gutterBottom
+          sx={{
+            color: "#4B4B4B",
+            fontWeight: "bold",
+            marginBottom: 0.5,
+          }}
+        >
+          <span style={{ color: "#007BFF" }}>3886</span>개의 종목을 검색할 수
+          있어요
+        </Typography>
+        <TextField
+          variant="outlined"
+          placeholder="종목명 또는 종목코드를 검색해보세요."
+          value={inputValue}
+          onChange={(e) => handleSearchChange(e.target.value)}
+          sx={{ ml: 1, flex: 1, backgroundColor: "white" }}
+          InputProps={{
+            sx: {
+              ml: 1,
+              flex: 1,
+              backgroundColor: "white",
+              borderRadius: 20,
+              minWidth: 320,
+            },
+            endAdornment: (
+              <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+                <img
+                  src={process.env.PUBLIC_URL + "/search.png"}
+                  loading="lazy"
+                  alt="search"
+                  className={styles.searchIcon}
+                />
+              </IconButton>
+            ),
+          }}
+        />
+      </div>
+
+      {/* <Paper
           component="form"
           sx={{
             p: "2px 4px",
             display: "flex",
             alignItems: "center",
-            width: 400,
-            backgroundColor: "#adadad",
+            width: 300,
+            backgroundColor: "#ffffff",
+            // border: "1px solid #ccc",
+            borderRadius: 20,
           }}
           onSubmit={(e) => e.preventDefault()} // 폼 제출 방지
         >
           <TextField
             variant="outlined"
-            placeholder="검색"
+            placeholder="종목명 또는 종목코드를 검색해보세요."
             value={inputValue}
             onChange={(e) => handleSearchChange(e.target.value)}
             sx={{ ml: 1, flex: 1, backgroundColor: "white" }}
@@ -138,8 +188,7 @@ function SearchBar() {
               ),
             }}
           />
-        </Paper>
-      </div>
+        </Paper> */}
 
       <div className={styles.listContainer}>
         <List>
