@@ -36,24 +36,37 @@ function SearchBar() {
     });
   }, []);
 
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      if (inputValue) {
-        const filteredResults = allData.filter(
-          (item) =>
-            item.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-            item.stockCode.includes(inputValue)
-        );
-        setResult(filteredResults);
-      } else {
-        setResult(allData);
-      }
-    }, 50); // 사용자 입력이 멈춘 후 50ms 뒤에 검색 실행
+  // useEffect(() => {
+  //   const handler = setTimeout(() => {
+  //     if (inputValue) {
+  //       const filteredResults = allData.filter(
+  //         (item) =>
+  //           item.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+  //           item.stockCode.includes(inputValue)
+  //       );
+  //       setResult(filteredResults);
+  //     } else {
+  //       setResult(allData);
+  //     }
+  //   }, 50); // 사용자 입력이 멈춘 후 50ms 뒤에 검색 실행
 
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [inputValue, allData]);
+  //   return () => {
+  //     clearTimeout(handler);
+  //   };
+  // }, [inputValue, allData]);
+
+  const changeResults = () => {
+    if (inputValue) {
+      const filteredResults = allData.filter(
+        (item) =>
+          item.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+          item.stockCode.includes(inputValue)
+      );
+      setResult(filteredResults);
+    } else {
+      setResult(allData);
+    }
+  }
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
@@ -82,9 +95,9 @@ function SearchBar() {
   };
 
   // 사용자 입력을 처리하는 함수
-  const handleSearchChange = (value) => {
-    setInputValue(value); // 입력값을 상태로 설정합니다.
-  };
+  // const handleSearchChange = (value) => {
+  //   setInputValue(value); // 입력값을 상태로 설정합니다.
+  // };
 
   const navigateToDetail = async (stockCode) => {
     navigate(`/detail/${stockCode}/keyword`);
@@ -99,6 +112,12 @@ function SearchBar() {
       }
     });
   };
+
+  const handleKeyDown = (event) => {
+    if(event.key === "Enter"){
+      changeResults()
+    }
+  }
 
   return (
     <div className={styles.pageContainer}>
@@ -119,14 +138,15 @@ function SearchBar() {
             marginBottom: 0.5,
           }}
         >
-          <span style={{ color: "#007BFF" }}>3886</span>개의 종목을 검색할 수
+          <span style={{ color: "#007BFF" }}>{result.length}</span>개의 종목을 검색할 수
           있어요
         </Typography>
         <TextField
           variant="outlined"
           placeholder="종목명 또는 종목코드를 검색해보세요."
           value={inputValue}
-          onChange={(e) => handleSearchChange(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onChange={(e) => setInputValue(e.target.value)}
           sx={{ ml: 1, flex: 1, backgroundColor: "white" }}
           InputProps={{
             sx: {
@@ -137,7 +157,12 @@ function SearchBar() {
               minWidth: 320,
             },
             endAdornment: (
-              <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+              <IconButton 
+                type="button" 
+                sx={{ p: "10px" }} 
+                aria-label="search"
+                onClick={() => changeResults()}
+              >
                 <img
                   src={process.env.PUBLIC_URL + "/search.png"}
                   loading="lazy"
