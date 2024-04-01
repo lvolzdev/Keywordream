@@ -11,14 +11,13 @@ export default function DetailLayout() {
   const [stockPrice, setStockPrice] = useState(0);
   const [ratio, setRatio] = useState(0);
   const stockCode = useParams().stockCode;
-  
+
   useEffect(() => {
     joinRoom(stockCode);
     receiveStockPrice(stockCode, setStockPrice, setRatio);
     const fetchData = async () => {
       try {
         const data = await fetchStockInfo(stockCode); // stockCode를 인자로 전달하여 호출
-        console.log(data)
         setStockName(data.stockName.name);
         setStockPrice(data.stockPrice.price);
         setRatio(data.stockPrice.ratio);
@@ -31,7 +30,6 @@ export default function DetailLayout() {
 
     return () => {
       leaveRoom(stockCode); // 해당 종목을 room에서 나가는 함수 호출
-      console.log("방 나감");
     };
   }, [stockCode]); // stockCode가 변경될 때마다 호출
 

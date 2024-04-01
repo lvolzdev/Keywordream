@@ -30,7 +30,6 @@ function SearchBar() {
     allStock().then((data) => {
       setResult(data.data);
       setAllData(data.data);
-      console.log(data.data);
       //setItemsToShow(data.data.slice(0, 15)); // 초기에 15개의 아이템 설정
       //setItemsToShowCount(15); // 초기에 보여줄 아이템 수 설정
     });
@@ -76,7 +75,6 @@ function SearchBar() {
   const loadMoreItems = () => {
     setItemsToShowCount((prevCount) => {
       const newCount = prevCount + 6;
-      console.log(newCount);
       setItemsToShow(result.slice(0, newCount));
       return newCount;
     });
