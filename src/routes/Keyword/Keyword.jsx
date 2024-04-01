@@ -114,7 +114,7 @@ export default function Keyword() {
           font="sans-serif"
           rotate={rotate}
           spiral={circleSpiral}
-          padding="8"
+          padding={parseInt('8', 10)}
           onWordClick={(event, d) => handleWordClick(d.text)}
         />
       </div>
