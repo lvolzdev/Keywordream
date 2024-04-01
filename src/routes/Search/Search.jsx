@@ -12,10 +12,11 @@ import {
   Typography,
 } from "@mui/material";
 import styles from "./Search.module.css";
-import { searchStock, allStock } from "../../lib/apis/searchApi";
+import { searchStock, allStock, countStock } from "../../lib/apis/searchApi";
 import { crawlExtractKeyword } from "../../lib/apis/flask";
 import UnfilledHeart from "../../assets/image/UnfilledHeart.png";
 import FilledHeart from "../../assets/image/FilledHeart.png";
+import { end } from "@popperjs/core";
 
 function SearchBar() {
   const [inputValue, setInputValue] = useState("");
@@ -24,67 +25,89 @@ function SearchBar() {
   const [allData, setAllData] = useState([]);
   const [itemsToShow, setItemsToShow] = useState([]);
   const [itemsToShowCount, setItemsToShowCount] = useState(0);
-  const observerRef = useRef(null);
   const navigate = useNavigate();
+  const obsRef = useRef(null);
+  const preventRef = useRef(true);
+  const [page, setPage] = useState(-1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    allStock().then((data) => {
-      setResult(data.data);
-      setAllData(data.data);
-      //setItemsToShow(data.data.slice(0, 15)); // 초기에 15개의 아이템 설정
-      //setItemsToShowCount(15); // 초기에 보여줄 아이템 수 설정
-    });
-  }, []);
-
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      if (inputValue) {
-        const filteredResults = allData.filter(
-          (item) =>
-            item.name.toLowerCase().includes(inputValue.toLowerCase()) ||
-            item.stockCode.includes(inputValue)
-        );
-        setResult(filteredResults);
-      } else {
-        setResult(allData);
-      }
-    }, 50); // 사용자 입력이 멈춘 후 50ms 뒤에 검색 실행
-
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [inputValue, allData]);
+  const changeResults = () => {
+    // endRef.current = false
+    // console.log(endRef.current);
+    setResult([]);
+    setPage(-1);
+    getCountStock();
+  };
 
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
-      if (entries[0].isIntersecting) {
-        loadMoreItems();
+      const target = entries[0];
+      console.log(target.isIntersecting)
+      if(preventRef && target.isIntersecting){
+        preventRef.current = false;
+        setPage((prev) => prev+1);
       }
+    }, {
+      threshold : 0.5,
     });
 
-    if (observerRef.current) {
-      observer.observe(observerRef.current);
+    if(obsRef.current){
+      observer.observe(obsRef.current);
     }
+    
+  }, []);
 
-    return () => {
-      if (observerRef.current) {
-        observer.unobserve(observerRef.current);
+  useEffect(() => {
+    getCountStock()
+  }, [])
+
+  const getCountStock = async () => {
+    let res;
+    if(inputValue === ""){
+      res = await countStock();
+    } else if(isNaN(Number(inputValue))){
+      res = await countStock(undefined, inputValue);
+    } else {
+      res = await countStock(inputValue, undefined);
+    }
+    if(res.data){
+      preventRef.current = true;
+      setCount(res.data);
+    } else {
+      console.log("데이터 없음")
+    }
+  }
+
+  useEffect(() => {
+    console.log("page : ", page)
+    if(page >= 0){
+      fetchData();
+    }
+  }, [page]);
+
+  const fetchData = useCallback(async () => {
+    setIsLoading(true);
+    let res;
+    try{
+      if(inputValue === ""){
+        res = await searchStock(page, undefined, undefined);
+      } else if(isNaN(Number(inputValue))){
+        res = await searchStock(page, undefined, inputValue);
+      } else {
+        res = await searchStock(page, inputValue, undefined);
       }
-    };
-  }, [result]);
-
-  const loadMoreItems = () => {
-    setItemsToShowCount((prevCount) => {
-      const newCount = prevCount + 6;
-      setItemsToShow(result.slice(0, newCount));
-      return newCount;
-    });
-  };
-
-  // 사용자 입력을 처리하는 함수
-  const handleSearchChange = (value) => {
-    setInputValue(value); // 입력값을 상태로 설정합니다.
-  };
+      console.log(res.data);
+      // if(res.data.length < 50) {
+      //   endRef.current = true;
+      // }
+      setResult([...result, ...res.data])
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, [page]);
 
   const navigateToDetail = async (stockCode) => {
     navigate(`/detail/${stockCode}/keyword`);
@@ -98,6 +121,12 @@ function SearchBar() {
         return [...prevStocks, stockCode];
       }
     });
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === "Enter") {
+      changeResults();
+    }
   };
 
   return (
@@ -119,14 +148,15 @@ function SearchBar() {
             marginBottom: 0.5,
           }}
         >
-          <span style={{ color: "#007BFF" }}>3886</span>개의 종목을 검색할 수
-          있어요
+          <span style={{ color: "#007BFF" }}>{count}</span>개의 종목을
+          검색할 수 있어요
         </Typography>
         <TextField
           variant="outlined"
           placeholder="종목명 또는 종목코드를 검색해보세요."
           value={inputValue}
-          onChange={(e) => handleSearchChange(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onChange={(e) => setInputValue(e.target.value)}
           sx={{ ml: 1, flex: 1, backgroundColor: "white" }}
           InputProps={{
             sx: {
@@ -137,7 +167,12 @@ function SearchBar() {
               minWidth: 320,
             },
             endAdornment: (
-              <IconButton type="button" sx={{ p: "10px" }} aria-label="search">
+              <IconButton
+                type="button"
+                sx={{ p: "10px" }}
+                aria-label="search"
+                onClick={changeResults}
+              >
                 <img
                   src={process.env.PUBLIC_URL + "/search.png"}
                   loading="lazy"
@@ -150,95 +185,58 @@ function SearchBar() {
         />
       </div>
 
-      {/* <Paper
-          component="form"
-          sx={{
-            p: "2px 4px",
-            display: "flex",
-            alignItems: "center",
-            width: 300,
-            backgroundColor: "#ffffff",
-            // border: "1px solid #ccc",
-            borderRadius: 20,
-          }}
-          onSubmit={(e) => e.preventDefault()} // 폼 제출 방지
-        >
-          <TextField
-            variant="outlined"
-            placeholder="종목명 또는 종목코드를 검색해보세요."
-            value={inputValue}
-            onChange={(e) => handleSearchChange(e.target.value)}
-            sx={{ ml: 1, flex: 1, backgroundColor: "white" }}
-            InputProps={{
-              endAdornment: (
-                <IconButton
-                  type="button"
-                  sx={{ p: "10px" }}
-                  aria-label="search"
+        <div className={styles.listContainer}>
+          <List>
+            {result.map((item, index) => (
+              <React.Fragment key={item.stockCode}>
+                <ListItem
+                  alignItems="center"
+                  onClick={() => navigateToDetail(item.stockCode)}
                 >
-                  <img
-                    src={process.env.PUBLIC_URL + "/search.png"}
-                    loading="lazy"
-                    alt="search"
-                    className={styles.searchIcon}
+                  <ListItemAvatar>
+                    <img
+                      src={
+                        item.name.slice(0, 5) === "KODEX"
+                          ? "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png"
+                          : `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${item.stockCode}.png`
+                      }
+                      alt=""
+                      className={styles.stockImg}
+                      onError={(e) => {
+                        e.target.src =
+                          "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
+                      }}
+                    />
+                  </ListItemAvatar>
+                  <ListItemText
+                    primary={item.name} // 종목 이름
+                    secondary={item.stockCode} // 종목 코드
                   />
-                </IconButton>
-              ),
-            }}
-          />
-        </Paper> */}
-
-      <div className={styles.listContainer}>
-        <List>
-          {result.map((item, index) => (
-            <React.Fragment key={index}>
-              <ListItem
-                alignItems="flex-start"
-                onClick={() => navigateToDetail(item.stockCode)}
-              >
-                <ListItemAvatar>
-                  <img
-                    src={
-                      item.name.slice(0, 5) === "KODEX"
-                        ? "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png"
-                        : `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${item.stockCode}.png`
-                    }
-                    alt=""
-                    className={styles.stockImg}
-                    onError={(e) => {
-                      e.target.src =
-                        "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
-                    }}
-                  />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={item.name} // 종목 이름
-                  secondary={item.stockCode} // 종목 코드
-                />
-                <div
-                  className={styles.heartContainer}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleFavoriteStock(item.stockCode);
-                  }} // Add onClick event to toggle favorite stock
-                >
-                  <img
-                    src={
-                      myStock.includes(item.stockCode)
-                        ? FilledHeart
-                        : UnfilledHeart
-                    }
-                    className={styles.heart}
-                    alt="Heart"
-                  />
-                </div>
-              </ListItem>
-              {index < result.length - 1 && <Divider component="li" />}
-            </React.Fragment>
-          ))}
-          <div ref={observerRef}></div>
-        </List>
-      </div>
+                  <div
+                    className={styles.heartContainer}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      toggleFavoriteStock(item.stockCode);
+                    }} // Add onClick event to toggle favorite stock
+                  >
+                    <img
+                      src={
+                        myStock.includes(item.stockCode)
+                          ? FilledHeart
+                          : UnfilledHeart
+                      }
+                      className={styles.heart}
+                      alt="Heart"
+                    />
+                  </div>
+                </ListItem>
+                {index < result.length - 1 && <Divider component="li" />}
+              </React.Fragment>
+            ))}
+          </List>
+          {isLoading && <div style={{ textAlign: "center" }}>Loading...</div>}
+          <div ref={obsRef} style={{height:"50px"}}></div>
+        </div>
     </div>
   );
 }
