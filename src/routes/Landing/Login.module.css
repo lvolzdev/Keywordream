@@ -41,7 +41,6 @@
 
     .input {
       width: 20vw;
-      height: 4vh;
     }
 
     .alert {
@@ -51,6 +50,5 @@
 
     .button{
         width: 20vw;
-        height: 4vh;
     }
   }
