@@ -31,7 +31,6 @@ export default function DetailLayout() {
 
     return () => {
       leaveRoom(stockCode); // 해당 종목을 room에서 나가는 함수 호출
-      console.log("방 나감");
     };
   }, [stockCode]); // stockCode가 변경될 때마다 호출
 

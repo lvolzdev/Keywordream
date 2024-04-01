@@ -16,10 +16,8 @@ export default function Price({ stockCode }) {
       setPrice(res.price);
       setRatio(res.ratio);
     });
-    console.log("방 들어감");
     return () => {
       leaveRoom(stockCode); // 해당 종목을 room에서 나가는 함수 호출
-      console.log("방 나감");
     };
   }, [stockCode]);
 
