@@ -90,7 +90,7 @@
 }
 .rank {
   font-weight: 800;
-  color: #0046ff;
+  color: #1d5aff;
 }
 .stockImg {
   width: 5vh;
@@ -117,18 +117,18 @@
   align-items: center;
   width: 100%;
 }
-  .coming{
-    width:50%;
+.coming {
+  width: 50%;
+}
+.comingTitle {
+  font-size: 1.2rem;
+}
+
+@media screen and (min-width: 600px) {
+  .coming {
+    width: 9%;
   }
-  .comingTitle{
-    font-size: 1.2rem;
+  .comingTitle {
+    font-size: 0.8rem;
   }
-  
-  @media screen and (min-width: 600px) {
-    .coming {
-      width: 9%;
-    }
-    .comingTitle{
-      font-size: 0.8rem;
-    }
 }
