@@ -67,6 +67,7 @@ export default function Login() {
           onChange={handleNicknameChange}
           onKeyDown={handleKeyDown}
           sx={{ marginBottom: "1vh" }}
+          className={styles.input}
         />
         {showAlert && (
           <Alert
