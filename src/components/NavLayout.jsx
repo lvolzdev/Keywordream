@@ -13,7 +13,7 @@ export default function NavLayout() {
         <Header />
         <Container
           style={{
-            backgroundColor: "#ffffff",
+            background: "#F6FBFF", // 배경색
             flex: 1,
           }}
         >

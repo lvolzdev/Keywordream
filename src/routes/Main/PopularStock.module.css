@@ -100,6 +100,19 @@
 .stockName {
   font-weight: 900;
 }
+.popularContainer {
+  margin-top: 10px;
+}
+/* .popularContainer {
+  margin-top: 10px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: #d4e2f6;
+  padding: 0.5rem;
+  box-shadow: 3px 3px 5px 3px #dbdbdb;
+} */
 .heartContainer {
   display: flex;
   align-items: center;
