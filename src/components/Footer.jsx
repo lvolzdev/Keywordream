@@ -8,11 +8,14 @@ const Footer = () => {
     <Navbar
       className="footer-navbar"
       fixed="bottom"
-      style={{ backgroundColor: "#F0F0F0", justifyContent: "center" }}
+      style={{
+        backgroundColor: "#ffffff",
+        justifyContent: "center",
+        minHeight: "20px",
+      }}
     >
       <Container>
         <Navbar.Text className="footer-copyright-text">
-          
           <Link to="#" onClick={() => window.history.back()}>
             {" "}
             <img

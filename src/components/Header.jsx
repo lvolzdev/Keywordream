@@ -9,7 +9,11 @@ const Header = () => {
     <Navbar
       className="header-navbar"
       fixed="top"
-      style={{ height: "8%", padding: "1.7vh 4vh", backgroundColor: "white" }}
+      style={{
+        height: "8%",
+        padding: "1.7vh 4vh",
+        backgroundColor: "#F6FBFF",
+      }} // 배경색
     >
       <div className="header-title">
         <Link to="/">
