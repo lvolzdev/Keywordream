@@ -81,110 +81,112 @@ const PopularStock = () => {
         <img src={Chart} className={styles.chart} alt="" />
         <div className={styles.text}>실시간 인기 종목</div>
       </div>
-      <Tabs
-        value={tabIndex}
-        onChange={handleChange}
-        aria-label="popular stock tabs"
-        variant="fullWidth"
-        classes={{
-          indicator: styles.customTabIndicator,
-        }}
-        // centered
-      >
-        <Tab
-          label="조회수"
+      <div className={styles.popularContainer}>
+        <Tabs
+          value={tabIndex}
+          onChange={handleChange}
+          aria-label="popular stock tabs"
+          variant="fullWidth"
           classes={{
-            root: styles.customTextColor,
-            selected: styles.customTabSelected,
+            indicator: styles.customTabIndicator,
           }}
-        />
-        <Tab
-          label="거래량"
-          classes={{
-            root: styles.customTextColor,
-            selected: styles.customTabSelected,
-          }}
-        />
-        <Tab
-          label="주가상승률"
-          classes={{
-            root: styles.customTextColor,
-            selected: styles.customTabSelected,
-          }}
-        />
-      </Tabs>
-      <div className={styles.contentBox}>
-        {loading ? (
-          <div>Loading...</div>
-        ) : (
-          (
-            (tabIndex === 0 && mostViewed) ||
-            (tabIndex === 1 && mostExchanged) ||
-            (tabIndex === 2 && mostIncreased)
-          ).map((stock, index) => (
-            <div key={stock.stock_code} className={styles.stockContainer}>
-              <div
-                className={styles.exceptHeart}
-                onClick={() => navigateToDetail(stock.stock_code)}
-              >
-                <div className={styles.rank}>{index + 1}</div>
-                <img
-                  src={
-                    stock.stbd_nm.slice(0, 5) === "KODEX"
-                      ? "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png"
-                      : `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.stock_code}.png`
-                  }
-                  alt=""
-                  className={styles.stockImg}
-                  onError={(e) => {
-                    e.target.src =
-                      "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
-                  }}
-                />
-                <div className={styles.verticalFlexContainer}>
-                  <div className={styles.stockName}>{stock.stbd_nm}</div>
-                  <Price
-                    stockCode={stock.stock_code}
-                    list={
-                      (tabIndex === 0 && mostExchanged) ||
-                      (tabIndex === 1 && mostViewed) ||
-                      (tabIndex === 2 && mostIncreased)
+          // centered
+        >
+          <Tab
+            label="조회수"
+            classes={{
+              root: styles.customTextColor,
+              selected: styles.customTabSelected,
+            }}
+          />
+          <Tab
+            label="거래량"
+            classes={{
+              root: styles.customTextColor,
+              selected: styles.customTabSelected,
+            }}
+          />
+          <Tab
+            label="주가상승률"
+            classes={{
+              root: styles.customTextColor,
+              selected: styles.customTabSelected,
+            }}
+          />
+        </Tabs>
+        <div className={styles.contentBox}>
+          {loading ? (
+            <div>Loading...</div>
+          ) : (
+            (
+              (tabIndex === 0 && mostViewed) ||
+              (tabIndex === 1 && mostExchanged) ||
+              (tabIndex === 2 && mostIncreased)
+            ).map((stock, index) => (
+              <div key={stock.stock_code} className={styles.stockContainer}>
+                <div
+                  className={styles.exceptHeart}
+                  onClick={() => navigateToDetail(stock.stock_code)}
+                >
+                  <div className={styles.rank}>{index + 1}</div>
+                  <img
+                    src={
+                      stock.stbd_nm.slice(0, 5) === "KODEX"
+                        ? "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png"
+                        : `https://file.alphasquare.co.kr/media/images/stock_logo/kr/${stock.stock_code}.png`
                     }
+                    alt=""
+                    className={styles.stockImg}
+                    onError={(e) => {
+                      e.target.src =
+                        "https://file.alphasquare.co.kr/media/images/stock_logo/ETF_230706.png";
+                    }}
+                  />
+                  <div className={styles.verticalFlexContainer}>
+                    <div className={styles.stockName}>{stock.stbd_nm}</div>
+                    <Price
+                      stockCode={stock.stock_code}
+                      list={
+                        (tabIndex === 0 && mostExchanged) ||
+                        (tabIndex === 1 && mostViewed) ||
+                        (tabIndex === 2 && mostIncreased)
+                      }
+                    />
+                  </div>
+                </div>
+                <div
+                  className={styles.heartContainer}
+                  onClick={() => toggleFavoriteStock(stock.stock_code)} // Add onClick event to toggle favorite stock
+                >
+                  <img
+                    src={
+                      myStocks?.some(
+                        (myStock) => myStock.stockCode === stock.stock_code
+                      )
+                        ? FilledHeart
+                        : UnfilledHeart
+                    }
+                    className={styles.heart}
+                    alt="Heart"
                   />
                 </div>
               </div>
-              <div
-                className={styles.heartContainer}
-                onClick={() => toggleFavoriteStock(stock.stock_code)} // Add onClick event to toggle favorite stock
-              >
-                <img
-                  src={
-                    myStocks?.some(
-                      (myStock) => myStock.stockCode === stock.stock_code
-                    )
-                      ? FilledHeart
-                      : UnfilledHeart
-                  }
-                  className={styles.heart}
-                  alt="Heart"
-                />
+            ))
+          )}
+
+          {(
+            (tabIndex === 0 && mostViewed) ||
+            (tabIndex === 1 && mostExchanged) ||
+            (tabIndex === 2 && mostIncreased)
+          ).length === 0 && (
+            <div className={styles.comingContainer}>
+              <img src={Coming} alt="" className={styles.coming}></img>
+              <div className={styles.comingTitle}>
+                아직 시장이 열리지 않았어요!
               </div>
             </div>
-          ))
-        )}
-
-        {(
-          (tabIndex === 0 && mostViewed) ||
-          (tabIndex === 1 && mostExchanged) ||
-          (tabIndex === 2 && mostIncreased)
-        ).length === 0 && (
-          <div className={styles.comingContainer}>
-            <img src={Coming} alt="" className={styles.coming}></img>
-            <div className={styles.comingTitle}>
-              아직 시장이 열리지 않았어요!
-            </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );

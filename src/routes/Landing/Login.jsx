@@ -21,12 +21,12 @@ export default function Login() {
     } else {
       try {
         // 로컬 스토리지에서 받은 닉네임으로 login 함수 호출
-        console.log(await login(nickname));
+        await login(nickname);
         localStorage.setItem("nickName", nickname);
         navigate("/main");
       } catch (error) {
         console.error("로그인 실패:", error);
-        // 로그인 실패 처리
+        alert("로그인 실패");
       }
     }
   };
@@ -67,6 +67,7 @@ export default function Login() {
           onChange={handleNicknameChange}
           onKeyDown={handleKeyDown}
           sx={{ marginBottom: "1vh" }}
+          className={styles.input}
         />
         {showAlert && (
           <Alert
@@ -80,7 +81,7 @@ export default function Login() {
         <Button
           variant="contained"
           onClick={handleLogin}
-          sx={{ bgcolor: "#0046FF" }}
+          sx={{ bgcolor: "#1D5AFF" }}
           className={styles.button}
         >
           로그인

@@ -49,6 +49,9 @@ export default function StockChart() {
         // 시세 데이터 추세에 따라 라인 그래프 색상 변경
         var maxVal = data[0].close;
         var minVal = data[0].close;
+        console.log(maxVal);
+        console.log(minVal);
+        console.log("hahaha");
         var maxDate = new Date(data[0].date);
         var minDate = new Date(data[0].date);
 
@@ -134,7 +137,7 @@ export default function StockChart() {
   const height = 530;
   const margin = { left: 0, right: 48, top: 15, bottom: 24 };
 
-  const calculatedData = elder(ema26(ema12(chartData)));
+  // const calculatedData = elder(ema26(ema12(chartData)));
   const { data, xScale, xAccessor, displayXAccessor } =
     ScaleProvider(chartData);
   const pricesDisplayFormat = format(".2f");
@@ -205,7 +208,7 @@ export default function StockChart() {
         {isCandle ? "간단한 차트 보기" : "자세한 차트 보기"}
       </StyledButton>
       <p className={styles.infoText}>
-        금일 시세 차트를 실시간으로 확인하실 수 있습니다.
+        금일 시세 차트를 실시간으로 확인할 수 있습니다.
       </p>
       {isCandle ? (
         <CandleChartComponent

@@ -90,7 +90,7 @@
 }
 .rank {
   font-weight: 800;
-  color: #0046ff;
+  color: #1d5aff;
 }
 .stockImg {
   width: 5vh;
@@ -100,6 +100,19 @@
 .stockName {
   font-weight: 900;
 }
+.popularContainer {
+  margin-top: 10px;
+}
+/* .popularContainer {
+  margin-top: 10px;
+  align-items: center;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border-width: 2px;
+  border-color: #d4e2f6;
+  padding: 0.5rem;
+  box-shadow: 3px 3px 5px 3px #dbdbdb;
+} */
 .heartContainer {
   display: flex;
   align-items: center;
@@ -117,18 +130,18 @@
   align-items: center;
   width: 100%;
 }
-  .coming{
-    width:50%;
+.coming {
+  width: 50%;
+}
+.comingTitle {
+  font-size: 1.2rem;
+}
+
+@media screen and (min-width: 600px) {
+  .coming {
+    width: 9%;
   }
-  .comingTitle{
-    font-size: 1.2rem;
+  .comingTitle {
+    font-size: 0.8rem;
   }
-  
-  @media screen and (min-width: 600px) {
-    .coming {
-      width: 9%;
-    }
-    .comingTitle{
-      font-size: 0.8rem;
-    }
 }
