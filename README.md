@@ -67,6 +67,10 @@
 - 주식 실시간 시세 받아오기 -> 한투 웹소켓 이용
 
 # Screen Configuration
+|Landing Page|Login Page|Main Page|Keyword Page|News Page|
+|:---:|:---:|:---:|:---:|:---:|
+|<img width="150" alt="Landing Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/30cdaca9-b35f-4481-9348-cc0ef270f169">|<img width="150" alt="Login Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/5b5847b1-084c-44a9-90df-c8fdaeaddb7a">|<img width="150" alt="Main Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/e97f3868-fb33-4508-ae65-3f216280eab5">|<img width="150" alt="Keyword Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/4c08b6b4-be25-481e-aa11-c28d1c769430">|<img width="150" alt="News Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/57539ce5-1b06-4329-a9a1-9c12ec6da274">|
+
 
 # Case study
 
