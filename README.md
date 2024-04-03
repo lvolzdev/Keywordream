@@ -1,7 +1,7 @@
 # Keywordream
 > Keywordream은 주식이 왜 오르고 내리는지 알고 싶어하는 주린이들에게 각 종목에 대한 `정보`와 `시세 변화에 대한 이해`를 제공한다.
 
-# Service Introduction
+## Service Introduction
 저희는 기존 주식 투자 서비스를 이용하며 이러한 불편함을 느꼈습니다.
 
 > 🙋🏻‍♂️ "왜 특정 종목이 오르는지 모르겠어요😅"<br> 
@@ -18,17 +18,17 @@
 - 실시간 시세 및 차트를 제공해주고
 - 관련 재무제표를 확인할 수 있습니다.
 
-# Project Architecture
+## Project Architecture
 <img width="600" alt="keywordream_architecture" src="https://github.com/Keywordream-PDA/Client/assets/99806443/04e430bd-8f7f-472f-92a1-0f05104e0e59">
 
-# Team Member
+## Team Member
 |권기현|김시은|김영석|유영서|이한슬|
 |:---:|:---:|:---:|:---:|:---:|
 |<img width="160px" src="https://avatars.githubusercontent.com/u/99806443?v=4"/> |<img width="160px" src="https://avatars.githubusercontent.com/u/63188042?v=4" />|<img width="160px" src="https://avatars.githubusercontent.com/u/122508517?v=4" />|<img width="160px" src="https://avatars.githubusercontent.com/u/102814269?v=4" />|<img width="160px" src="https://avatars.githubusercontent.com/u/129421334?v=4" />|
 |[@kkh0331](https://github.com/kkh0331)|[@lvolzdev](https://github.com/lvolzdev)|[@KimYoungSeok15](https://github.com/KimYoungSeok15)|[@YeongseoYoo](https://github.com/YeongseoYoo)|[@eehanseul](https://github.com/eehanseul)|
 |뉴스크롤링<br/>Web Socket|실시간 시세 찿트<br/>주식 종목 Batch|실시간 인기 종목<br/>Web Socket|소설 분석 키워드<br/>일일 시세|키워드 워드클라우드<br/>DB 설계|
 
-# Main Features
+## Main Features
 ### ⭐️ 메인 페이지
 - 인기주식 및 핫이슈 신한 api로 검색된 종목 가져오기
 - 소셜 분석 키워드를 가져와서 관련 종목도 보여주기
@@ -66,12 +66,19 @@
 ### ⭐️ 공통
 - 주식 실시간 시세 받아오기 -> 한투 웹소켓 이용
 
-# Screen Configuration
+## Screen Configuration
 |Landing Page|Login Page|Main Page|Keyword Page|News Page|
 |:---:|:---:|:---:|:---:|:---:|
 |<img width="150" alt="Landing Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/30cdaca9-b35f-4481-9348-cc0ef270f169">|<img width="150" alt="Login Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/5b5847b1-084c-44a9-90df-c8fdaeaddb7a">|<img width="150" alt="Main Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/e97f3868-fb33-4508-ae65-3f216280eab5">|<img width="150" alt="Keyword Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/4c08b6b4-be25-481e-aa11-c28d1c769430">|<img width="150" alt="News Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/57539ce5-1b06-4329-a9a1-9c12ec6da274">|
 
+|Chart Page|Market Price Page|Info Page|My Page|Search page|
+|:---:|:---:|:---:|:---:|:---:|
+|<img width="150" alt="Chart Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/80342e20-cd85-42dc-96a9-d5127752cd80">|<img width="150" alt="Market Price Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/eaafe727-08b7-46dd-ae6d-6f10578270b8">|<img width="150" alt="Info Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/b986bbf6-643b-4ea9-941c-a64a37153d00">|<img width="150" alt="My Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/1d35f159-09dd-44e1-a60f-0fab5b039d43">|<img width="150" alt="My Page" src="https://github.com/Keywordream-PDA/Client/assets/99806443/f12f5d74-1acb-4516-b7da-659cc5e21393">|
 
-# Case study
+## Trouble Shooting
 
-# Folder Structure
+### Socket.io
+
+### Crawling
+
+## Folder Structure
