@@ -26,7 +26,7 @@
 |:---:|:---:|:---:|:---:|:---:|
 |<img width="160px" src="https://avatars.githubusercontent.com/u/99806443?v=4"/> |<img width="160px" src="https://avatars.githubusercontent.com/u/63188042?v=4" />|<img width="160px" src="https://avatars.githubusercontent.com/u/122508517?v=4" />|<img width="160px" src="https://avatars.githubusercontent.com/u/102814269?v=4" />|<img width="160px" src="https://avatars.githubusercontent.com/u/129421334?v=4" />|
 |[@kkh0331](https://github.com/kkh0331)|[@lvolzdev](https://github.com/lvolzdev)|[@KimYoungSeok15](https://github.com/KimYoungSeok15)|[@YeongseoYoo](https://github.com/YeongseoYoo)|[@eehanseul](https://github.com/eehanseul)|
-|뉴스크롤링<br/>Web Socket|실시간 시세 찿트<br/>주식 종목 Batch|실시간 인기 종목<br/>Web Socket|소설 분석 키워드<br/>일일 시세|키워드 워드클라우드<br/>DB 설계|
+|뉴스크롤링<br/>Web Socket|실시간 시세 차트<br/>주식 종목 Batch|실시간 인기 종목<br/>Web Socket|소설 분석 키워드<br/>일일 시세|키워드 워드클라우드<br/>DB 설계|
 
 ## Main Features
 ### ⭐️ 메인 페이지
